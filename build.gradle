@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.10'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'checkstyle'
 }
 
 group = 'com.yju'
@@ -26,6 +27,12 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+checkstyle {
+	maxWarnings = 0
+	configFile = file("${rootProject.projectDir}/config/checkstyle/naver-checkstyle-rules.xml")
+	configProperties = ["suppressionFile": "${rootProject.projectDir}/config/checkstyle/naver-checkstyle-suppressions.xml"]
+	toolVersion = "10.8.1"
 }
 
 tasks.named('test') {
