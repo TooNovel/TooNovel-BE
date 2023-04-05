@@ -1,4 +1,4 @@
-package com.yju.toonovel.domain.community.entity;
+package com.yju.toonovel.domain.post.entity;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import lombok.AllArgsConstructor;
@@ -23,38 +24,41 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicInsert
-public class Community {
+public class Post {
 
 	@Id
 	@Column(name = "post_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long postId;
 
-	@Column(name = "user_id")
+	@Column(name = "user_id", nullable = false)
 	private Long userId;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "category_id")
+	@Column(name = "category_id", nullable = false)
 	private Category categoryId;
 
-	@Column(name = "title")
+	@Column(name = "title", nullable = false)
 	private String title;
 
-	@Column(name = "content")
+	@Column(name = "content", nullable = false)
 	private String content;
 
-	@Column(name = "registration_date")
+	@Column(name = "registration_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime registrationDate;
 
-	@Column(name = "update_date")
+	@Column(name = "update_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
 	private LocalDateTime updateDate;
 
 	@Column(name = "likes")
-	private long like;
+	@ColumnDefault("0")
+	private Long like;
 
 	@Column(name = "dislikes")
-	private long dislike;
+	@ColumnDefault("0")
+	private Long dislike;
 
 	@Column(name = "view_count")
-	private long viewCount;
+	@ColumnDefault("0")
+	private Long viewCount;
 }

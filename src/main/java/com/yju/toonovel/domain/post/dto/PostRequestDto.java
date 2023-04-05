@@ -1,7 +1,7 @@
-package com.yju.toonovel.domain.community.dto;
+package com.yju.toonovel.domain.post.dto;
 
-import com.yju.toonovel.domain.community.entity.Category;
-import com.yju.toonovel.domain.community.entity.Community;
+import com.yju.toonovel.domain.post.entity.Category;
+import com.yju.toonovel.domain.post.entity.Post;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommunityRequestDto {
+public class PostRequestDto {
 	private Long userId;
 	private String title;
 	private String content;
 	private Category category;
 
-	public Community toEntity() {
-		return Community.builder()
+	public Post toEntity() {
+		return Post.builder()
 			.userId(userId)
 			.categoryId(category)
 			.title(title)
