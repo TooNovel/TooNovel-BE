@@ -20,8 +20,8 @@ public class PostResponseDto {
 	private Category categoryId;
 	private String title;
 	private String content;
-	private LocalDateTime registrationDate;
-	private LocalDateTime updateDate;
+	private LocalDateTime createdDate;
+	private LocalDateTime modifiedDate;
 	private Long like;
 	private Long dislike;
 	private Long viewCount;
@@ -32,8 +32,8 @@ public class PostResponseDto {
 		this.categoryId = entity.getCategoryId();
 		this.title = entity.getTitle();
 		this.content = entity.getContent();
-		this.registrationDate = entity.getRegistrationDate();
-		this.updateDate = entity.getUpdateDate();
+		this.createdDate = entity.getCreatedDate();
+		this.modifiedDate = entity.getModifiedDate();
 		this.like = entity.getLike();
 		this.dislike = entity.getDislike();
 		this.viewCount = entity.getViewCount();

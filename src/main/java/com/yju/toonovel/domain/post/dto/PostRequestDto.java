@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostRequestDto {
+	private Long postId;
 	private Long userId;
 	private String title;
 	private String content;

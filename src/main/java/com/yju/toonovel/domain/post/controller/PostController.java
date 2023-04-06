@@ -2,6 +2,7 @@ package com.yju.toonovel.domain.post.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,5 +32,10 @@ public class PostController {
 	public PostResponseDto read(@RequestParam(value = "pid") Long pid) {
 		// System.out.println(pid);
 		return communityService.readPost(pid);
+	}
+
+	@PutMapping("/update")
+	public void uppdate(@RequestBody PostRequestDto dto) {
+		communityService.updatePost(dto);
 	}
 }

@@ -1,7 +1,5 @@
 package com.yju.toonovel.domain.post.entity;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,6 +10,9 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
+import com.yju.toonovel.common.entity.BaseEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +25,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicInsert
-public class Post {
+@DynamicUpdate
+public class Post extends BaseEntity {
 
 	@Id
 	@Column(name = "post_id")
@@ -43,12 +45,6 @@ public class Post {
 
 	@Column(name = "content", nullable = false)
 	private String content;
-
-	@Column(name = "registration_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private LocalDateTime registrationDate;
-
-	@Column(name = "update_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
-	private LocalDateTime updateDate;
 
 	@Column(name = "likes")
 	@ColumnDefault("0")
