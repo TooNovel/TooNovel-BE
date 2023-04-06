@@ -2,7 +2,6 @@ package com.yju.toonovel.domain.post.service;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +19,7 @@ public class PostService {
 
 	private final PostRepository postRepository;
 
-	public void addPost(@NotNull PostRequestDto dto) {
+	public void addPost(PostRequestDto dto) {
 		postRepository.save(dto.toEntity());
 	}
 
