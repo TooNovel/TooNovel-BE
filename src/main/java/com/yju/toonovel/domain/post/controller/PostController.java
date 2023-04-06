@@ -1,5 +1,7 @@
 package com.yju.toonovel.domain.post.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yju.toonovel.domain.post.dto.PostRequestDto;
 import com.yju.toonovel.domain.post.dto.PostResponseDto;
+import com.yju.toonovel.domain.post.entity.Post;
 import com.yju.toonovel.domain.post.service.PostService;
 
 import lombok.RequiredArgsConstructor;
@@ -37,5 +40,11 @@ public class PostController {
 	@PutMapping("/update")
 	public void uppdate(@RequestBody PostRequestDto dto) {
 		communityService.updatePost(dto);
+	}
+
+	@GetMapping("/readall")
+	@ResponseBody
+	public List<Post> readAll() {
+		return communityService.readPostAll();
 	}
 }

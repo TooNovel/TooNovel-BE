@@ -1,6 +1,9 @@
 package com.yju.toonovel.domain.post.service;
 
 import org.jetbrains.annotations.NotNull;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +34,12 @@ public class PostService {
 		// }
 		// return null; // ToDo 에러처리 해야함
 		return new PostResponseDto(postRepository.findById(pid).get());
+	}
+
+	public List<Post> readPostAll() {
+		List<Post> result = postRepository.findAll();
+		System.out.println(result);
+		return result;
 	}
 
 	@Transactional
