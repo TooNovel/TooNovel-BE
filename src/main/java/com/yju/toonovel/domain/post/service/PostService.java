@@ -2,7 +2,6 @@ package com.yju.toonovel.domain.post.service;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
