@@ -1,5 +1,7 @@
 package com.yju.toonovel.domain.post.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yju.toonovel.domain.post.dto.PostRequestDto;
 import com.yju.toonovel.domain.post.dto.PostResponseDto;
+import com.yju.toonovel.domain.post.entity.Post;
 import com.yju.toonovel.domain.post.service.PostService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,5 +34,11 @@ public class PostController {
 	public PostResponseDto read(@RequestParam(value = "pid") Long pid) {
 		// System.out.println(pid);
 		return communityService.readPost(pid);
+	}
+
+	@GetMapping("/readall")
+	@ResponseBody
+	public List<Post> readAll() {
+		return communityService.readPostAll();
 	}
 }

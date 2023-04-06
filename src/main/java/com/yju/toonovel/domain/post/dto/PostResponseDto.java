@@ -38,4 +38,5 @@ public class PostResponseDto {
 		this.dislike = entity.getDislike();
 		this.viewCount = entity.getViewCount();
 	}
+
 }
