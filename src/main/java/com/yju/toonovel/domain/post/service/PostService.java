@@ -23,6 +23,7 @@ public class PostService {
 		postRepository.save(dto.toEntity());
 	}
 
+	@Transactional
 	public PostResponseDto readPost(Long pid) {
 		// ToDo Optional 처리 방식 맞추기
 		// Optional<Post> result = postRepository.findById(pid);
@@ -31,7 +32,12 @@ public class PostService {
 		// 	return new PostResponseDto(result.get());
 		// }
 		// return null; // ToDo 에러처리 해야함
-		return new PostResponseDto(postRepository.findById(pid).get());
+		// return new PostResponseDto(postRepository.findById(pid).get());
+		Post post = postRepository.findById(pid).get();
+		post.setViewCount(post.getViewCount() + 1);
+		postRepository.save(post);
+		PostResponseDto dto = new PostResponseDto(post);
+		return dto;
 	}
 
 	public List<Post> readPostAll() {
