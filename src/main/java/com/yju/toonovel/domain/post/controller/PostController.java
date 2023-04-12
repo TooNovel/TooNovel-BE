@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,10 +32,9 @@ public class PostController {
 		communityService.addPost(dto);
 	}
 
-	@GetMapping("/read")
+	@GetMapping("/read/{pid}")
 	@ResponseBody
-	public PostResponseDto read(@RequestParam(value = "pid") Long pid) {
-		// System.out.println(pid);
+	public PostResponseDto read(@PathVariable(value = "pid") Long pid) {
 		return communityService.readPost(pid);
 	}
 
@@ -46,7 +46,6 @@ public class PostController {
 	@GetMapping("/readall")
 	@ResponseBody
 	public List<Post> readAll() throws InterruptedException {
-		Thread.sleep(1000);
 		return communityService.readPostAll();
 	}
 
