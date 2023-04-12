@@ -8,7 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.yju.toonovel.common.entity.BaseEntity;
+import com.yju.toonovel.global.common.entity.BaseEntity;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -23,29 +23,28 @@ public class User extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	private String nickname;
+
+	private String imageUrl;
+
+	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private String email;
+	private Provider provider;
 
 	@Column(nullable = false)
-	private String name;
-
-	private String image;
-
-	private String provider;
+	private String oauthId;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private Role role;
 
 	@Builder
-	public User(String email, String name, String image, String provider, Role role) {
-		this.name = name;
-		this.email = email;
+	public User(String nickname, String imageUrl, Provider provider, String oauthId, Role role) {
+		this.nickname = nickname;
+		this.imageUrl = imageUrl;
 		this.provider = provider;
-		this.image = image;
+		this.oauthId = oauthId;
 		this.role = role;
 	}
-
-
 
 }
