@@ -3,8 +3,8 @@ package com.yju.toonovel.domain.post.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,7 +37,7 @@ public class PostController {
 		return communityService.readPost(pid);
 	}
 
-	@PutMapping("/update")
+	@PatchMapping("/update")
 	public void uppdate(@RequestBody PostRequestDto dto) {
 		communityService.updatePost(dto);
 	}

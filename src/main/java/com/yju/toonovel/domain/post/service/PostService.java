@@ -25,19 +25,10 @@ public class PostService {
 
 	@Transactional
 	public PostResponseDto readPost(Long pid) {
-		// ToDo Optional 처리 방식 맞추기
-		// Optional<Post> result = postRepository.findById(pid);
-		//
-		// if (result.isPresent()) {
-		// 	return new PostResponseDto(result.get());
-		// }
-		// return null; // ToDo 에러처리 해야함
-		// return new PostResponseDto(postRepository.findById(pid).get());
-		Post post = postRepository.findById(pid).get();
+		Post post = postRepository.findById(pid).orElseThrow(() -> new RuntimeException());
 		post.setViewCount(post.getViewCount() + 1);
 		postRepository.save(post);
-		PostResponseDto dto = new PostResponseDto(post);
-		return dto;
+		return new PostResponseDto(post);
 	}
 
 	public List<Post> readPostAll() {
@@ -48,9 +39,7 @@ public class PostService {
 
 	@Transactional
 	public void updatePost(PostRequestDto dto) {
-		// ToDo userId로 인증하는 과정 추가할 것
-		// ToDo Optional 처리 방식 맞추기
-		Post post = postRepository.findById(dto.getPostId()).get();
+		Post post = postRepository.findById(dto.getPostId()).orElseThrow(() -> new RuntimeException());
 		post.setTitle(dto.getTitle());
 		post.setContent(dto.getContent());
 		post.setCategoryId(dto.getCategory());
