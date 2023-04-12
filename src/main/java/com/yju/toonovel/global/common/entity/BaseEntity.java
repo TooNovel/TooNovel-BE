@@ -1,4 +1,4 @@
-package com.yju.toonovel.common.entity;
+package com.yju.toonovel.global.common.entity;
 
 import java.time.LocalDateTime;
 
