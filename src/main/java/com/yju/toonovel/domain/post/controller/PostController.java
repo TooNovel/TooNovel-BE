@@ -2,6 +2,7 @@ package com.yju.toonovel.domain.post.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,7 +45,13 @@ public class PostController {
 
 	@GetMapping("/readall")
 	@ResponseBody
-	public List<Post> readAll() {
+	public List<Post> readAll() throws InterruptedException {
+		Thread.sleep(1000);
 		return communityService.readPostAll();
+	}
+
+	@DeleteMapping("/delete")
+	public void delete(@RequestParam(value = "pid") Long pid) {
+		communityService.deletePost(pid);
 	}
 }

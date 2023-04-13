@@ -47,5 +47,7 @@ public class PostService {
 		postRepository.save(post);
 	}
 
-	// ToDo Delete
+	public void deletePost(Long pid) {
+		postRepository.deleteById(pid);
+	}
 }
