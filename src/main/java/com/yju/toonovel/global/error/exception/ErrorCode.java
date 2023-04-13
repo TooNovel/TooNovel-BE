@@ -24,7 +24,7 @@ public enum ErrorCode {
 	NOT_FOUND_TOKEN(HttpStatus.UNAUTHORIZED, "A001", "존재하지 않는 토큰입니다. 로그인이 필요합니다."),
 	INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "A002", "유효하지 않은 액세스 토큰입니다."),
 	EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "A003", "만료된 토큰입니다."),
-	NOT_FOUND_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "A004", "유효하지 않은 리프레쉬 토큰입니다."),
+	EXPIRED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "A004", "만료된 리프레쉬 토큰입니다."),
 	NOT_FOUND_COOKIE(HttpStatus.UNAUTHORIZED, "A005", "쿠키를 찾을 수 없습니다.");
 
 	private final HttpStatus status;
