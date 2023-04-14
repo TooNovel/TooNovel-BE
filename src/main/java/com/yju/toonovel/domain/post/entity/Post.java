@@ -12,7 +12,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.yju.toonovel.common.entity.BaseEntity;
+import com.yju.toonovel.global.common.entity.BaseEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

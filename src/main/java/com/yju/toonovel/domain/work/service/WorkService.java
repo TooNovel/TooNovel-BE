@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yju.toonovel.domain.work.dto.WorkResponseDto;
-import com.yju.toonovel.domain.work.entity.Work;
 import com.yju.toonovel.domain.work.repository.WorkRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -20,9 +19,6 @@ public class WorkService {
 	private final WorkRepository workRepository;
 
 	public List<WorkResponseDto> readAll() {
-		return workRepository.findAll().stream().map(e -> {
-			WorkResponseDto temp = new WorkResponseDto(e);
-			return temp;
-		}).collect(Collectors.toList());
+		return workRepository.findAll().stream().map(e -> new WorkResponseDto(e)).collect(Collectors.toList());
 	}
 }

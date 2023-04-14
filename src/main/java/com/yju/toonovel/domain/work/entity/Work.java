@@ -2,8 +2,6 @@ package com.yju.toonovel.domain.work.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,7 +9,6 @@ import javax.persistence.Id;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.yju.toonovel.common.entity.BaseEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
