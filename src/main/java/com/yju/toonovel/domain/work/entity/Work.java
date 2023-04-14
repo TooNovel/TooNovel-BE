@@ -39,7 +39,7 @@ public class Work {
 	private String author;
 
 	@Column(name = "genre", nullable = false)
-	private String ganre;
+	private String genre;
 
 	@Column(name = "image", nullable = false)
 	private String image;

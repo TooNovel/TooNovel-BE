@@ -25,7 +25,7 @@ public class WorkResponseDto {
 		this.title = entity.getTitle();
 		this.description = entity.getDescription();
 		this.author = entity.getAuthor();
-		this.genre = entity.getGanre();
+		this.genre = entity.getGenre();
 		this.image = entity.getImage();
 	}
 }
