@@ -41,6 +41,7 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	// Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	compileOnly 'org.springframework.boot:spring-boot-devtools'
 }
 checkstyle {
 	maxWarnings = 0
