@@ -21,3 +21,6 @@ jwt:
   expire-seconds:
     access-token: 3600
     refresh-token: 604800
+  header:
+    access-token: Authorization
+    refresh-token: Authorization-refresh
