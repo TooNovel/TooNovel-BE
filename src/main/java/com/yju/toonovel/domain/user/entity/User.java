@@ -38,13 +38,37 @@ public class User extends BaseEntity {
 	@Column(nullable = false)
 	private Role role;
 
+	private String gender;
+
+	private String birth;
+
 	@Builder
-	public User(String nickname, String imageUrl, Provider provider, String oauthId, Role role) {
+	public User(String nickname, String imageUrl, Provider provider, String oauthId,
+			Role role, String gender, String birth) {
 		this.nickname = nickname;
 		this.imageUrl = imageUrl;
 		this.provider = provider;
 		this.oauthId = oauthId;
 		this.role = role;
+		this.gender = gender;
+		this.birth = birth;
 	}
 
+	public User update(String provider) {
+		this.provider = Provider.valueOf(provider);
+		return this;
+	}
+
+	public User join(String gender, String birth, String nickname) {
+		this.gender = gender;
+		this.birth = birth;
+		this.nickname = nickname;
+		this.role = Role.USER;
+
+		return this;
+	}
+
+	public String getRoleKey() {
+		return this.role.getKey();
+	}
 }
