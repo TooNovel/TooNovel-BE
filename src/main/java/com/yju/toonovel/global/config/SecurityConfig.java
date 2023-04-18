@@ -4,13 +4,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.yju.toonovel.global.security.jwt.filter.JwtAuthenticationEntryPoint;
 import com.yju.toonovel.global.security.jwt.filter.JwtAuthenticationFilter;
+import com.yju.toonovel.global.security.oauth.CustomOAuth2UserService;
+import com.yju.toonovel.global.security.oauth.HttpCookieOAuth2AuthorizationRequestRepository;
+import com.yju.toonovel.global.security.oauth.OAuth2AuthenticationFailureHandler;
+import com.yju.toonovel.global.security.oauth.OAuth2AuthenticationSuccessHandler;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +24,14 @@ public class SecurityConfig {
 
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
+	private final CustomOAuth2UserService customOAuth2UserService;
+	private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+	private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+
+	@Bean
+	public HttpCookieOAuth2AuthorizationRequestRepository cookieOAuth2AuthorizationRequestRepository() {
+		return new HttpCookieOAuth2AuthorizationRequestRepository();
+	}
 
 	@Bean
 	public SecurityFilterChain httpSecurity(HttpSecurity http) throws Exception {
@@ -29,7 +40,8 @@ public class SecurityConfig {
 			.cors()
 			.and()
 			.authorizeHttpRequests()
-			.antMatchers("/tokens").permitAll()
+			.antMatchers("/").permitAll()
+			.antMatchers("/tokens", "/api/**", "/login/**", "/oauth2/**").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.httpBasic().disable()
@@ -38,20 +50,24 @@ public class SecurityConfig {
 			.logout().disable()
 			.requestCache().disable()
 			.headers().disable()
+			.oauth2Login()
+			.authorizationEndpoint().baseUri("/oauth2/authorize")
+			.authorizationRequestRepository(cookieOAuth2AuthorizationRequestRepository())
+			.and()
+			.redirectionEndpoint().baseUri("/login/oauth2/code/**")
+			.and()
+			.userInfoEndpoint().userService(customOAuth2UserService)
+			.and()
+			.successHandler(oAuth2AuthenticationSuccessHandler)
+			.failureHandler(oAuth2AuthenticationFailureHandler)
+			.and()
 			.sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 			.exceptionHandling()
 			.authenticationEntryPoint(jwtAuthenticationEntryPoint)
 			.and()
-			.addFilterBefore(jwtAuthenticationFilter, OAuth2AuthorizationRequestRedirectFilter.class)
+			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 			.build();
 	}
-
-	@Bean
-	public WebSecurityCustomizer webSecurityCustomizer() {
-		return web -> web.ignoring()
-			.antMatchers("/**");
-	}
-
 }
