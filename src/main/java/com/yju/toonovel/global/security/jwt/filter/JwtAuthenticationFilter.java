@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.yju.toonovel.global.security.jwt.JwtAuthentication;
@@ -23,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RequiredArgsConstructor
+@Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final JwtTokenProvider jwtTokenProvider;
@@ -32,7 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		FilterChain filterChain) throws ServletException, IOException {
 
 		Optional<String> accessToken = jwtTokenProvider.extractAccessToken(request);
-		if (accessToken != null) {
+		if (accessToken.isPresent()) {
 			jwtTokenProvider.validateToken(String.valueOf(accessToken));
 			JwtAuthenticationToken authenticationToken = getAuthentication(String.valueOf(accessToken));
 			SecurityContextHolder.getContext().setAuthentication(authenticationToken);
