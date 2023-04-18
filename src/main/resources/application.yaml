@@ -8,10 +8,34 @@ spring:
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
       hibernate.format_sql: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - profile
+          kakao:
+            client-id: ${KAKAO_CLIENT_ID}
+            client-secret: ${KAKAO_CLIENT_SECRET}
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            client-authentication-method: POST
+            authorization-grant-type: authorization_code
+            scope:
+              - profile_nickname
+            client-name: Kakao
+        provider:
+          kakao:
+            authorization_uri: https://kauth.kakao.com/oauth/authorize
+            token_uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user_name_attribute: id
 
 server:
   port: 8080
