@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,8 +19,14 @@ public class RefreshToken {
 	@Column(nullable = false, unique = true)
 	private String refreshToken;
 
-	public RefreshToken(String refreshToken, Long userId) {
-		this.refreshToken = refreshToken;
+	@Builder
+	public RefreshToken(Long userId, String refreshToken) {
 		this.userId = userId;
+		this.refreshToken = refreshToken;
 	}
+
+	public void update(String refreshToken) {
+		this.refreshToken = refreshToken;
+	}
+
 }

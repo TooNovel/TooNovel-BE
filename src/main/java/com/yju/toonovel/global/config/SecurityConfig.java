@@ -5,15 +5,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.yju.toonovel.global.security.jwt.filter.JwtAuthenticationEntryPoint;
 import com.yju.toonovel.global.security.jwt.filter.JwtAuthenticationFilter;
 import com.yju.toonovel.global.security.oauth.CustomOAuth2UserService;
 import com.yju.toonovel.global.security.oauth.HttpCookieOAuth2AuthorizationRequestRepository;
-import com.yju.toonovel.global.security.oauth.OAuth2AuthenticationFailureHandler;
-import com.yju.toonovel.global.security.oauth.OAuth2AuthenticationSuccessHandler;
+import com.yju.toonovel.global.security.oauth.handler.OAuth2AuthenticationFailureHandler;
+import com.yju.toonovel.global.security.oauth.handler.OAuth2AuthenticationSuccessHandler;
 
 import lombok.RequiredArgsConstructor;
 
@@ -67,7 +67,7 @@ public class SecurityConfig {
 			.exceptionHandling()
 			.authenticationEntryPoint(jwtAuthenticationEntryPoint)
 			.and()
-			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+			.addFilterAfter(jwtAuthenticationFilter, OAuth2AuthorizationRequestRedirectFilter.class)
 			.build();
 	}
 }
