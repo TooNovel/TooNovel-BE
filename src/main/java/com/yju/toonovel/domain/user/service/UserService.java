@@ -23,12 +23,9 @@ public class UserService {
 	}
 
 	@Transactional
-	public void register(UserRegisterRequestDto dto) {
-		User user = userRepository.findByOauthId(dto.getOauthId())
-			.map(existingUser -> {
-				existingUser.join(dto.getGender(), dto.getBirth(), dto.getNickname());
-				return userRepository.save(existingUser);
-			})
-			.orElseThrow(() -> new RuntimeException("User not found"));
+	public void register(Long id, UserRegisterRequestDto requestDto) {
+		User user = userRepository.findByUserId(id)
+			.orElseThrow(() -> new UserNotFoundException());
+		user.register(requestDto.getNickname(), requestDto.getGender(), requestDto.getBirth());
 	}
 }

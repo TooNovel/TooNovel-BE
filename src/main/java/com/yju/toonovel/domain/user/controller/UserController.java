@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
-	private UserService userService;
+	private final UserService userService;
 
 	@GetMapping("/{userId}")
 	public UserProfileResponseDto getUserProfile(@PathVariable Long userId) {

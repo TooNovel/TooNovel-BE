@@ -44,7 +44,7 @@ public class User extends BaseEntity {
 
 	@Builder
 	public User(String nickname, String imageUrl, Provider provider, String oauthId,
-			Role role, String gender, String birth) {
+		Role role, String gender, String birth) {
 		this.nickname = nickname;
 		this.imageUrl = imageUrl;
 		this.provider = provider;
@@ -54,21 +54,11 @@ public class User extends BaseEntity {
 		this.birth = birth;
 	}
 
-	public User update(String provider) {
-		this.provider = Provider.valueOf(provider);
-		return this;
-	}
-
-	public User join(String gender, String birth, String nickname) {
+	public void register(String nickname, String gender, String birth) {
+		this.nickname = nickname;
 		this.gender = gender;
 		this.birth = birth;
-		this.nickname = nickname;
 		this.role = Role.USER;
-
-		return this;
 	}
 
-	public String getRoleKey() {
-		return this.role.getKey();
-	}
 }
