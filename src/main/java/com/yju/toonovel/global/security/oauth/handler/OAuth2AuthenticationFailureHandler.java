@@ -1,4 +1,4 @@
-package com.yju.toonovel.global.security.oauth;
+package com.yju.toonovel.global.security.oauth.handler;
 
 import static com.yju.toonovel.global.security.oauth.HttpCookieOAuth2AuthorizationRequestRepository.*;
 
@@ -13,7 +13,8 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.yju.toonovel.global.security.oauth.util.CookieUtils;
+import com.yju.toonovel.global.security.oauth.HttpCookieOAuth2AuthorizationRequestRepository;
+import com.yju.toonovel.global.util.CookieUtils;
 
 import lombok.RequiredArgsConstructor;
 
