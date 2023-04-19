@@ -1,4 +1,4 @@
-package com.yju.toonovel.global.security.oauth.util;
+package com.yju.toonovel.global.util;
 
 import java.util.Base64;
 import java.util.Optional;

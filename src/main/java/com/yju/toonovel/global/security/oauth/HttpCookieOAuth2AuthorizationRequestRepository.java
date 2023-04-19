@@ -8,7 +8,7 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequ
 import org.springframework.stereotype.Component;
 
 import com.nimbusds.oauth2.sdk.util.StringUtils;
-import com.yju.toonovel.global.security.oauth.util.CookieUtils;
+import com.yju.toonovel.global.util.CookieUtils;
 
 @Component
 public class HttpCookieOAuth2AuthorizationRequestRepository
