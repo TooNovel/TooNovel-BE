@@ -67,7 +67,7 @@ public class SecurityConfig {
 			.exceptionHandling()
 			.authenticationEntryPoint(jwtAuthenticationEntryPoint)
 			.and()
-			.addFilterAfter(jwtAuthenticationFilter, OAuth2AuthorizationRequestRedirectFilter.class)
+			.addFilterBefore(jwtAuthenticationFilter, OAuth2AuthorizationRequestRedirectFilter.class)
 			.build();
 	}
 }

@@ -38,26 +38,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 		FilterChain filterChain) throws ServletException, IOException {
 
-		Optional<String> refreshToken = jwtTokenProvider.extractRefreshToken(request);
-		if (refreshToken.isPresent()) {
-			jwtTokenProvider.validateToken(String.valueOf(refreshToken));
-			reIssueAccessToken(response, String.valueOf(refreshToken));
+		String refreshToken = jwtTokenProvider.extractRefreshToken(request).orElse(null);
+		if (refreshToken != null) {
+			jwtTokenProvider.validateToken(refreshToken);
+			reIssueAccessToken(response, refreshToken);
 			return;
 		}
-		Optional<String> accessToken = getAccessToken(request);
-		if (accessToken.isPresent()) {
-			JwtAuthenticationToken authenticationToken = getAuthentication(String.valueOf(accessToken));
+		String accessToken = getAccessToken(request).orElse(null);
+		if (accessToken != null) {
+			JwtAuthenticationToken authenticationToken = getAuthentication(accessToken);
 			SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 		}
 		filterChain.doFilter(request, response);
 	}
 
 	private Optional<String> getAccessToken(HttpServletRequest request) {
-		Optional<String> accessToken = jwtTokenProvider.extractAccessToken(request);
-		if (accessToken.isPresent()) {
-			jwtTokenProvider.validateToken(String.valueOf(accessToken));
+		String accessToken = jwtTokenProvider.extractAccessToken(request).orElse(null);
+		if (accessToken != null) {
+			jwtTokenProvider.validateToken(accessToken);
 		}
-		return accessToken;
+		return Optional.ofNullable(accessToken);
 	}
 
 	public void reIssueAccessToken(HttpServletResponse response, String refreshToken) {
