@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yju.toonovel.global.security.jwt.dto.RefreshTokenCreateRequestDto;
 import com.yju.toonovel.global.security.jwt.exception.ExpiredTokenException;
@@ -29,7 +30,7 @@ public class JwtTokenProvider {
 	private final long refreshTokenExpireSeconds;
 	private final RefreshTokenRepository refreshTokenRepository;
 
-	private final String bearerType = "Bearer";
+	private final String bearerType = "Bearer ";
 
 	@Value("${jwt.header.access-token}")
 	String accessTokenHeader;
@@ -102,6 +103,7 @@ public class JwtTokenProvider {
 		response.setHeader(refreshTokenHeader, refreshToken);
 	}
 
+	@Transactional
 	public void updateRefreshToken(Long userId, String refreshToken) {
 		refreshTokenRepository.findByUserId(userId)
 			.ifPresentOrElse(
@@ -110,6 +112,7 @@ public class JwtTokenProvider {
 			);
 	}
 
+	@Transactional
 	public void saveRefreshToken(Long userId, String refreshToken) {
 		RefreshTokenCreateRequestDto refreshTokenCreateRequestDto = RefreshTokenCreateRequestDto.builder()
 			.userId(userId)
