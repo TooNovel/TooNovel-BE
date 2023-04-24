@@ -91,7 +91,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 		setRefreshTokenInCookie(response, refreshToken);
 		response.sendRedirect("${REDIRECT-URL}");
 
-		tokenProvider.sendAccessAndRefreshToken(response, accessToken, refreshToken);
 		tokenProvider.updateRefreshToken(oAuth2User.getUserId(), refreshToken);
 	}
 
