@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -46,23 +47,50 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 		CustomOAuth2User oAuth2User = (CustomOAuth2User)authentication.getPrincipal();
 		if (oAuth2User.getRole() == Role.GUEST) {
 			String accessToken = tokenProvider.createAccessToken(oAuth2User.getUserId(), oAuth2User.getRole().name());
-			response.addHeader(accessTokenHeader, bearerType + accessToken);
-			response.sendRedirect(determineTargetUrl(request, response));
+			String refreshToken = tokenProvider.createRefreshToken();
 
-			tokenProvider.sendAccessAndRefreshToken(response, accessToken, null);
+			setAccessTokenInCookie(response, accessToken);
+			setRefreshTokenInCookie(response, refreshToken);
+
+			tokenProvider.updateRefreshToken(oAuth2User.getUserId(), refreshToken);
+			response.sendRedirect("${REDIRECT-URL}");
+
 		} else {
 			loginSuccess(response, oAuth2User);
 		}
+	}
+
+	private void setAccessTokenInCookie(HttpServletResponse response, String accessToken) {
+		ResponseCookie token = ResponseCookie.from("accessTokenCookie", accessToken)
+			.path(getDefaultTargetUrl())
+			.sameSite("None")
+			.secure(true)
+			.maxAge(3600)
+			.build();
+
+		response.addHeader("Set-Cookie", token.toString());
+	}
+
+	private void setRefreshTokenInCookie(HttpServletResponse response, String refreshToken) {
+		ResponseCookie token = ResponseCookie.from("refreshTokenCookie", refreshToken)
+			.path(getDefaultTargetUrl())
+			.sameSite("None")
+			.secure(true)
+			.maxAge(604800)
+			.build();
+
+		response.addHeader("Set-Cookie", token.toString());
 	}
 
 	private void loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User) throws IOException {
 
 		String accessToken = tokenProvider.createAccessToken(oAuth2User.getUserId(), oAuth2User.getRole().name());
 		String refreshToken = tokenProvider.createRefreshToken();
-		response.addHeader(accessTokenHeader, "Bearer " + accessToken);
-		response.addHeader(refreshTokenHeader, "Bearer " + refreshToken);
 
-		tokenProvider.sendAccessAndRefreshToken(response, accessToken, refreshToken);
+		setAccessTokenInCookie(response, accessToken);
+		setRefreshTokenInCookie(response, refreshToken);
+		response.sendRedirect("${REDIRECT-URL}");
+
 		tokenProvider.updateRefreshToken(oAuth2User.getUserId(), refreshToken);
 	}
 
