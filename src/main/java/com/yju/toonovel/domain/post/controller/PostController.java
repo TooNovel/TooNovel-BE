@@ -21,7 +21,7 @@ import com.yju.toonovel.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/api/v1/post")
 @RequiredArgsConstructor
 public class PostController {
 

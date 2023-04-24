@@ -12,7 +12,7 @@ import com.yju.toonovel.domain.work.service.WorkService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/work")
+@RequestMapping("/api/v1/work")
 @RequiredArgsConstructor
 public class WorkController {
 

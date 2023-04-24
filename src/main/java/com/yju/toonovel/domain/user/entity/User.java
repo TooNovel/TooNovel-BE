@@ -21,7 +21,7 @@ public class User extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long userId;
 
 	private String nickname;
 
@@ -38,13 +38,27 @@ public class User extends BaseEntity {
 	@Column(nullable = false)
 	private Role role;
 
+	private String gender;
+
+	private String birth;
+
 	@Builder
-	public User(String nickname, String imageUrl, Provider provider, String oauthId, Role role) {
+	public User(String nickname, String imageUrl, Provider provider, String oauthId,
+		Role role, String gender, String birth) {
 		this.nickname = nickname;
 		this.imageUrl = imageUrl;
 		this.provider = provider;
 		this.oauthId = oauthId;
 		this.role = role;
+		this.gender = gender;
+		this.birth = birth;
+	}
+
+	public void register(String nickname, String gender, String birth) {
+		this.nickname = nickname;
+		this.gender = gender;
+		this.birth = birth;
+		this.role = Role.USER;
 	}
 
 }
