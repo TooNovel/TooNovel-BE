@@ -51,6 +51,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 			setAccessTokenInCookie(response, accessToken);
 			setRefreshTokenInCookie(response, refreshToken);
+
+			tokenProvider.updateRefreshToken(oAuth2User.getUserId(), refreshToken);
 			response.sendRedirect("${REDIRECT-URL}");
 
 		} else {
@@ -63,7 +65,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 			.path(getDefaultTargetUrl())
 			.sameSite("None")
 			.secure(true)
-			.maxAge(60 * 60)
+			.maxAge(3600)
 			.build();
 
 		response.addHeader("Set-Cookie", token.toString());
@@ -74,7 +76,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 			.path(getDefaultTargetUrl())
 			.sameSite("None")
 			.secure(true)
-			.maxAge(60 * 60)
+			.maxAge(604800)
 			.build();
 
 		response.addHeader("Set-Cookie", token.toString());
