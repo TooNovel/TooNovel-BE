@@ -8,6 +8,7 @@ import com.yju.toonovel.domain.user.dto.UserRegisterRequestDto;
 import com.yju.toonovel.domain.user.entity.User;
 import com.yju.toonovel.domain.user.exception.UserNotFoundException;
 import com.yju.toonovel.domain.user.repository.UserRepository;
+import com.yju.toonovel.global.security.jwt.repository.RefreshTokenRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class UserService {
 	private final UserRepository userRepository;
+	private final RefreshTokenRepository refreshTokenRepository;
 
 	public UserProfileResponseDto getUserProfile(Long id) {
 		User user = userRepository.findById(id)
@@ -27,5 +29,19 @@ public class UserService {
 		User user = userRepository.findByUserId(id)
 			.orElseThrow(() -> new UserNotFoundException());
 		user.register(requestDto.getNickname(), requestDto.getGender(), requestDto.getBirth());
+	}
+
+	@Transactional
+	public void deleteUser(Long userId) {
+		userRepository.findById(userId)
+			.ifPresentOrElse(
+				user -> userRepository.delete(user),
+				() -> {
+					throw new UserNotFoundException();
+				});
+		refreshTokenRepository.findByUserId(userId)
+			.ifPresent(
+				token -> refreshTokenRepository.delete(token)
+			);
 	}
 }
