@@ -1,8 +1,16 @@
+buildscript {
+    ext {
+        queryDslVersion = "5.0.0"
+    }
+}
+
+
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '2.7.10'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-	id 'checkstyle'
+    id 'java'
+    id 'org.springframework.boot' version '2.7.10'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'checkstyle'
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'com.yju'
@@ -10,48 +18,80 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	// Web
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	// Security
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-	testImplementation 'org.springframework.security:spring-security-test'
-	// JWT
-	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
-	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
-	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-	//OAUTH2
-	implementation 'org.springframework.security:spring-security-oauth2-client:5.7.5'
-	// Lombok
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	// DB
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	// H2 Driver
-	runtimeOnly 'com.h2database:h2'
-	// MySQL Driver
-	runtimeOnly 'com.mysql:mysql-connector-j'
-	// Test
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	compileOnly 'org.springframework.boot:spring-boot-devtools'
+    // Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    testImplementation 'org.springframework.security:spring-security-test'
+    // JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+    //OAUTH2
+    implementation 'org.springframework.security:spring-security-oauth2-client:5.7.5'
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    // DB
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // H2 Driver
+    runtimeOnly 'com.h2database:h2'
+    // MySQL Driver
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    // QueryDSL
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+
+    // Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    compileOnly 'org.springframework.boot:spring-boot-devtools'
 }
+
+// QueryDSL 경로
+def querydslDir = "$buildDir/generated/querydsl"
+
+// JPA 사용 여부, 경로 설정
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+
+// build 시 사용할 sourceSet
+sourceSets {
+    main.java.srcDir querydslDir
+}
+
+// querydsl 컴파일 옵션
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+// querydsl 이 compileClassPath 상속
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    querydsl.extendsFrom compileClasspath
+}
+
 checkstyle {
-	maxWarnings = 0
-	configFile = file("${rootProject.projectDir}/config/checkstyle/naver-checkstyle-rules.xml")
-	configProperties = ["suppressionFile": "${rootProject.projectDir}/config/checkstyle/naver-checkstyle-suppressions.xml"]
-	toolVersion = "10.8.1"
+    maxWarnings = 0
+    configFile = file("${rootProject.projectDir}/config/checkstyle/naver-checkstyle-rules.xml")
+    configProperties = ["suppressionFile": "${rootProject.projectDir}/config/checkstyle/naver-checkstyle-suppressions.xml"]
+    toolVersion = "10.8.1"
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
