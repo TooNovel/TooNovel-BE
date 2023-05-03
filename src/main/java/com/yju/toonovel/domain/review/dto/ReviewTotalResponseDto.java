@@ -25,5 +25,5 @@ public class ReviewTotalResponseDto {
 	private int reviewDisLike;
 
 	//작성 날짜
-	private String create_date;
+	private String createDate;
 }
