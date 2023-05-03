@@ -1,15 +1,11 @@
 package com.yju.toonovel.domain.user.exception;
 
+import com.yju.toonovel.global.error.exception.BusinessException;
 import com.yju.toonovel.global.error.exception.ErrorCode;
 
-import lombok.Getter;
-
-@Getter
-public class InvalidUserException extends RuntimeException {
-
-	private final ErrorCode errorCode;
+public class InvalidUserException extends BusinessException {
 
 	public InvalidUserException() {
-		this.errorCode = ErrorCode.USER_INVALID;
+		super(ErrorCode.USER_INVALID);
 	}
 }
