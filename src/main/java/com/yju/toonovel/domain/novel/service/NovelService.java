@@ -93,9 +93,8 @@ public class NovelService {
 			.orElseThrow(() -> new NovelNotFoundException());
 
 		return likeNovelRepository
-			.findByUserAndNovel(userId, novelId)
-			.map(likeNovel -> likeNovel.isActived())
-			.map(isActived -> UserLikeCheckResponseDto.from(isActived))
+			.findByUserUserIdAndNovelNovelId(userId, novelId)
+			.map(likeNovel -> UserLikeCheckResponseDto.from(likeNovel.isActived()))
 			.orElseGet(() -> UserLikeCheckResponseDto.from(false));
 	}
 

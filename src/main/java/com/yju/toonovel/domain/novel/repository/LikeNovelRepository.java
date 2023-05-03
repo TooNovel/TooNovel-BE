@@ -12,6 +12,6 @@ public interface LikeNovelRepository extends JpaRepository<LikeNovel, Long>, Lik
 
 	Optional<LikeNovel> findByUserAndNovel(User user, Novel novel);
 
-	Optional<LikeNovel> findByUserAndNovel(Long userId, Long novelId);
+	Optional<LikeNovel> findByUserUserIdAndNovelNovelId(Long userId, Long novelId);
 
 }

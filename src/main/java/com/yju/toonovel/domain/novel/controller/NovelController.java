@@ -36,7 +36,7 @@ public class NovelController {
 	}
 
 	@PutMapping("/{novelId}/like")
-	public void toggleHeart(
+	public void toggleLike(
 		@AuthenticationPrincipal
 		JwtAuthentication user,
 		@PathVariable
