@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
 
 	//비즈니스 에러
 	@ExceptionHandler(BusinessException.class)
-	protected ResponseEntity<ErrorResponse> handleBusinessException(final BusinessException ex) {
+	public ResponseEntity<ErrorResponse> handleBusinessException(final BusinessException ex) {
 		log.error("handleEntityNotFoundException", ex);
 		final ErrorCode errorCode = ex.getErrorCode();
 		final ErrorResponse response = ErrorResponse.of(errorCode);
