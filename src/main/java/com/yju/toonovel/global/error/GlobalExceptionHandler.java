@@ -63,11 +63,11 @@ public class GlobalExceptionHandler {
 		return new ErrorResponse(ErrorCode.HANDLE_ACCESS_DENIED);
 	}
 
-	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler(Exception.class)
-	public ErrorResponse handleInternalServerException(Exception ex) {
-		log.info("handleInternalServerException : {}", ex.getMessage());
-		return new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR);
-	}
+	// @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+	// @ExceptionHandler(Exception.class)
+	// public ErrorResponse handleInternalServerException(Exception ex) {
+	// 	log.info("handleInternalServerException : {}", ex.getMessage());
+	// 	return new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR);
+	// }
 
 }

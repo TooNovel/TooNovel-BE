@@ -12,6 +12,8 @@ spring:
     properties:
       hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
       hibernate.format_sql: true
+      hibernate.show_sql: true
+      hibernate.globally_quoted_identifiers: true
   security:
     oauth2:
       client:

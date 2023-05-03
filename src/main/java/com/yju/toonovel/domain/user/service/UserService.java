@@ -1,8 +1,20 @@
 package com.yju.toonovel.domain.user.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yju.toonovel.domain.novel.dto.NovelPaginationResponseDto;
+import com.yju.toonovel.domain.novel.dto.UserLikeCheckResponseDto;
+import com.yju.toonovel.domain.novel.entity.LikeNovel;
+import com.yju.toonovel.domain.novel.entity.Novel;
+import com.yju.toonovel.domain.novel.exception.NovelNotFoundException;
+import com.yju.toonovel.domain.novel.repository.LikeNovelRepository;
+import com.yju.toonovel.domain.novel.repository.NovelPlatformRepository;
+import com.yju.toonovel.domain.novel.repository.NovelRepository;
+import com.yju.toonovel.domain.novel.repository.PlatformRepository;
 import com.yju.toonovel.domain.user.dto.UserProfileResponseDto;
 import com.yju.toonovel.domain.user.dto.UserRegisterRequestDto;
 import com.yju.toonovel.domain.user.entity.User;
@@ -17,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 	private final UserRepository userRepository;
 	private final RefreshTokenRepository refreshTokenRepository;
+	private final LikeNovelRepository likeNovelRepository;
 
 	public UserProfileResponseDto getUserProfile(Long id) {
 		User user = userRepository.findById(id)
@@ -44,4 +57,14 @@ public class UserService {
 				token -> refreshTokenRepository.delete(token)
 			);
 	}
+
+	@Transactional
+	public List<NovelPaginationResponseDto> findAllUserLike(Long novelId, Long userId) {
+		return likeNovelRepository
+			.findAllUserLikeNovel(userId, novelId)
+			.stream()
+			.map(likenovel -> NovelPaginationResponseDto.from(likenovel))
+			.collect(Collectors.toList());
+	}
+
 }

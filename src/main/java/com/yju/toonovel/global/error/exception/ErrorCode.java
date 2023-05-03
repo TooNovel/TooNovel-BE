@@ -25,7 +25,12 @@ public enum ErrorCode {
 	INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "A002", "유효하지 않은 액세스 토큰입니다."),
 	EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "A003", "만료된 토큰입니다."),
 	EXPIRED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "A004", "만료된 리프레쉬 토큰입니다."),
-	NOT_FOUND_COOKIE(HttpStatus.UNAUTHORIZED, "A005", "쿠키를 찾을 수 없습니다.");
+	NOT_FOUND_COOKIE(HttpStatus.UNAUTHORIZED, "A005", "쿠키를 찾을 수 없습니다."),
+
+	//Novel
+	NOVEL_NOT_FOUND(HttpStatus.NOT_FOUND, "N001", "존재하지 않는 작품입니다."),
+	PLATFORM_NOT_FOUND(HttpStatus.NOT_FOUND, "N002", "존재하지 않는 플랫폼입니다.");
+
 
 	private final HttpStatus status;
 	private final String code;
