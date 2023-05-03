@@ -89,8 +89,10 @@ checkstyle {
     maxWarnings = 0
     configFile = file("${rootProject.projectDir}/config/checkstyle/naver-checkstyle-rules.xml")
     configProperties = ["suppressionFile": "${rootProject.projectDir}/config/checkstyle/naver-checkstyle-suppressions.xml"]
+    sourceSets = [sourceSets.main]
     toolVersion = "10.8.1"
 }
+checkstyleMain.source = fileTree('src/main/java')
 
 tasks.named('test') {
     useJUnitPlatform()
