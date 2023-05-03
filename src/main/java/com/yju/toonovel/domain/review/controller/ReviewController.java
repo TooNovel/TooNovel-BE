@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,18 +48,10 @@ public class ReviewController {
 		return reviewService.getAllReview();
 	}
 
-	//장르별 전체리뷰조회
-	// @GetMapping("/{genre}/genre")
-	// public Page<ReviewAllByUserDto> getAllReviewWhereGenre(@PathVariable("genre") String genre) {
-	//
-	// 	return reviewService.getAllReviewWhereGenre(genre);
-	// }
-
 	//좋아요 등록 기능
-	@PostMapping("/{rid}/like")
+	@PutMapping("/{rid}/like")
 	public void registerReviewLike(@PathVariable("rid") Long rid,
 		@AuthenticationPrincipal JwtAuthentication user) {
-		//uid는 추후에 인증정보로 바뀔예정
 
 		likeReviewService.clickReviewLike(rid, user.userId);
 	}
@@ -79,4 +72,11 @@ public class ReviewController {
 
 		return reviewList;
 	}
+
+	//장르별 전체리뷰조회
+	// @GetMapping("/{genre}/genre")
+	// public Page<ReviewAllByUserDto> getAllReviewWhereGenre(@PathVariable("genre") String genre) {
+	//
+	// 	return reviewService.getAllReviewWhereGenre(genre);
+	// }
 }

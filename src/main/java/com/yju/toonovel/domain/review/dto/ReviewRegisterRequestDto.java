@@ -20,7 +20,6 @@ public class ReviewRegisterRequestDto {
 	private String reviewContent;
 	private int reviewGrade;
 	private LocalDateTime createDate;
-	// private int reviewCount;
 
 	//유저 entity
 	private Long writerId;

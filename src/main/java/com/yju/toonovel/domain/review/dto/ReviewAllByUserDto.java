@@ -22,8 +22,6 @@ public class ReviewAllByUserDto {
 	private String author;
 	private Genre genre;
 	private String image;
-	// private String commentCount; //댓글수
-	// private String novelGrade; //작품평점
 
 	//review
 	private String reviewContent;

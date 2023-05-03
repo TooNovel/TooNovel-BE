@@ -66,7 +66,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
 		List<ReviewAllByUserDto> reviews = results.fetch();
 
-		return new PageImpl<>(reviews, pageable, results.fetchResults().getTotal());
+		return new PageImpl<>(reviews, pageable, results.fetchCount());
 	}
 
 	//장르별 전체리뷰조회
