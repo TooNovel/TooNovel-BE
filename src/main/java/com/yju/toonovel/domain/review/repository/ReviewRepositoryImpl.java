@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yju.toonovel.domain.review.dto.ReviewAllByUserDto;
 import com.yju.toonovel.domain.review.entity.QReview;
@@ -25,7 +26,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 	public Page<ReviewAllByUserDto> findAllReviewByUser(Long uid, Pageable pageable) {
 		QReview review = QReview.review;
 
-		JPQLQuery<ReviewAllByUserDto> results = queryFactory
+		JPAQuery<ReviewAllByUserDto> results = queryFactory
 			.select(
 				Projections.fields(
 					ReviewAllByUserDto.class,
@@ -42,7 +43,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
 		List<ReviewAllByUserDto> reviews = results.fetch();
 
-		return new PageImpl<>(reviews, pageable, results.fetchCount());
+		return new PageImpl<>(reviews, pageable, reviews.size());
 	}
 
 	//전체리뷰조회
@@ -66,7 +67,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
 		List<ReviewAllByUserDto> reviews = results.fetch();
 
-		return new PageImpl<>(reviews, pageable, results.fetchCount());
+		return new PageImpl<>(reviews, pageable, reviews.size());
 	}
 
 	//장르별 전체리뷰조회
@@ -117,7 +118,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
 		List<ReviewAllByUserDto> reviews = results.fetch();
 
-		return new PageImpl<>(reviews, pageable, results.fetchCount());
+		return new PageImpl<>(reviews, pageable, reviews.size());
 	}
 
 	//장르별 전체리뷰조회 - 좋아요순 정렬

@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.yju.toonovel.domain.review.entity.LikeReview;
 import com.yju.toonovel.domain.review.entity.Review;
+import com.yju.toonovel.domain.review.exception.ReviewAlreadyLikedException;
 import com.yju.toonovel.domain.review.exception.ReviewNotFoundException;
 import com.yju.toonovel.domain.review.repository.LikeReviewRepository;
 import com.yju.toonovel.domain.review.repository.ReviewRepository;
@@ -36,14 +37,18 @@ public class LikeReviewService {
 
 		LikeReview likeReview = findUserLikeReview(user, review);
 
+		if(likeReview.isActived()) {
+			throw new ReviewAlreadyLikedException();
+		}
 		likeReview.toggleLike();
 
 		//좋아요 카운트 증가
-		if (likeReview.isActived()) {
-			review.clickReviewLike();
-		} else {
-			review.unClickReviewLike();
-		}
+		//추후에 수정될 가능성 있어 남겨둠, 현재는 하나의 좋아요만 클릭시 이미 좋아요 되어있습니다 처리
+		// if (likeReview.isActived()) {
+		// 	review.clickReviewLike();
+		// } else {
+		// 	review.unClickReviewLike();
+		// }
 	}
 
 	//이미 좋아요가 되어있는지 체크
