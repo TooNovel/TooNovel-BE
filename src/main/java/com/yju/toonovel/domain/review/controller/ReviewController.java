@@ -44,9 +44,9 @@ public class ReviewController {
 	}
 
 	//전체리뷰조회
-	@GetMapping()
-	public Page<ReviewAllByUserDto> getAllReview() {
-		return reviewService.getAllReview();
+	@GetMapping("{page}")
+	public Page<ReviewAllByUserDto> getAllReviewPaging(@PathVariable("page") int page) {
+		return reviewService.getAllReview(page);
 	}
 
 	//좋아요 등록 기능

@@ -21,6 +21,14 @@ import lombok.RequiredArgsConstructor;
 public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 	private final JPAQueryFactory queryFactory;
 
+	//리뷰 조회 카운트 쿼리 메서드
+	public Long countQuery(QReview review) {
+		return queryFactory
+			.select(review.count())
+			.from(review)
+			.fetchOne();
+	}
+
 	//유저가 작성한 리뷰조회
 	@Override
 	public Page<ReviewAllByUserDto> findAllReviewByUser(Long uid, Pageable pageable) {
@@ -43,7 +51,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
 		List<ReviewAllByUserDto> reviews = results.fetch();
 
-		return new PageImpl<>(reviews, pageable, reviews.size());
+		return new PageImpl<>(reviews, pageable, countQuery(review));
 	}
 
 	//전체리뷰조회
@@ -67,7 +75,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
 		List<ReviewAllByUserDto> reviews = results.fetch();
 
-		return new PageImpl<>(reviews, pageable, reviews.size());
+		return new PageImpl<>(reviews, pageable, countQuery(review));
 	}
 
 	//장르별 전체리뷰조회
@@ -118,7 +126,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
 		List<ReviewAllByUserDto> reviews = results.fetch();
 
-		return new PageImpl<>(reviews, pageable, reviews.size());
+		return new PageImpl<>(reviews, pageable, countQuery(review));
 	}
 
 	//장르별 전체리뷰조회 - 좋아요순 정렬
