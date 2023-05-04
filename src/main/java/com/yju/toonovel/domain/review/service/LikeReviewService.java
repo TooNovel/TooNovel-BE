@@ -37,7 +37,7 @@ public class LikeReviewService {
 
 		LikeReview likeReview = findUserLikeReview(user, review);
 
-		if(likeReview.isActived()) {
+		if (likeReview.isActived()) {
 			throw new ReviewAlreadyLikedException();
 		}
 		likeReview.toggleLike();

@@ -85,7 +85,7 @@ public class ReviewService {
 			.orElseThrow(() -> new ReviewNotFoundException());
 
 		log.info("review.getWriter().getUserId()) :" + review.getWriter().getUserId());
-		if(userId.equals(review.getWriter().getUserId())) {
+		if (userId.equals(review.getWriter().getUserId())) {
 			reviewRepository.deleteByReviewId(reviewId);
 		} else {
 			throw new ReviewNotMatchUserException();
