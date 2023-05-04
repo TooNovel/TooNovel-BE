@@ -7,14 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yju.toonovel.domain.novel.dto.NovelPaginationResponseDto;
-import com.yju.toonovel.domain.novel.dto.UserLikeCheckResponseDto;
-import com.yju.toonovel.domain.novel.entity.LikeNovel;
-import com.yju.toonovel.domain.novel.entity.Novel;
-import com.yju.toonovel.domain.novel.exception.NovelNotFoundException;
 import com.yju.toonovel.domain.novel.repository.LikeNovelRepository;
-import com.yju.toonovel.domain.novel.repository.NovelPlatformRepository;
-import com.yju.toonovel.domain.novel.repository.NovelRepository;
-import com.yju.toonovel.domain.novel.repository.PlatformRepository;
 import com.yju.toonovel.domain.user.dto.UserProfileResponseDto;
 import com.yju.toonovel.domain.user.dto.UserRegisterRequestDto;
 import com.yju.toonovel.domain.user.entity.User;

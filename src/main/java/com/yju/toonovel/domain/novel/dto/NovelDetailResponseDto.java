@@ -2,11 +2,9 @@ package com.yju.toonovel.domain.novel.dto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.yju.toonovel.domain.novel.entity.Genre;
 import com.yju.toonovel.domain.novel.entity.Novel;
-import com.yju.toonovel.domain.novel.entity.NovelPlatform;
 import com.yju.toonovel.domain.novel.entity.Platform;
 
 import lombok.Getter;
