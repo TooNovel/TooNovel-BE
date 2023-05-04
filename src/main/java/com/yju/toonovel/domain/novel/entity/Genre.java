@@ -1,5 +1,8 @@
 package com.yju.toonovel.domain.novel.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -16,5 +19,20 @@ public enum Genre {
 	BL("BL");
 
 	private final String key;
+
+	@JsonCreator
+	public static Genre from(String name) {
+		for (Genre genre : Genre.values()) {
+			if (genre.name().equals(name)) {
+				return genre;
+			}
+		}
+		return null;
+	}
+
+	@JsonValue
+	public String getGenreName() {
+		return key;
+	}
 
 }
