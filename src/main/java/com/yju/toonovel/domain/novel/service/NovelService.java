@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yju.toonovel.domain.novel.dto.NovelDetailResponseDto;
+import com.yju.toonovel.domain.novel.dto.NovelPaginationRequestDto;
 import com.yju.toonovel.domain.novel.dto.NovelPaginationResponseDto;
 import com.yju.toonovel.domain.novel.dto.UserLikeCheckResponseDto;
 import com.yju.toonovel.domain.novel.entity.LikeNovel;
@@ -36,9 +37,9 @@ public class NovelService {
 	private final PlatformRepository platformRepository;
 
 	@Transactional
-	public List<NovelPaginationResponseDto> findAll(Long novelId) {
+	public List<NovelPaginationResponseDto> findAll(NovelPaginationRequestDto requestDto) {
 		return novelRepository
-			.findAllNovel(novelId)
+			.findAllNovel(requestDto)
 			.stream()
 			.map(novel -> NovelPaginationResponseDto.from(novel))
 			.collect(Collectors.toList());
