@@ -54,7 +54,7 @@ public class NovelService {
 		novelPlatformRepository.findAllByNovel(novel).forEach(
 			platform -> platforms.add(
 				platformRepository
-					.findById(platform.getId())
+					.findById(platform.getPlatform().getPlatformId())
 					.orElseThrow(() -> new PlatformNotFoundException()))
 		);
 
