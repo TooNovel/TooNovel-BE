@@ -29,7 +29,14 @@ public enum ErrorCode {
 
 	//Novel
 	NOVEL_NOT_FOUND(HttpStatus.NOT_FOUND, "N001", "존재하지 않는 작품입니다."),
-	PLATFORM_NOT_FOUND(HttpStatus.NOT_FOUND, "N002", "존재하지 않는 플랫폼입니다.");
+	PLATFORM_NOT_FOUND(HttpStatus.NOT_FOUND, "N002", "존재하지 않는 플랫폼입니다."),
+	NOVEL_GENRE_NOT_FOUND(HttpStatus.NOT_FOUND, "N003", "존재하지 않는 장르입니다."),
+
+	//Review
+	REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "R001", "존재하지 않는 리뷰입니다."),
+	REVIEW_ID_DUPLICATE(HttpStatus.NOT_FOUND, "R002", "이미 존재하는 리뷰ID입니다."),
+	REVIEW_NOT_MATCH_USER(HttpStatus.NOT_FOUND, "R003", "유저가 작성한 리뷰가 아닙니다."),
+	REVIEW_ALREADY_LIKED(HttpStatus.BAD_REQUEST, "R004", "이미 좋아요가 되어 있습니다.");
 
 
 	private final HttpStatus status;
