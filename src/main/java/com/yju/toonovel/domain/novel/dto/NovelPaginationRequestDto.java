@@ -3,10 +3,8 @@ package com.yju.toonovel.domain.novel.dto;
 import com.yju.toonovel.domain.novel.entity.Genre;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 public class NovelPaginationRequestDto {
 
 	private Long novelId;
