@@ -1,18 +1,16 @@
 package com.yju.toonovel.domain.novel.repository;
 
 import static com.yju.toonovel.domain.novel.entity.QNovel.*;
-import static com.yju.toonovel.domain.novel.entity.QNovelPlatform.*;
-import static com.yju.toonovel.domain.novel.entity.QPlatform.*;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
-import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.yju.toonovel.domain.novel.dto.NovelDetailResponseDto;
+import com.yju.toonovel.domain.novel.dto.NovelPaginationRequestDto;
+import com.yju.toonovel.domain.novel.entity.Genre;
 import com.yju.toonovel.domain.novel.entity.Novel;
 
 import lombok.RequiredArgsConstructor;
@@ -24,22 +22,49 @@ public class NovelCustomRepositoryImpl implements NovelCustomRepository {
 	private final JPAQueryFactory jpaQueryFactory;
 
 	@Override
-	public List<Novel> findAllNovel(Long novelId) {
+	public List<Novel> findAllNovel(NovelPaginationRequestDto requestDto) {
 		return jpaQueryFactory
 			.selectFrom(novel)
 			.where(
-				gtNovelId(novelId)
+				ltNovelId(requestDto.getNovelId()),
+				eqGenre(requestDto.getGenre()),
+				eqTitle(requestDto.getTitle()),
+				eqAuthor(requestDto.getAuthor())
 			)
 			.limit(30)
+			.orderBy(
+				novel.novelId.desc()
+			)
 			.fetch();
 	}
 
-	private BooleanExpression gtNovelId(Long novelId) {
+	private BooleanExpression ltNovelId(Long novelId) {
 		if (novelId == null) {
 			return null;
 		}
 
-		return novel.novelId.gt(novelId);
+		return novel.novelId.lt(novelId);
+	}
+
+	private Predicate eqGenre(Genre genre) {
+		if (genre == null) {
+			return null;
+		}
+		return novel.genre.eq(genre);
+	}
+
+	private Predicate eqTitle(String title) {
+		if (title == null) {
+			return null;
+		}
+		return novel.title.contains(title);
+	}
+
+	private Predicate eqAuthor(String author) {
+		if (author == null) {
+			return null;
+		}
+		return novel.author.contains(author);
 	}
 
 }

@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Formula;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.yju.toonovel.global.common.entity.BaseEntity;
 
 import lombok.Getter;
@@ -34,7 +33,7 @@ public class Novel extends BaseEntity {
 	@Column(name = "title", nullable = false)
 	private String title;
 
-	@Column(name = "description", nullable = false)
+	@Column(name = "description", nullable = false, length = 10000)
 	private String description;
 
 	@Column(name = "author", nullable = false)
@@ -51,7 +50,7 @@ public class Novel extends BaseEntity {
 	@OneToMany(mappedBy = "novel")
 	private List<NovelPlatform> novelPlatforms = new ArrayList<>();
 
-	@Column(name = "image", nullable = false)
+	@Column(name = "image", nullable = false, length = 2000)
 	private String image;
 
 }
