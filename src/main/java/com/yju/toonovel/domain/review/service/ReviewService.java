@@ -52,8 +52,8 @@ public class ReviewService {
 	}
 
 	//전체 리뷰 조회
-	public Page<ReviewAllByUserDto> getAllReview(int startPage) {
-		Pageable pageable = PageRequest.of(startPage, 10);
+	public Page<ReviewAllByUserDto> getAllReview(int page) {
+		Pageable pageable = PageRequest.of(page, 10);
 		return reviewRepositoryImpl.getAllReview(pageable);
 	}
 
