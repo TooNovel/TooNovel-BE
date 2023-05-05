@@ -39,6 +39,12 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 	@Value("${jwt.header.refresh-token}")
 	String refreshTokenHeader;
 
+	@Value("${GUEST_REDIRECT_URL}")
+	String guestUrl;
+
+	@Value("${USER_REDIRECT_URL}")
+	String userUrl;
+
 	private final String bearerType = "Bearer";
 
 	@Override
@@ -53,7 +59,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 			setRefreshTokenInCookie(response, refreshToken);
 
 			tokenProvider.updateRefreshToken(oAuth2User.getUserId(), refreshToken);
-			response.sendRedirect("${REDIRECT-URL}");
+			response.sendRedirect(guestUrl);
 
 		} else {
 			loginSuccess(response, oAuth2User);
@@ -89,7 +95,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 		setAccessTokenInCookie(response, accessToken);
 		setRefreshTokenInCookie(response, refreshToken);
-		response.sendRedirect("${REDIRECT-URL}");
+		response.sendRedirect(userUrl);
 
 		tokenProvider.updateRefreshToken(oAuth2User.getUserId(), refreshToken);
 	}
