@@ -40,6 +40,9 @@ spring:
             user_name_attribute: id
 
 server:
+  frontEnd: ${FRONT_END}
+  backEnd: ${BACK_END}
+  machineLearning: ${MACHINE_LEARNING}
   port: 8080
 
 jwt:
