@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,5 +23,10 @@ public class RecommendController {
 	@GetMapping
 	public List<NovelPaginationResponseDto> getNovelRecommend(@AuthenticationPrincipal JwtAuthentication user) {
 		return recommendService.getNovelRecommend(user.userId);
+	}
+
+	@PutMapping
+	public void updateRecommendationModel() {
+		recommendService.updateRecommendationModel();
 	}
 }

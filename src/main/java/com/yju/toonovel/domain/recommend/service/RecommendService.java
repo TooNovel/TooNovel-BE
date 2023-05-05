@@ -54,4 +54,19 @@ public class RecommendService {
 
 	}
 
+	@Transactional
+	public void updateRecommendationModel() {
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		URI uri = UriComponentsBuilder
+			.fromUriString(machineLearningServer)
+			.encode()
+			.build()
+			.toUri();
+
+		restTemplate.put(uri, "");
+
+	}
+
 }
