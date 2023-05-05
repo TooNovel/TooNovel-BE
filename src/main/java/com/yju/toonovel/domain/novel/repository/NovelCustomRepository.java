@@ -7,4 +7,6 @@ import com.yju.toonovel.domain.novel.entity.Novel;
 
 public interface NovelCustomRepository {
 	List<Novel> findAllNovel(NovelPaginationRequestDto requestDto);
+
+	List<Novel> findNovelsByNovelIdList(List<Long> novelIds);
 }
