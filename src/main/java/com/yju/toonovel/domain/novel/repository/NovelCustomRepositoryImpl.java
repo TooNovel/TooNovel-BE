@@ -38,6 +38,14 @@ public class NovelCustomRepositoryImpl implements NovelCustomRepository {
 			.fetch();
 	}
 
+	@Override
+	public List<Novel> findNovelsByNovelIdList(List<Long> novelIds) {
+		return jpaQueryFactory
+			.selectFrom(novel)
+			.where(novel.novelId.in(novelIds))
+			.fetch();
+	}
+
 	private BooleanExpression ltNovelId(Long novelId) {
 		if (novelId == null) {
 			return null;
