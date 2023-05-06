@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.yju.toonovel.domain.novel.dto.NovelPaginationResponseDto;
+import com.yju.toonovel.domain.novel.dto.LikeNovelPaginationResponseDto;
 import com.yju.toonovel.domain.novel.repository.LikeNovelRepository;
 import com.yju.toonovel.domain.user.dto.UserProfileResponseDto;
 import com.yju.toonovel.domain.user.dto.UserRegisterRequestDto;
@@ -52,11 +52,11 @@ public class UserService {
 	}
 
 	@Transactional
-	public List<NovelPaginationResponseDto> findAllUserLike(Long novelId, Long userId) {
+	public List<LikeNovelPaginationResponseDto> findAllUserLike(Long novelId, Long userId) {
 		return likeNovelRepository
 			.findAllUserLikeNovel(userId, novelId)
 			.stream()
-			.map(likenovel -> NovelPaginationResponseDto.from(likenovel))
+			.map(likenovel -> LikeNovelPaginationResponseDto.from(likenovel))
 			.collect(Collectors.toList());
 	}
 
