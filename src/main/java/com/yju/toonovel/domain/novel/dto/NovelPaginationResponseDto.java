@@ -1,7 +1,6 @@
 package com.yju.toonovel.domain.novel.dto;
 
 import com.yju.toonovel.domain.novel.entity.Genre;
-import com.yju.toonovel.domain.novel.entity.LikeNovel;
 import com.yju.toonovel.domain.novel.entity.Novel;
 
 import lombok.Builder;
@@ -35,13 +34,4 @@ public class NovelPaginationResponseDto {
 		);
 	}
 
-	public static NovelPaginationResponseDto from(LikeNovel novel) {
-		return new NovelPaginationResponseDto(
-			novel.getNovel().getNovelId(),
-			novel.getNovel().getTitle(),
-			novel.getNovel().getAuthor(),
-			novel.getNovel().getGenre(),
-			novel.getNovel().getImage()
-		);
-	}
 }
