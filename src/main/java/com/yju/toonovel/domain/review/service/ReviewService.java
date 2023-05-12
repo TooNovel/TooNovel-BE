@@ -3,6 +3,7 @@ package com.yju.toonovel.domain.review.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +12,7 @@ import com.yju.toonovel.domain.novel.exception.NovelNotFoundException;
 import com.yju.toonovel.domain.novel.repository.NovelRepository;
 import com.yju.toonovel.domain.review.dto.AllReviewInWorkResponseDto;
 import com.yju.toonovel.domain.review.dto.ReviewAllByUserDto;
+import com.yju.toonovel.domain.review.dto.ReviewPaginationRequestDto;
 import com.yju.toonovel.domain.review.dto.ReviewRegisterRequestDto;
 import com.yju.toonovel.domain.review.entity.Review;
 import com.yju.toonovel.domain.review.exception.DuplicateReviewException;
@@ -52,9 +54,14 @@ public class ReviewService {
 	}
 
 	//전체 리뷰 조회
-	public Page<ReviewAllByUserDto> getAllReview(int page) {
-		Pageable pageable = PageRequest.of(page, 10);
+	public Page<ReviewAllByUserDto> getAllReview(ReviewPaginationRequestDto requestDto) {
+		Pageable pageable = PageRequest.of(requestDto.getPage(), requestDto.getLimit(), sortBy(requestDto));
+
 		return reviewRepositoryImpl.getAllReview(pageable);
+	}
+
+	private Sort sortBy(ReviewPaginationRequestDto requestDto) {
+		return Sort.by(requestDto.getSortDirection(), requestDto.getSortBy());
 	}
 
 	//장르별 전체리뷰조회

@@ -1,9 +1,12 @@
 package com.yju.toonovel.domain.review.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.yju.toonovel.domain.review.dto.ReviewAllByUserDto;
+import com.yju.toonovel.domain.review.dto.ReviewPaginationRequestDto;
 
 public interface ReviewRepositoryCustom {
 
