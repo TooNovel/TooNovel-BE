@@ -3,7 +3,6 @@ package com.yju.toonovel.domain.review.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,23 +54,9 @@ public class ReviewService {
 
 	//전체 리뷰 조회
 	public Page<ReviewAllByUserDto> getAllReview(ReviewPaginationRequestDto requestDto) {
-		Pageable pageable = PageRequest.of(requestDto.getPage(), requestDto.getLimit(), sortBy(requestDto));
-
-		return reviewRepositoryImpl.getAllReview(pageable);
+		Pageable pageable = PageRequest.of(requestDto.getPage(), requestDto.getLimit());
+		return reviewRepositoryImpl.getAllReview(pageable, requestDto);
 	}
-
-	private Sort sortBy(ReviewPaginationRequestDto requestDto) {
-		return Sort.by(requestDto.getSortDirection(), requestDto.getSortBy());
-	}
-
-	//장르별 전체리뷰조회
-	// public Page<ReviewAllByUserDto> getAllReviewWhereGenre(String genre) {
-	// 	String novel = novelRepository.findByGenre(genre)
-	// 		.orElseThrow(() -> new GenreNotFoundException());
-	//
-	// 	Pageable pageable = PageRequest.of(0, 10);
-	// 	return reviewRepositoryImpl.getAllReviewWhereGenre(novel, pageable);
-	// }
 
 	//리뷰 삭제
 	@Transactional
@@ -86,7 +71,6 @@ public class ReviewService {
 	}
 
 	// 이미 추천했다라는것 - 진입했을때 알필요 x
-
 	public void validateDelete(Long userId, Long reviewId) {
 		Review review = reviewRepository.deleteReviewByReviewIdAndUserId(reviewId)
 			.orElseThrow(() -> new ReviewNotFoundException());

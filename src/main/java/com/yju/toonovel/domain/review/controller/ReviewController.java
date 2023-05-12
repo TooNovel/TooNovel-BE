@@ -82,11 +82,4 @@ public class ReviewController {
 
 		return reviewList;
 	}
-
-	//장르별 전체리뷰조회
-	// @GetMapping("/{genre}/genre")
-	// public Page<ReviewAllByUserDto> getAllReviewWhereGenre(@PathVariable("genre") String genre) {
-	//
-	// 	return reviewService.getAllReviewWhereGenre(genre);
-	// }
 }
