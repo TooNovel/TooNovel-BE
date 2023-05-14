@@ -94,9 +94,9 @@ public class ReviewService {
 	}
 
 	//유저가 작성한 리뷰 조회
-	public Page<ReviewAllByUserDto> getAllReviewByUser(Long uid) {
-		Pageable pageable = PageRequest.of(0, 10);
-		Page<ReviewAllByUserDto> reviewList = reviewRepositoryImpl.findAllReviewByUser(uid, pageable);
+	public Page<ReviewAllByUserDto> getAllReviewByUser(Long uid, ReviewPaginationRequestDto requestDto) {
+		Pageable pageable = PageRequest.of(requestDto.getPage(), requestDto.getLimit());
+		Page<ReviewAllByUserDto> reviewList = reviewRepositoryImpl.findAllReviewByUser(uid, pageable, requestDto);
 
 		return reviewList;
 	}

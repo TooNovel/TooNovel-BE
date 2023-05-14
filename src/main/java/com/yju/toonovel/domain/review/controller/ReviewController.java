@@ -77,8 +77,9 @@ public class ReviewController {
 	//유저가 작성한 리뷰 조회
 	@GetMapping("/myReview")
 	@ResponseStatus(HttpStatus.OK)
-	public Page<ReviewAllByUserDto> getAllReviewByUser(@AuthenticationPrincipal JwtAuthentication user) {
-		Page<ReviewAllByUserDto> reviewList = reviewService.getAllReviewByUser(user.userId);
+	public Page<ReviewAllByUserDto> getAllReviewByUser(@AuthenticationPrincipal JwtAuthentication user,
+		@ModelAttribute ReviewPaginationRequestDto requestDto) {
+		Page<ReviewAllByUserDto> reviewList = reviewService.getAllReviewByUser(user.userId, requestDto);
 
 		return reviewList;
 	}
