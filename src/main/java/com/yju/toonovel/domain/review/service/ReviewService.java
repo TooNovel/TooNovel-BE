@@ -11,6 +11,7 @@ import com.yju.toonovel.domain.novel.exception.NovelNotFoundException;
 import com.yju.toonovel.domain.novel.repository.NovelRepository;
 import com.yju.toonovel.domain.review.dto.AllReviewInWorkResponseDto;
 import com.yju.toonovel.domain.review.dto.ReviewAllByUserDto;
+import com.yju.toonovel.domain.review.dto.ReviewPaginationRequestDto;
 import com.yju.toonovel.domain.review.dto.ReviewRegisterRequestDto;
 import com.yju.toonovel.domain.review.entity.Review;
 import com.yju.toonovel.domain.review.exception.DuplicateReviewException;
@@ -52,19 +53,10 @@ public class ReviewService {
 	}
 
 	//전체 리뷰 조회
-	public Page<ReviewAllByUserDto> getAllReview(int page) {
-		Pageable pageable = PageRequest.of(page, 10);
-		return reviewRepositoryImpl.getAllReview(pageable);
+	public Page<ReviewAllByUserDto> getAllReview(ReviewPaginationRequestDto requestDto) {
+		Pageable pageable = PageRequest.of(requestDto.getPage(), requestDto.getLimit());
+		return reviewRepositoryImpl.getAllReview(pageable, requestDto);
 	}
-
-	//장르별 전체리뷰조회
-	// public Page<ReviewAllByUserDto> getAllReviewWhereGenre(String genre) {
-	// 	String novel = novelRepository.findByGenre(genre)
-	// 		.orElseThrow(() -> new GenreNotFoundException());
-	//
-	// 	Pageable pageable = PageRequest.of(0, 10);
-	// 	return reviewRepositoryImpl.getAllReviewWhereGenre(novel, pageable);
-	// }
 
 	//리뷰 삭제
 	@Transactional
@@ -79,7 +71,6 @@ public class ReviewService {
 	}
 
 	// 이미 추천했다라는것 - 진입했을때 알필요 x
-
 	public void validateDelete(Long userId, Long reviewId) {
 		Review review = reviewRepository.deleteReviewByReviewIdAndUserId(reviewId)
 			.orElseThrow(() -> new ReviewNotFoundException());
@@ -103,9 +94,9 @@ public class ReviewService {
 	}
 
 	//유저가 작성한 리뷰 조회
-	public Page<ReviewAllByUserDto> getAllReviewByUser(Long uid) {
-		Pageable pageable = PageRequest.of(0, 10);
-		Page<ReviewAllByUserDto> reviewList = reviewRepositoryImpl.findAllReviewByUser(uid, pageable);
+	public Page<ReviewAllByUserDto> getAllReviewByUser(Long uid, ReviewPaginationRequestDto requestDto) {
+		Pageable pageable = PageRequest.of(requestDto.getPage(), requestDto.getLimit());
+		Page<ReviewAllByUserDto> reviewList = reviewRepositoryImpl.findAllReviewByUser(uid, pageable, requestDto);
 
 		return reviewList;
 	}

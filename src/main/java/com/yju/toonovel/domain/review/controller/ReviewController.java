@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yju.toonovel.domain.review.dto.AllReviewInWorkResponseDto;
 import com.yju.toonovel.domain.review.dto.ReviewAllByUserDto;
+import com.yju.toonovel.domain.review.dto.ReviewPaginationRequestDto;
 import com.yju.toonovel.domain.review.dto.ReviewRegisterRequestDto;
 import com.yju.toonovel.domain.review.service.LikeReviewService;
 import com.yju.toonovel.domain.review.service.ReviewService;
@@ -48,10 +50,10 @@ public class ReviewController {
 	}
 
 	//전체리뷰조회
-	@GetMapping("{page}")
+	@GetMapping()
 	@ResponseStatus(HttpStatus.OK)
-	public Page<ReviewAllByUserDto> getAllReviewPaging(@PathVariable("page") int page) {
-		return reviewService.getAllReview(page);
+	public Page<ReviewAllByUserDto> getAllReviewPaging(@ModelAttribute ReviewPaginationRequestDto requestDto) {
+		return reviewService.getAllReview(requestDto);
 	}
 
 	//좋아요 등록 기능
@@ -75,16 +77,10 @@ public class ReviewController {
 	//유저가 작성한 리뷰 조회
 	@GetMapping("/myReview")
 	@ResponseStatus(HttpStatus.OK)
-	public Page<ReviewAllByUserDto> getAllReviewByUser(@AuthenticationPrincipal JwtAuthentication user) {
-		Page<ReviewAllByUserDto> reviewList = reviewService.getAllReviewByUser(user.userId);
+	public Page<ReviewAllByUserDto> getAllReviewByUser(@AuthenticationPrincipal JwtAuthentication user,
+		@ModelAttribute ReviewPaginationRequestDto requestDto) {
+		Page<ReviewAllByUserDto> reviewList = reviewService.getAllReviewByUser(user.userId, requestDto);
 
 		return reviewList;
 	}
-
-	//장르별 전체리뷰조회
-	// @GetMapping("/{genre}/genre")
-	// public Page<ReviewAllByUserDto> getAllReviewWhereGenre(@PathVariable("genre") String genre) {
-	//
-	// 	return reviewService.getAllReviewWhereGenre(genre);
-	// }
 }
