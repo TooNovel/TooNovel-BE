@@ -13,11 +13,11 @@ public class NovelPaginationResponseDto {
 	private String title;
 	private String author;
 	private Genre genre;
-	private Integer grade;
+	private Double grade;
 	private String image;
 
 	@Builder
-	public NovelPaginationResponseDto(Long novelId, String title, String author, Genre genre, Integer grade,
+	public NovelPaginationResponseDto(Long novelId, String title, String author, Genre genre, Double grade,
 		String image) {
 		this.novelId = novelId;
 		this.title = title;

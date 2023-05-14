@@ -14,12 +14,12 @@ public class LikeNovelPaginationResponseDto {
 	private String title;
 	private String author;
 	private Genre genre;
-	private Integer grade;
+	private Double grade;
 	private String image;
 
 	@Builder
 	public LikeNovelPaginationResponseDto(Long likeNovelId, Long novelId, String title, String author, Genre genre,
-		Integer grade, String image) {
+		Double grade, String image) {
 		this.likeNovelId = likeNovelId;
 		this.novelId = novelId;
 		this.title = title;

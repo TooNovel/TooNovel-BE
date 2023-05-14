@@ -20,7 +20,7 @@ public class NovelDetailResponseDto {
 	private String author;
 	private Genre genre;
 	private long likeCount;
-	private Integer grade;
+	private Double grade;
 	private List<PlatformResponseDto> platforms = new ArrayList<>();
 	private String image;
 
