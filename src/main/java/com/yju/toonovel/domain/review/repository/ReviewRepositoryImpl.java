@@ -3,7 +3,6 @@ package com.yju.toonovel.domain.review.repository;
 import static com.yju.toonovel.domain.novel.entity.QNovel.*;
 import static com.yju.toonovel.domain.review.entity.QReview.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -82,7 +81,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 	//유저가 작성한 리뷰조회
 	@Override
 	public Page<ReviewAllByUserDto> findAllReviewByUser(Long uid, Pageable pageable,
-			ReviewPaginationRequestDto requestDto) {
+		ReviewPaginationRequestDto requestDto) {
 		QReview review = QReview.review;
 
 		JPAQuery<ReviewAllByUserDto> results = queryFactory

@@ -6,12 +6,16 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yju.toonovel.domain.novel.dto.NovelPaginationRequestDto;
 import com.yju.toonovel.domain.novel.entity.Genre;
 import com.yju.toonovel.domain.novel.entity.Novel;
+import com.yju.toonovel.global.common.Sort;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +37,7 @@ public class NovelCustomRepositoryImpl implements NovelCustomRepository {
 			)
 			.limit(30)
 			.orderBy(
-				novel.novelId.desc()
+				getOrderSpecifier(requestDto.getSort())
 			)
 			.fetch();
 	}
@@ -75,4 +79,14 @@ public class NovelCustomRepositoryImpl implements NovelCustomRepository {
 		return novel.author.contains(author);
 	}
 
+	private OrderSpecifier getOrderSpecifier(Sort sort) {
+		for (Sort value : Sort.values()) {
+			if (sort == value) {
+				Path<Object> path = Expressions.path(Object.class, novel, value.getProperty()
+				);
+				return new OrderSpecifier(value.getOrder(), path);
+			}
+		}
+		return null;
+	}
 }

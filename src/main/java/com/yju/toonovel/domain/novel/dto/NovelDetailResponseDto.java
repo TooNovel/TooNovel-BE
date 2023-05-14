@@ -20,6 +20,7 @@ public class NovelDetailResponseDto {
 	private String author;
 	private Genre genre;
 	private long likeCount;
+	private Double grade;
 	private List<PlatformResponseDto> platforms = new ArrayList<>();
 	private String image;
 
@@ -30,6 +31,7 @@ public class NovelDetailResponseDto {
 		this.author = novel.getAuthor();
 		this.genre = novel.getGenre();
 		this.likeCount = novel.getLikeCount();
+		this.grade = novel.getGrade();
 		platform.forEach(
 			idx -> this.platforms.add(new PlatformResponseDto(idx))
 		);
