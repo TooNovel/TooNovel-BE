@@ -47,6 +47,10 @@ public class Novel extends BaseEntity {
 	@Formula("(select count(1) from like_novel l where l.novel_id = novel_id and l.is_actived = true)")
 	private long likeCount;
 
+	@Basic(fetch = FetchType.LAZY)
+	@Formula("(select AVG(r.review_grade) from review r where r.novel_id = novel_id)")
+	private Integer grade;
+
 	@OneToMany(mappedBy = "novel")
 	private List<NovelPlatform> novelPlatforms = new ArrayList<>();
 
