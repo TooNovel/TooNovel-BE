@@ -71,13 +71,6 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 		return novel.genre.eq(genre);
 	}
 
-	private Predicate eqUserId(Long userId) {
-		if (userId == null) {
-			return null;
-		}
-		return review.writer.userId.eq(userId);
-	}
-
 	//유저가 작성한 리뷰조회
 	@Override
 	public Page<ReviewAllByUserDto> findAllReviewByUser(Long uid, Pageable pageable,
@@ -87,7 +80,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 		JPAQuery<ReviewAllByUserDto> results = queryFactory
 			.select(reviewSelect(review))
 			.from(review)
-			.where(eqUserId(uid))
+			.where(review.writer.userId.eq(uid))
 			.orderBy(getOrderSpecifiers(requestDto.getSort()))
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize());
@@ -114,29 +107,4 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
 		return new PageImpl<>(reviews, pageable, countQuery(review));
 	}
-
-	//ReviewRepository  -> 한 작품에 대한 전체 리뷰 + 로그인 한 유저가 좋아요 한 부분까지 조회, querydsl변환
-	//반환하는 dto 다른부분 때문에 변환하기 애매해 주석처리 추후 논의 필요
-	// public Page<AllReviewInWorkResponseDto> getReviewByUser(Pageable pageable,
-	// ReviewPaginationRequestDto requestDto, Long nid) {
-	// 	QReview review = QReview.review;
-	// 	QLikeReview likeReview = QLikeReview.likeReview;
-	//
-	// 	JPQLQuery<AllReviewInWorkResponseDto> results = queryFactory
-	// 		.select(reviewSelect(review))
-	// 		.from(review)
-	// 		.leftJoin(likeReview)
-	// 		.on(review.reviewId.eq(likeReview.review.reviewId))
-	// 		.where(
-	// 			eqGenre(requestDto.getGenre()),
-	// 			eqNovelId(nid)
-	// 		)
-	// 		.orderBy(getOrderSpecifiers(requestDto.getSort()))
-	// 		.offset(pageable.getOffset())
-	// 		.limit(pageable.getPageSize());
-	//
-	// 	List<AllReviewInWorkResponseDto> reviews = results.fetch();
-	//
-	// 	return new PageImpl<>(reviews, pageable, countQuery(review));
-	// }
 }

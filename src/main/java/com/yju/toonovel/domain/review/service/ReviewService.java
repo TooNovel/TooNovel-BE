@@ -95,6 +95,9 @@ public class ReviewService {
 
 	//유저가 작성한 리뷰 조회
 	public Page<ReviewAllByUserDto> getAllReviewByUser(Long uid, ReviewPaginationRequestDto requestDto) {
+		userRepository.findByUserId(uid)
+			.orElseThrow(() -> new UserNotFoundException());
+
 		Pageable pageable = PageRequest.of(requestDto.getPage(), requestDto.getLimit());
 		Page<ReviewAllByUserDto> reviewList = reviewRepositoryImpl.findAllReviewByUser(uid, pageable, requestDto);
 
