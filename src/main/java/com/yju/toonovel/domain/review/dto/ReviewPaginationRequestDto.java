@@ -9,16 +9,16 @@ import lombok.Getter;
 @Getter
 public class ReviewPaginationRequestDto {
 
-	private int page;
-	private int limit;
+	private Integer page;
+	private Integer limit;
 	private Genre genre;
 	private Sort sort;
 
 	@Builder
-	public ReviewPaginationRequestDto(int page, int limit, Genre genre, Sort sort) {
-		this.page = page;
+	public ReviewPaginationRequestDto(Integer page, Integer limit, Genre genre, Sort sort) {
+		this.page = page == null ? 0 : page;
 		this.genre = genre;
-		this.limit = limit;
-		this.sort = sort == null ? sort.CREATED_DATE_DESC : sort;
+		this.limit = limit == null ? 10 : limit;
+		this.sort = sort == null ? Sort.CREATED_DATE_DESC : sort;
 	}
 }
