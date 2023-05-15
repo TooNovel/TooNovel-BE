@@ -196,8 +196,9 @@
 
 ## API
 
-[<img src="https://github.com/TooNovel/TooNovel-BE/assets/83005178/b8210fe5-7462-4e7e-b8f7-ac01843d1a3e" width="100px" />](https://documenter.getpostman.com/view/21999576/2s93ecuVFf#4cce3d46-4ec4-4604-94b7-16d7df8103c2)
-- Postman Docs
+<img src="https://github.com/TooNovel/TooNovel-BE/assets/83005178/b8210fe5-7462-4e7e-b8f7-ac01843d1a3e" width="100px" />
+
+- [Postman Docs](https://documenter.getpostman.com/view/21999576/2s93ecuVFf#4cce3d46-4ec4-4604-94b7-16d7df8103c2)
 
 
 ## 환경 변수
