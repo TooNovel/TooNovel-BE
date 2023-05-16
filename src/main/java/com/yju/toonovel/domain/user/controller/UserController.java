@@ -48,7 +48,7 @@ public class UserController {
 		userService.deleteUser(user.userId);
 	}
 
-	@PatchMapping()
+	@PatchMapping("/me")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void updateUser(@RequestBody @Valid UserRegisterRequestDto requestDto,
 		@AuthenticationPrincipal JwtAuthentication user) {
