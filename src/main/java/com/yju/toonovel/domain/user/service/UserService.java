@@ -31,7 +31,7 @@ public class UserService {
 	}
 
 	@Transactional
-	public void register(Long id, UserRegisterRequestDto requestDto) {
+	public void updateUser(Long id, UserRegisterRequestDto requestDto) {
 		User user = userRepository.findByUserId(id)
 			.orElseThrow(() -> new UserNotFoundException());
 		user.register(requestDto.getNickname(), requestDto.getGender(), requestDto.getBirth());

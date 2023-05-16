@@ -8,6 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import com.yju.toonovel.global.common.entity.BaseEntity;
 
 import lombok.Builder;
@@ -23,8 +26,10 @@ public class User extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userId;
 
+	@Column(length = 15)
 	private String nickname;
 
+	@Column(length = 1024)
 	private String imageUrl;
 
 	@Enumerated(EnumType.STRING)
@@ -38,8 +43,10 @@ public class User extends BaseEntity {
 	@Column(nullable = false)
 	private Role role;
 
+	@Column(length = 5)
 	private String gender;
 
+	@Column(length = 10)
 	private String birth;
 
 	@Builder
