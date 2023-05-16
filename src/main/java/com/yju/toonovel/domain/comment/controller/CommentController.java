@@ -49,7 +49,7 @@ public class CommentController {
 
 	//댓글 수정(내용만 수정 가능)
 	@PatchMapping()
-	@ResponseStatus(HttpStatus.OK)
+	@ResponseStatus(HttpStatus.CREATED)
 	public void commentUpdate(@RequestBody CommentUpdateRequestDto dto,
 		@AuthenticationPrincipal JwtAuthentication user) {
 		commentService.updateComment(dto, user.userId);
