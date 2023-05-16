@@ -20,6 +20,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
+@Where(clause = "deleted = false")
+@SQLDelete(sql = "UPDATE user SET deleted = true where user_id=?")
 public class User extends BaseEntity {
 
 	@Id
@@ -48,6 +50,9 @@ public class User extends BaseEntity {
 
 	@Column(length = 10)
 	private String birth;
+
+	@Column(nullable = false)
+	private boolean deleted;
 
 	@Builder
 	public User(String nickname, String imageUrl, Provider provider, String oauthId,
