@@ -13,7 +13,7 @@ import com.yju.toonovel.domain.user.entity.User;
 public interface LikeCommentRepository extends JpaRepository<LikeComment, Long> {
 
 	@Query("select l from LikeComment l where l.user = :user and l.comment = :comment")
-	Optional<LikeComment> findByLikeCommentIdWhereUserIdAndCommentId(
+	Optional<LikeComment> findLikeCommentIdByUserIdAndCommentId(
 		@Param("user") User user, @Param("comment") Comment comment
 	);
 }

@@ -45,7 +45,7 @@ public class LikeCommentService {
 	}
 
 	public LikeComment findUserIdAndCommentId(User user, Comment comment) {
-		return likeCommentRepository.findByLikeCommentIdWhereUserIdAndCommentId(user, comment)
+		return likeCommentRepository.findLikeCommentIdByUserIdAndCommentId(user, comment)
 			.orElseGet(
 				() -> likeCommentRepository.save(LikeComment.of(user, comment))
 			);
