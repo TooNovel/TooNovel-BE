@@ -56,7 +56,7 @@ public class CommentService {
 			.orElseThrow(() -> new CommentNotFoundException());
 
 		commentRepository.deleteById(
-			validationComment(uid, comment.getCommentId()).getCommentId()
+			validationComment(user.getUserId(), comment.getCommentId()).getCommentId()
 		);
 	}
 
