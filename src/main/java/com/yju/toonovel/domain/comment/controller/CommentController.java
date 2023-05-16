@@ -49,7 +49,7 @@ public class CommentController {
 
 	//댓글 수정(내용만 수정 가능)
 	@PatchMapping()
-	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseStatus(HttpStatus.OK)
 	public void commentUpdate(@RequestBody CommentUpdateRequestDto dto,
 		@AuthenticationPrincipal JwtAuthentication user) {
 		commentService.updateComment(dto, user.userId);
@@ -57,6 +57,7 @@ public class CommentController {
 
 	//한 게시글에 대한 댓글 조회
 	@GetMapping("/{pid}")
+	@ResponseStatus(HttpStatus.OK)
 	public Page<CommentAllResponseDto> getAllCommentByPost(
 		@ModelAttribute CommentPaginationRequestDto requestDto,
 		@PathVariable("pid") Long pid) {
@@ -65,6 +66,7 @@ public class CommentController {
 
 	//댓글 좋아요 기능
 	@PostMapping("/{cid}/like")
+	@ResponseStatus(HttpStatus.CREATED)
 	public void registerLikeComment(@PathVariable("cid") Long cid,
 		@AuthenticationPrincipal JwtAuthentication user) {
 		likeCommentService.commentLikeRegister(user.userId, cid);
