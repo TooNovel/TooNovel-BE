@@ -21,4 +21,6 @@ public interface AllReviewInWorkResponseDto {
 
 	Boolean getIsActived();
 
+	Long getReviewId();
+
 }

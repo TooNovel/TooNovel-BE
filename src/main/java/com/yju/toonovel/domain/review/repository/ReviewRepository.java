@@ -25,7 +25,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 		value =
 			"SELECT u.nickname as nickname, u.imageUrl as imageUrl, r.createdDate as createdDate,"
 				+ "r.reviewContent as reviewContent, r.reviewGrade as reviewGrade , r.reviewLike as reviewLike, "
-				+ "l.user.userId as userId,  l.isActived as isActived  "
+				+ "l.user.userId as userId,  l.isActived as isActived, r.reviewId as reviewId"
 				+ " FROM Review r left outer join r.writer u on u.userId = r.writer.userId"
 				+ " left outer join LikeReview l on r.reviewId = l.review.reviewId "
 				+ " where r.novel.novelId = :nid "
