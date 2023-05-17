@@ -43,12 +43,7 @@ public class LikeReviewService {
 		likeReview.toggleLike();
 
 		//좋아요 카운트 증가
-		//추후에 수정될 가능성 있어 남겨둠, 현재는 하나의 좋아요만 클릭시 이미 좋아요 되어있습니다 처리
-		// if (likeReview.isActived()) {
-		// 	review.clickReviewLike();
-		// } else {
-		// 	review.unClickReviewLike();
-		// }
+		review.clickReviewLike();
 	}
 
 	//이미 좋아요가 되어있는지 체크

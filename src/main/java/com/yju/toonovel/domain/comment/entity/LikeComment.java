@@ -1,10 +1,15 @@
 package com.yju.toonovel.domain.comment.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.yju.toonovel.domain.user.entity.User;
 
@@ -21,10 +26,13 @@ public class LikeComment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long likeCommentId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
 	private User user;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "comment_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Comment comment;
 
 	private boolean isActived;
