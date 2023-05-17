@@ -2,6 +2,8 @@ package com.yju.toonovel.domain.user.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,11 +48,11 @@ public class UserController {
 		userService.deleteUser(user.userId);
 	}
 
-	@PatchMapping("/register")
+	@PatchMapping("/me")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void userRegister(@RequestBody UserRegisterRequestDto requestDto,
+	public void updateUser(@RequestBody @Valid UserRegisterRequestDto requestDto,
 		@AuthenticationPrincipal JwtAuthentication user) {
-		userService.register(user.userId, requestDto);
+		userService.updateUser(user.userId, requestDto);
 	}
 
 	@GetMapping("/novel")
