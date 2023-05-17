@@ -27,11 +27,11 @@ public class LikeComment {
 	private Long likeCommentId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="comment_id")
+	@JoinColumn(name = "comment_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Comment comment;
 
