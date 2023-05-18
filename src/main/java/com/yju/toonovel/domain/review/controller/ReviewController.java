@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.yju.toonovel.domain.review.dto.AllReviewInWorkResponseDto;
 import com.yju.toonovel.domain.review.dto.ReviewAllByUserDto;
+import com.yju.toonovel.domain.review.dto.ReviewByNovelResponseDto;
 import com.yju.toonovel.domain.review.dto.ReviewPaginationRequestDto;
 import com.yju.toonovel.domain.review.dto.ReviewRegisterRequestDto;
 import com.yju.toonovel.domain.review.service.LikeReviewService;
@@ -22,12 +22,10 @@ import com.yju.toonovel.domain.review.service.ReviewService;
 import com.yju.toonovel.global.security.jwt.JwtAuthentication;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/v1/review")
 @RequiredArgsConstructor
-@Slf4j
 public class ReviewController {
 
 	private final ReviewService reviewService;
@@ -65,13 +63,13 @@ public class ReviewController {
 		likeReviewService.clickReviewLike(rid, user.userId);
 	}
 
-	//한작품에 있는 리뷰 전체조회(좋아요까지)
+	//한작품에 있는 리뷰 전체조회
 	@GetMapping("/{nid}/novel")
 	@ResponseStatus(HttpStatus.OK)
-	public Page<AllReviewInWorkResponseDto> reviewAllListWithLike(@PathVariable("nid") Long nid) {
-		Page<AllReviewInWorkResponseDto> reviewAllList = reviewService.getAllReviewWithLike(nid);
+	public Page<ReviewByNovelResponseDto> reviewAllListWithLike(@PathVariable("nid") Long nid,
+		@ModelAttribute ReviewPaginationRequestDto requestDto) {
 
-		return reviewAllList;
+		return reviewService.getAllReviewWithLike(nid, requestDto);
 	}
 
 	//유저가 작성한 리뷰 조회
@@ -79,8 +77,7 @@ public class ReviewController {
 	@ResponseStatus(HttpStatus.OK)
 	public Page<ReviewAllByUserDto> getAllReviewByUser(@AuthenticationPrincipal JwtAuthentication user,
 		@ModelAttribute ReviewPaginationRequestDto requestDto) {
-		Page<ReviewAllByUserDto> reviewList = reviewService.getAllReviewByUser(user.userId, requestDto);
 
-		return reviewList;
+		return reviewService.getAllReviewByUser(user.userId, requestDto);
 	}
 }

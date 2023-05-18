@@ -21,6 +21,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yju.toonovel.domain.novel.entity.Genre;
 import com.yju.toonovel.domain.review.dto.ReviewAllByUserDto;
+import com.yju.toonovel.domain.review.dto.ReviewByNovelResponseDto;
 import com.yju.toonovel.domain.review.dto.ReviewPaginationRequestDto;
 import com.yju.toonovel.domain.review.entity.QReview;
 import com.yju.toonovel.global.common.Sort;
@@ -42,7 +43,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 			.fetchOne();
 	}
 
-	//조회에 필요한 데이터들만 조회에 dto에 매핑
+	//리뷰 전체 조회에 필요한 데이터들만 조회에 dto에 매핑
 	public QBean<ReviewAllByUserDto> reviewSelect(QReview review) {
 		return Projections.fields(
 			ReviewAllByUserDto.class,
@@ -50,6 +51,16 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 			review.novel.title,
 			review.reviewContent, review.reviewGrade, review.createdDate, review.reviewLike,
 			review.writer.nickname, review.writer.imageUrl
+		);
+	}
+
+	//한 작품에 대한 리뷰 전체 조회에 필요한 데이터들만 조회에 dto에 매핑
+	public QBean<ReviewByNovelResponseDto> reviewSelectByNovel(QReview review) {
+		return Projections.fields(
+			ReviewByNovelResponseDto.class,
+			review.writer.nickname, review.writer.imageUrl, review.writer.userId,
+			review.createdDate, review.reviewContent, review.reviewGrade, review.reviewLike,
+			review.reviewId
 		);
 	}
 
@@ -104,6 +115,25 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 			.limit(pageable.getPageSize());
 
 		List<ReviewAllByUserDto> reviews = results.fetch();
+
+		return new PageImpl<>(reviews, pageable, countQuery(review));
+	}
+
+	//한 작품에 대한 리뷰 전체 조회
+	@Override
+	public Page<ReviewByNovelResponseDto> getReviewByNovel(Long nid, Pageable pageable,
+		ReviewPaginationRequestDto requestDto) {
+		QReview review = QReview.review;
+
+		JPQLQuery<ReviewByNovelResponseDto> results = queryFactory
+			.select(reviewSelectByNovel(review))
+			.from(review)
+			.where(review.novel.novelId.eq(nid))
+			.orderBy(getOrderSpecifiers(requestDto.getSort()))
+			.offset(pageable.getOffset())
+			.limit(pageable.getPageSize());
+
+		List<ReviewByNovelResponseDto> reviews = results.fetch();
 
 		return new PageImpl<>(reviews, pageable, countQuery(review));
 	}
