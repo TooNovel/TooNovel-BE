@@ -6,15 +6,14 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yju.toonovel.global.security.jwt.dto.RefreshTokenCreateRequestDto;
-import com.yju.toonovel.global.security.jwt.exception.ExpiredTokenException;
-import com.yju.toonovel.global.security.jwt.exception.InvalidTokenException;
+import com.yju.toonovel.global.security.jwt.exception.TokenExpiredException;
+import com.yju.toonovel.global.security.jwt.exception.TokenInvalidException;
 import com.yju.toonovel.global.security.jwt.repository.RefreshTokenRepository;
 
 import io.jsonwebtoken.Claims;
@@ -86,23 +85,6 @@ public class JwtTokenProvider {
 			.map(accessToken -> accessToken.replace(bearerType, ""));
 	}
 
-	public Optional<String> extractRefreshToken(HttpServletRequest request) {
-		return Optional.ofNullable(request.getHeader(refreshTokenHeader))
-			.filter(refreshToken -> refreshToken.startsWith(bearerType))
-			.map(refreshToken -> refreshToken.replace(bearerType, ""));
-	}
-
-	public void sendAccessToken(HttpServletResponse response, String accessToken) {
-		response.setStatus(HttpServletResponse.SC_OK);
-		response.setHeader(accessTokenHeader, accessToken);
-	}
-
-	public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken) {
-		response.setStatus(HttpServletResponse.SC_OK);
-		response.setHeader(accessTokenHeader, accessToken);
-		response.setHeader(refreshTokenHeader, refreshToken);
-	}
-
 	@Transactional
 	public void updateRefreshToken(Long userId, String refreshToken) {
 		refreshTokenRepository.findByUserId(userId)
@@ -128,9 +110,9 @@ public class JwtTokenProvider {
 				.build()
 				.parseClaimsJws(token);
 		} catch (ExpiredJwtException e) {
-			throw new ExpiredTokenException();
+			throw new TokenExpiredException();
 		} catch (JwtException | IllegalArgumentException e) {
-			throw new InvalidTokenException();
+			throw new TokenInvalidException();
 		}
 	}
 
