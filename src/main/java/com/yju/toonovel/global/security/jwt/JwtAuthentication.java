@@ -9,8 +9,9 @@ public class JwtAuthentication {
 
 	public final String accessToken;
 	public final Long userId;
+	public final String role;
 
-	public JwtAuthentication(String accessToken, Long userId) {
+	public JwtAuthentication(String accessToken, Long userId, String role) {
 		if (accessToken.isEmpty() || accessToken.isBlank()) {
 			throw new TokenInvalidException();
 		}
@@ -19,6 +20,7 @@ public class JwtAuthentication {
 		}
 		this.accessToken = accessToken;
 		this.userId = userId;
+		this.role = role;
 	}
 
 }

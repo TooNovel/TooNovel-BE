@@ -94,7 +94,7 @@ public class TokenService {
 		Long userId = claims.get("userId", Long.class);
 		String role = claims.get("role", String.class);
 
-		JwtAuthentication principal = new JwtAuthentication(accessToken, userId);
+		JwtAuthentication principal = new JwtAuthentication(accessToken, userId, role);
 		List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
 
 		return new JwtAuthenticationToken(principal, null, authorities);
