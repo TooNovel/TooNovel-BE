@@ -21,11 +21,9 @@ public enum ErrorCode {
 	USER_INVALID(HttpStatus.BAD_REQUEST, "U002", "권한이 없는 사용자입니다."),
 
 	// Token
-	NOT_FOUND_TOKEN(HttpStatus.UNAUTHORIZED, "A001", "존재하지 않는 토큰입니다. 로그인이 필요합니다."),
-	INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "A002", "유효하지 않은 액세스 토큰입니다."),
-	EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "A003", "만료된 토큰입니다."),
-	EXPIRED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "A004", "만료된 리프레쉬 토큰입니다."),
-	NOT_FOUND_COOKIE(HttpStatus.UNAUTHORIZED, "A005", "쿠키를 찾을 수 없습니다."),
+	REFRESH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "A001", "존재하지 않는 리프레쉬 토큰입니다."),
+	TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "A002", "유효하지 않은 토큰입니다."),
+	TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "A003", "만료된 토큰입니다."),
 
 	//Novel
 	NOVEL_NOT_FOUND(HttpStatus.NOT_FOUND, "N001", "존재하지 않는 작품입니다."),
