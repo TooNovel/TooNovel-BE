@@ -1,6 +1,6 @@
 package com.yju.toonovel.global.security.jwt;
 
-import com.yju.toonovel.global.security.jwt.exception.InvalidTokenException;
+import com.yju.toonovel.global.security.jwt.exception.TokenInvalidException;
 
 import lombok.ToString;
 
@@ -12,10 +12,10 @@ public class JwtAuthentication {
 
 	public JwtAuthentication(String accessToken, Long userId) {
 		if (accessToken.isEmpty() || accessToken.isBlank()) {
-			throw new InvalidTokenException();
+			throw new TokenInvalidException();
 		}
-		if (userId <= 0) {
-			throw new InvalidTokenException();
+		if (userId <= 0 || userId == null) {
+			throw new TokenInvalidException();
 		}
 		this.accessToken = accessToken;
 		this.userId = userId;
