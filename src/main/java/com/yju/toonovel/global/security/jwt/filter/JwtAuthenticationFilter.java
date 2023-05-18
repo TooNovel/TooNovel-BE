@@ -38,6 +38,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 		FilterChain filterChain) throws ServletException, IOException {
 
+		//리프레쉬 토큰이 있으면 재발급이라고 인지하는 부분이 필요없지않나? 토큰 컨트롤러로 갈거
+		//필터에서는 오직 인증인가만!!
 		String refreshToken = jwtTokenProvider.extractRefreshToken(request).orElse(null);
 		if (refreshToken != null) {
 			jwtTokenProvider.validateToken(refreshToken);
