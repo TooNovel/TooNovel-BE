@@ -35,11 +35,11 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
 		}
 	}
 
-	private void setErrorResponse(HttpServletResponse response, TokenException e) throws IOException {
-		response.setStatus(e.getErrorCode().getStatus().value());
+	private void setErrorResponse(HttpServletResponse response, TokenException tokenException) throws IOException {
+		response.setStatus(tokenException.getErrorCode().getStatus().value());
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter()
-			.write(objectMapper.writeValueAsString(ErrorResponse.of(e.getErrorCode())));
+			.write(objectMapper.writeValueAsString(ErrorResponse.of(tokenException.getErrorCode())));
 	}
 }
