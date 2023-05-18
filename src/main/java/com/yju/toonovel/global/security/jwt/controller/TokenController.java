@@ -1,6 +1,5 @@
 package com.yju.toonovel.global.security.jwt.controller;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +20,6 @@ import lombok.RequiredArgsConstructor;
 public class TokenController {
 
 	private final TokenService tokenService;
-
-	@Value("${jwt.header.refresh-token}")
-	final String refreshTokenHeader;
 
 	@PostMapping(value = "", headers = "Authorization-refresh")
 	@ResponseStatus(HttpStatus.CREATED)
