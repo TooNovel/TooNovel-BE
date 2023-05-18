@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.yju.toonovel.domain.novel.entity.Novel;
 import com.yju.toonovel.domain.novel.exception.NovelNotFoundException;
 import com.yju.toonovel.domain.novel.repository.NovelRepository;
-import com.yju.toonovel.domain.review.dto.AllReviewInWorkResponseDto;
 import com.yju.toonovel.domain.review.dto.ReviewAllByUserDto;
+import com.yju.toonovel.domain.review.dto.ReviewByNovelResponseDto;
 import com.yju.toonovel.domain.review.dto.ReviewPaginationRequestDto;
 import com.yju.toonovel.domain.review.dto.ReviewRegisterRequestDto;
 import com.yju.toonovel.domain.review.entity.Review;
@@ -83,14 +83,12 @@ public class ReviewService {
 		}
 	}
 
-	//한작품에 있는 리뷰 전체조회(좋아요까지)
-	public Page<AllReviewInWorkResponseDto> getAllReviewWithLike(Long nid) {
+	//한작품에 있는 리뷰 전체조회
+	public Page<ReviewByNovelResponseDto> getAllReviewWithLike(Long nid, ReviewPaginationRequestDto requestDto) {
 
-		Pageable pageable = PageRequest.of(0, 10);
-		Page<AllReviewInWorkResponseDto> reviewList = reviewRepository
-			.getReviewAndReviewLikeByNovelOrderByReviewIdPaging(nid, pageable);
+		Pageable pageable = PageRequest.of(requestDto.getPage(), requestDto.getLimit());
 
-		return reviewList;
+		return reviewRepositoryImpl.getReviewByNovel(nid, pageable, requestDto);
 	}
 
 	//유저가 작성한 리뷰 조회
@@ -99,8 +97,7 @@ public class ReviewService {
 			.orElseThrow(() -> new UserNotFoundException());
 
 		Pageable pageable = PageRequest.of(requestDto.getPage(), requestDto.getLimit());
-		Page<ReviewAllByUserDto> reviewList = reviewRepositoryImpl.findAllReviewByUser(uid, pageable, requestDto);
 
-		return reviewList;
+		return reviewRepositoryImpl.findAllReviewByUser(uid, pageable, requestDto);
 	}
 }
