@@ -33,19 +33,17 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 	private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
-	@Value("${jwt.header.access-token}")
-	String accessTokenHeader;
-
-	@Value("${jwt.header.refresh-token}")
-	String refreshTokenHeader;
-
 	@Value("${GUEST_REDIRECT_URL}")
 	String guestUrl;
 
 	@Value("${USER_REDIRECT_URL}")
 	String userUrl;
 
-	private final String bearerType = "Bearer";
+	@Value("${jwt.expire-seconds.access-token}")
+	long accessTokenExpireSeconds;
+
+	@Value("${jwt.expire-seconds.refresh-token}")
+	long refreshTokenExpireSeconds;
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -71,7 +69,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 			.path(getDefaultTargetUrl())
 			.sameSite("None")
 			.secure(true)
-			.maxAge(3600)
+			.maxAge(accessTokenExpireSeconds)
 			.build();
 
 		response.addHeader("Set-Cookie", token.toString());
@@ -82,7 +80,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 			.path(getDefaultTargetUrl())
 			.sameSite("None")
 			.secure(true)
-			.maxAge(604800)
+			.maxAge(refreshTokenExpireSeconds)
 			.build();
 
 		response.addHeader("Set-Cookie", token.toString());
