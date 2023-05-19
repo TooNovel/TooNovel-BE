@@ -39,11 +39,11 @@ public class PostService {
 	}
 
 	// 게시글 부분 조회
+	@Transactional
 	public PostAllResponseDto getPost(Long pid) {
 		Post post = postRepository.findByPostId(pid)
 			.orElseThrow(() -> new PostNotFoundException());
 		post.increaseViewCount(post.getViewCount());
-		postRepository.save(post);
 		post = postRepository.findByPostId(pid)
 			.orElseThrow(() -> new PostNotFoundException());
 		return new PostAllResponseDto(post);
