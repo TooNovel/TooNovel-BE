@@ -51,8 +51,8 @@ public class PostController {
 	@PatchMapping("/{pid}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void postUpdate(@RequestBody PostUpdateRequestDto dto,
-		@AuthenticationPrincipal JwtAuthentication user) {
-		postService.updatePost(dto, user.userId);
+		@AuthenticationPrincipal JwtAuthentication user, @PathVariable(value = "pid") Long pid) {
+		postService.updatePost(dto, user.userId, pid);
 	}
 
 	// 게시글 전체 조회
