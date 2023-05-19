@@ -57,15 +57,13 @@ public class PostService {
 
 	// 게시글 수정
 	@Transactional
-	public void updatePost(PostUpdateRequestDto dto, Long uid) {
+	public void updatePost(PostUpdateRequestDto dto, Long uid, Long pid) {
 
 		userRepository.findByUserId(uid)
 			.orElseThrow(() -> new UserNotFoundException());
 
-		postRepository.findByPostId(dto.getPostId())
+		Post post = postRepository.findByPostId(pid)
 			.orElseThrow(() -> new PostNotFoundException());
-
-		valiationPost(uid, dto.getPostId());
 
 		post.updatePost(dto.getTitle(), dto.getContent(), dto.getCategory());
 	}
