@@ -38,6 +38,8 @@ public enum ErrorCode {
 
 	//Post
 	POST_NOT_FOUND(HttpStatus.NOT_FOUND, "P001", "존재하지 않는 글입니다."),
+	POST_NOT_MATCH_USER(HttpStatus.NOT_FOUND, "P002", "유저가 작성한 게시글이 아닙니다."),
+	POST_ALREADY_LIKED(HttpStatus.NOT_FOUND, "P003", "이미 좋아요가 되어 있습니다."),
 
 	//Comment
 	COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "M001", "존재하지 않는 댓글입니다."),
