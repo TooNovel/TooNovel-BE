@@ -10,14 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PostUpdateRequestDto {
 
-	private Long postId;
 	private String title;
 	private String content;
 	private Category category;
 
 	@Builder
-	public PostUpdateRequestDto(Long postId, String title, String content, Category category) {
-		this.postId = postId;
+	public PostUpdateRequestDto(String title, String content, Category category) {
 		this.title = title;
 		this.content = content;
 		this.category = category;
