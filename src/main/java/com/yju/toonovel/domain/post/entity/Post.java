@@ -4,26 +4,25 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
+import com.yju.toonovel.domain.user.entity.User;
 import com.yju.toonovel.global.common.entity.BaseEntity;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
 @DynamicInsert
 public class Post extends BaseEntity {
@@ -33,12 +32,13 @@ public class Post extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long postId;
 
-	@Column(name = "user_id", nullable = false)
-	private Long userId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private User user;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "category_id", nullable = false)
-	private Category categoryId;
+	@Column(name = "category", nullable = false)
+	private Category category;
 
 	@Column(name = "title", nullable = false)
 	private String title;
@@ -50,11 +50,39 @@ public class Post extends BaseEntity {
 	@ColumnDefault("0")
 	private Long like;
 
-	@Column(name = "dislikes")
-	@ColumnDefault("0")
-	private Long dislike;
-
 	@Column(name = "view_count")
 	@ColumnDefault("0")
 	private Long viewCount;
+
+	@Builder
+	public Post(User user, Category category, String title, String content) {
+		this.user = user;
+		this.category = category;
+		this.title = title;
+		this.content = content;
+	}
+
+	public static Post of(User user, Category category, String title, String content) {
+		return Post.builder()
+			.user(user)
+			.title(title)
+			.category(category)
+			.content(content)
+			.build();
+	}
+
+	public void updatePost(String title, String content, Category category) {
+		this.title = title;
+		this.content = content;
+		this.category = category;
+	}
+
+	public void increaseViewCount(Long viewCount) {
+		this.viewCount += 1;
+	}
+
+	public void clickPostLike() {
+		like += 1;
+	}
+
 }
