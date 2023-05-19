@@ -16,18 +16,20 @@ public class ReviewByNovelResponseDto {
 
 	private Integer reviewGrade;
 	private Integer reviewLike;
+	private String reviewContent;
 
 	private Long userId;
 	private Long reviewId;
 
 	@Builder
 	public ReviewByNovelResponseDto(String nickname, String imageUrl, LocalDateTime createdDate,
-		Integer reviewGrade, Integer reviewLike, Long userId, Long reviewId) {
+		Integer reviewGrade, Integer reviewLike, String reviewContent, Long userId, Long reviewId) {
 		this.nickname = nickname;
 		this.imageUrl = imageUrl;
 		this.createdDate = createdDate;
 		this.reviewGrade = reviewGrade;
 		this.reviewLike = reviewLike;
+		this.reviewContent = reviewContent;
 		this.userId = userId;
 		this.reviewId = reviewId;
 	}
