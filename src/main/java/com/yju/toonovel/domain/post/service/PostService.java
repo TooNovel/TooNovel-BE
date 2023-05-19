@@ -65,9 +65,6 @@ public class PostService {
 		postRepository.findByPostId(dto.getPostId())
 			.orElseThrow(() -> new PostNotFoundException());
 
-		Post post = postRepository.findByPostId(dto.getPostId())
-			.orElseThrow(() -> new PostNotFoundException());
-
 		valiationPost(uid, dto.getPostId());
 
 		post.updatePost(dto.getTitle(), dto.getContent(), dto.getCategory());
