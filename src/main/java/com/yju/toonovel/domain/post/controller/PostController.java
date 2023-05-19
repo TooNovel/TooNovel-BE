@@ -48,7 +48,7 @@ public class PostController {
 	}
 
 	// 게시글 수정
-	@PatchMapping()
+	@PatchMapping("/{pid}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void postUpdate(@RequestBody PostUpdateRequestDto dto,
 		@AuthenticationPrincipal JwtAuthentication user) {
