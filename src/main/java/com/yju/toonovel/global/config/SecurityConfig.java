@@ -8,6 +8,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.yju.toonovel.global.security.jwt.filter.ExceptionHandlerFilter;
 import com.yju.toonovel.global.security.jwt.filter.JwtAuthenticationEntryPoint;
 import com.yju.toonovel.global.security.jwt.filter.JwtAuthenticationFilter;
 import com.yju.toonovel.global.security.oauth.CustomOAuth2UserService;
@@ -27,6 +28,7 @@ public class SecurityConfig {
 	private final CustomOAuth2UserService customOAuth2UserService;
 	private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
 	private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+	private final ExceptionHandlerFilter exceptionHandlerFilter;
 
 	@Bean
 	public HttpCookieOAuth2AuthorizationRequestRepository cookieOAuth2AuthorizationRequestRepository() {
@@ -41,7 +43,7 @@ public class SecurityConfig {
 			.and()
 			.authorizeHttpRequests()
 			.antMatchers("/").permitAll()
-			.antMatchers("/tokens", "/api/**", "/login/**", "/oauth2/**").permitAll()
+			.antMatchers("/token", "/api/**", "/login/**", "/oauth2/**").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.httpBasic().disable()
@@ -68,6 +70,7 @@ public class SecurityConfig {
 			.authenticationEntryPoint(jwtAuthenticationEntryPoint)
 			.and()
 			.addFilterBefore(jwtAuthenticationFilter, OAuth2AuthorizationRequestRedirectFilter.class)
+			.addFilterBefore(exceptionHandlerFilter, JwtAuthenticationFilter.class)
 			.build();
 	}
 }
