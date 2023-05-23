@@ -33,12 +33,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 	private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
-	@Value("${GUEST_REDIRECT_URL}")
-	String guestUrl;
-
-	@Value("${USER_REDIRECT_URL}")
-	String userUrl;
-
 	@Value("${jwt.expire-seconds.access-token}")
 	long accessTokenExpireSeconds;
 
@@ -57,7 +51,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 			setRefreshTokenInCookie(response, refreshToken);
 
 			tokenProvider.updateRefreshToken(oAuth2User.getUserId(), refreshToken);
-			response.sendRedirect(guestUrl);
+			response.sendRedirect("https://www.toonovel.link/join");
 
 		} else {
 			loginSuccess(response, oAuth2User);
@@ -93,7 +87,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 		setAccessTokenInCookie(response, accessToken);
 		setRefreshTokenInCookie(response, refreshToken);
-		response.sendRedirect(userUrl);
+		response.sendRedirect("https://www.toonovel.link");
 
 		tokenProvider.updateRefreshToken(oAuth2User.getUserId(), refreshToken);
 	}
