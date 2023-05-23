@@ -6,5 +6,5 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MessageService {
+public class ChatService {
 }
