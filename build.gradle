@@ -100,3 +100,6 @@ checkstyleMain.source = fileTree('src/main/java')
 tasks.named('test') {
     useJUnitPlatform()
 }
+jar {
+    enabled = false
+}
