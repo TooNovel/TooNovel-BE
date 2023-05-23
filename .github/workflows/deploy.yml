@@ -40,6 +40,14 @@ jobs:
           server.frontEnd: ${{ secrets.FRONTEND_URL }}
           server.backEnd: ${{ secrets.BACKEND_URL }}
           server.machineLearning: ${{ secrets.ML_URL }}
+          
+      - name: Setup MySQL
+        uses: samin/mysql-action@v1
+        with:
+          character set server: 'utf8'
+          mysql database: 'toonovel'
+          mysql user: ${{ secrets.DB_USERNAME }}
+          mysql password: ${{ secrets.DB_PASSWORD }}
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
