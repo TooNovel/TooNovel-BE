@@ -59,6 +59,9 @@ dependencies {
     //API Docs
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
     implementation 'org.springdoc:springdoc-openapi-security:1.6.15'
+    // WebSocket
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     compileOnly 'org.springframework.boot:spring-boot-devtools'
