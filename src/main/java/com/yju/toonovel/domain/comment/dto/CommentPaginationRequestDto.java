@@ -1,5 +1,8 @@
 package com.yju.toonovel.domain.comment.dto;
 
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
+
 import com.yju.toonovel.global.common.Sort;
 
 import lombok.Builder;
@@ -8,7 +11,9 @@ import lombok.Getter;
 @Getter
 public class CommentPaginationRequestDto {
 
+	@PositiveOrZero
 	private Integer page;
+	@Positive
 	private Integer limit;
 	private Sort sort;
 
