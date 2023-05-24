@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.yju.toonovel.domain.review.dto.ReviewByUserResponseDto;
 import com.yju.toonovel.domain.review.dto.ReviewByNovelResponseDto;
+import com.yju.toonovel.domain.review.dto.ReviewByUserResponseDto;
 import com.yju.toonovel.domain.review.dto.ReviewPaginationRequestDto;
 import com.yju.toonovel.domain.review.dto.ReviewRegisterRequestDto;
 import com.yju.toonovel.domain.review.service.LikeReviewService;

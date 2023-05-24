@@ -3,14 +3,15 @@ package com.yju.toonovel.domain.review.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.yju.toonovel.domain.review.dto.ReviewByUserResponseDto;
 import com.yju.toonovel.domain.review.dto.ReviewByNovelResponseDto;
+import com.yju.toonovel.domain.review.dto.ReviewByUserResponseDto;
 import com.yju.toonovel.domain.review.dto.ReviewPaginationRequestDto;
 
 public interface ReviewRepositoryCustom {
 
 	//유저가 작성한 리뷰조회
-	Page<ReviewByUserResponseDto> findAllReviewByUser(Long uid, Pageable pageable, ReviewPaginationRequestDto requestDto);
+	Page<ReviewByUserResponseDto> findAllReviewByUser(Long uid, Pageable pageable,
+		ReviewPaginationRequestDto requestDto);
 
 	//전체리뷰조회
 	Page<ReviewByUserResponseDto> getAllReview(Pageable pageable, ReviewPaginationRequestDto requestDto);
