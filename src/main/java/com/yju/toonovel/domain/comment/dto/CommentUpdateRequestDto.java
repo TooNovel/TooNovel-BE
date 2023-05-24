@@ -13,15 +13,13 @@ import lombok.NoArgsConstructor;
 public class CommentUpdateRequestDto {
 
 	private Long commentId;
-	private Long postId;
 	@NotBlank
 	@Length(max = 500)
 	private String commentContent;
 
 	@Builder
-	public CommentUpdateRequestDto(Long commentId, Long postId, String commentContent) {
+	public CommentUpdateRequestDto(Long commentId, String commentContent) {
 		this.commentId = commentId;
-		this.postId = postId;
 		this.commentContent = commentContent;
 	}
 }

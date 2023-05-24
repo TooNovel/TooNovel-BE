@@ -12,14 +12,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CommentRegisterRequestDto {
 
-	private Long postId;
 	@NotBlank
 	@Length(max = 500)
 	private String commentContent;
 
 	@Builder
-	public CommentRegisterRequestDto(Long postId, String commentContent) {
-		this.postId = postId;
+	public CommentRegisterRequestDto(String commentContent) {
 		this.commentContent = commentContent;
 	}
 }

@@ -33,11 +33,11 @@ public class CommentController {
 	private final LikeCommentService likeCommentService;
 
 	//댓글 작성
-	@PostMapping()
+	@PostMapping("/{postId}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void commentRegister(@RequestBody CommentRegisterRequestDto dto,
-		@AuthenticationPrincipal JwtAuthentication user) {
-		commentService.commentRegister(dto, user.userId);
+		@AuthenticationPrincipal JwtAuthentication user, @PathVariable("postId") Long postId) {
+		commentService.commentRegister(dto, postId, user.userId);
 	}
 
 	//댓글 삭제
@@ -48,11 +48,11 @@ public class CommentController {
 	}
 
 	//댓글 수정(내용만 수정 가능)
-	@PatchMapping()
+	@PatchMapping("/{postId}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void commentUpdate(@RequestBody CommentUpdateRequestDto dto,
-		@AuthenticationPrincipal JwtAuthentication user) {
-		commentService.updateComment(dto, user.userId);
+		@AuthenticationPrincipal JwtAuthentication user, @PathVariable("postId") Long postId) {
+		commentService.updateComment(dto, postId, user.userId);
 	}
 
 	//한 게시글에 대한 댓글 조회

@@ -13,6 +13,7 @@ import com.yju.toonovel.domain.comment.dto.CommentUpdateRequestDto;
 import com.yju.toonovel.domain.comment.entity.Comment;
 import com.yju.toonovel.domain.comment.exception.CommentNotFoundException;
 import com.yju.toonovel.domain.comment.exception.CommentNotMatchUserException;
+import com.yju.toonovel.domain.comment.exception.DuplicateCommentException;
 import com.yju.toonovel.domain.comment.repository.CommentRepository;
 import com.yju.toonovel.domain.comment.repository.CommentRepositoryImpl;
 import com.yju.toonovel.domain.post.entity.Post;
@@ -35,14 +36,19 @@ public class CommentService {
 
 	//댓글 작성
 	@Transactional
-	public void commentRegister(CommentRegisterRequestDto dto, Long uid) {
-		User user = userRepository.findByUserId(uid)
+	public void commentRegister(CommentRegisterRequestDto dto, Long postId, Long userId) {
+		User user = userRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException());
 
-		Post post = postRepository.findByPostId(dto.getPostId())
+		Post post = postRepository.findByPostId(postId)
 			.orElseThrow(() -> new PostNotFoundException());
 
-		commentRepository.save(Comment.of(user, post, dto.getCommentContent()));
+		commentRepository.findCommentByPostIdAndUserId(user.getUserId(), post.getPostId())
+			.ifPresentOrElse(
+				review1 -> new DuplicateCommentException(),
+				() -> {
+					commentRepository.save(Comment.of(user, post, dto.getCommentContent()));
+				});
 	}
 
 	//댓글 삭제
@@ -62,18 +68,18 @@ public class CommentService {
 
 	//댓글 수정(내용만 수정 가능)
 	@Transactional
-	public void updateComment(CommentUpdateRequestDto dto, Long uid) {
+	public void updateComment(CommentUpdateRequestDto dto, Long postId, Long userId) {
 
-		userRepository.findByUserId(uid)
+		userRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException());
 
-		postRepository.findByPostId(dto.getPostId())
+		postRepository.findByPostId(postId)
 			.orElseThrow(() -> new PostNotFoundException());
 
 		Comment comment = commentRepository.findByCommentId(dto.getCommentId())
 				.orElseThrow(() -> new CommentNotFoundException());
 
-		validationComment(uid, dto.getCommentId());
+		validationComment(userId, dto.getCommentId());
 
 		comment.updateContent(dto.getCommentContent());
 	}
