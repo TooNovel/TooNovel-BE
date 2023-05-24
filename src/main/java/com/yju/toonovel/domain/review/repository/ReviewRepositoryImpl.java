@@ -36,10 +36,11 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 	private final JPAQueryFactory queryFactory;
 
 	//리뷰 조회 카운트 쿼리 메서드
-	public Long countQuery(QReview review) {
+	public Long countQuery(QReview review, Long userId) {
 		return queryFactory
 			.select(review.count())
 			.from(review)
+			.where(eqUserId(userId))
 			.fetchOne();
 	}
 
@@ -82,6 +83,13 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 		return novel.genre.eq(genre);
 	}
 
+	private Predicate eqUserId(Long userId) {
+		if (userId == null) {
+			return null;
+		}
+		return review.writer.userId.eq(userId);
+	}
+
 	//유저가 작성한 리뷰조회
 	@Override
 	public Page<ReviewAllByUserDto> findAllReviewByUser(Long uid, Pageable pageable,
@@ -91,6 +99,8 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 		JPAQuery<ReviewAllByUserDto> results = queryFactory
 			.select(reviewSelect(review))
 			.from(review)
+			.leftJoin(review.writer)
+			.leftJoin(review.novel)
 			.where(review.writer.userId.eq(uid))
 			.orderBy(getOrderSpecifiers(requestDto.getSort()))
 			.offset(pageable.getOffset())
@@ -98,7 +108,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
 		List<ReviewAllByUserDto> reviews = results.fetch();
 
-		return new PageImpl<>(reviews, pageable, countQuery(review));
+		return new PageImpl<>(reviews, pageable, countQuery(review, uid));
 	}
 
 	//전체리뷰조회
@@ -116,7 +126,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
 		List<ReviewAllByUserDto> reviews = results.fetch();
 
-		return new PageImpl<>(reviews, pageable, countQuery(review));
+		return new PageImpl<>(reviews, pageable, countQuery(review, null));
 	}
 
 	//한 작품에 대한 리뷰 전체 조회
@@ -135,6 +145,6 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
 		List<ReviewByNovelResponseDto> reviews = results.fetch();
 
-		return new PageImpl<>(reviews, pageable, countQuery(review));
+		return new PageImpl<>(reviews, pageable, countQuery(review, null));
 	}
 }
