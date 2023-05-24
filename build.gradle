@@ -54,6 +54,8 @@ dependencies {
     // QueryDSL
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+    //API Docs
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
 
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

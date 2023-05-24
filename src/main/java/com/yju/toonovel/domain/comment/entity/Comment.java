@@ -1,5 +1,6 @@
 package com.yju.toonovel.domain.comment.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,6 +30,7 @@ public class Comment extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long commentId;
 
+	@Column(length = 500, nullable = false)
 	private String commentContent;
 
 	@ColumnDefault("0")

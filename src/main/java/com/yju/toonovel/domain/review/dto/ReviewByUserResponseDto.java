@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class ReviewAllByUserDto {
+public class ReviewByUserResponseDto {
 
 	//user
 	private String nickname;
@@ -30,7 +30,7 @@ public class ReviewAllByUserDto {
 	private LocalDateTime createdDate;
 
 	@Builder
-	public ReviewAllByUserDto(String image, Genre genre, String author, String description, String title,
+	public ReviewByUserResponseDto(String image, Genre genre, String author, String description, String title,
 		String reviewContent, int reviewGrade, LocalDateTime createdDate, int reviewLike,
 		String nickname, String imageUrl) {
 		this.image = image;

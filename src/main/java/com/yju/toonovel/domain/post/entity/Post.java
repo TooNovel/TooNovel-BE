@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.ColumnDefault;
@@ -40,9 +41,10 @@ public class Post extends BaseEntity {
 	@Column(name = "category", nullable = false)
 	private Category category;
 
-	@Column(name = "title", nullable = false)
+	@Column(name = "title", length = 50, nullable = false)
 	private String title;
 
+	@Lob
 	@Column(name = "content", nullable = false)
 	private String content;
 

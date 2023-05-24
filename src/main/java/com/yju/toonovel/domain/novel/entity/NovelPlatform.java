@@ -1,6 +1,7 @@
 package com.yju.toonovel.domain.novel.entity;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -30,5 +31,8 @@ public class NovelPlatform {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "platform_id")
 	private Platform platform;
+
+	@Column(name = "url", length = 2000)
+	private String url;
 
 }
