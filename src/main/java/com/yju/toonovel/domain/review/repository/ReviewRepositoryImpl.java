@@ -20,7 +20,7 @@ import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.yju.toonovel.domain.novel.entity.Genre;
-import com.yju.toonovel.domain.review.dto.ReviewAllByUserDto;
+import com.yju.toonovel.domain.review.dto.ReviewByUserResponseDto;
 import com.yju.toonovel.domain.review.dto.ReviewByNovelResponseDto;
 import com.yju.toonovel.domain.review.dto.ReviewPaginationRequestDto;
 import com.yju.toonovel.domain.review.entity.QReview;
@@ -45,9 +45,9 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 	}
 
 	//리뷰 전체 조회에 필요한 데이터들만 조회에 dto에 매핑
-	public QBean<ReviewAllByUserDto> reviewSelect(QReview review) {
+	public QBean<ReviewByUserResponseDto> reviewSelect(QReview review) {
 		return Projections.fields(
-			ReviewAllByUserDto.class,
+			ReviewByUserResponseDto.class,
 			review.novel.image, review.novel.genre, review.novel.author, review.novel.description,
 			review.novel.title,
 			review.reviewContent, review.reviewGrade, review.createdDate, review.reviewLike,
@@ -92,11 +92,11 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
 	//유저가 작성한 리뷰조회
 	@Override
-	public Page<ReviewAllByUserDto> findAllReviewByUser(Long uid, Pageable pageable,
+	public Page<ReviewByUserResponseDto> findAllReviewByUser(Long uid, Pageable pageable,
 		ReviewPaginationRequestDto requestDto) {
 		QReview review = QReview.review;
 
-		JPAQuery<ReviewAllByUserDto> results = queryFactory
+		JPAQuery<ReviewByUserResponseDto> results = queryFactory
 			.select(reviewSelect(review))
 			.from(review)
 			.leftJoin(review.writer)
@@ -106,17 +106,17 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize());
 
-		List<ReviewAllByUserDto> reviews = results.fetch();
+		List<ReviewByUserResponseDto> reviews = results.fetch();
 
 		return new PageImpl<>(reviews, pageable, countQuery(review, uid));
 	}
 
 	//전체리뷰조회
 	@Override
-	public Page<ReviewAllByUserDto> getAllReview(Pageable pageable, ReviewPaginationRequestDto requestDto) {
+	public Page<ReviewByUserResponseDto> getAllReview(Pageable pageable, ReviewPaginationRequestDto requestDto) {
 		QReview review = QReview.review;
 
-		JPQLQuery<ReviewAllByUserDto> results = queryFactory
+		JPQLQuery<ReviewByUserResponseDto> results = queryFactory
 			.select(reviewSelect(review))
 			.from(review)
 			.where(eqGenre(requestDto.getGenre()))
@@ -124,7 +124,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 			.offset(pageable.getOffset())
 			.limit(pageable.getPageSize());
 
-		List<ReviewAllByUserDto> reviews = results.fetch();
+		List<ReviewByUserResponseDto> reviews = results.fetch();
 
 		return new PageImpl<>(reviews, pageable, countQuery(review, null));
 	}

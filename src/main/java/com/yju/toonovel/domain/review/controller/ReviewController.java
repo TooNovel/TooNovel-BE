@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.yju.toonovel.domain.review.dto.ReviewAllByUserDto;
+import com.yju.toonovel.domain.review.dto.ReviewByUserResponseDto;
 import com.yju.toonovel.domain.review.dto.ReviewByNovelResponseDto;
 import com.yju.toonovel.domain.review.dto.ReviewPaginationRequestDto;
 import com.yju.toonovel.domain.review.dto.ReviewRegisterRequestDto;
@@ -50,7 +50,7 @@ public class ReviewController {
 	//전체리뷰조회
 	@GetMapping()
 	@ResponseStatus(HttpStatus.OK)
-	public Page<ReviewAllByUserDto> getAllReviewPaging(@ModelAttribute ReviewPaginationRequestDto requestDto) {
+	public Page<ReviewByUserResponseDto> getAllReviewPaging(@ModelAttribute ReviewPaginationRequestDto requestDto) {
 		return reviewService.getAllReview(requestDto);
 	}
 
@@ -75,7 +75,7 @@ public class ReviewController {
 	//유저가 작성한 리뷰 조회
 	@GetMapping("/myReview")
 	@ResponseStatus(HttpStatus.OK)
-	public Page<ReviewAllByUserDto> getAllReviewByUser(@AuthenticationPrincipal JwtAuthentication user,
+	public Page<ReviewByUserResponseDto> getAllReviewByUser(@AuthenticationPrincipal JwtAuthentication user,
 		@ModelAttribute ReviewPaginationRequestDto requestDto) {
 
 		return reviewService.getAllReviewByUser(user.userId, requestDto);

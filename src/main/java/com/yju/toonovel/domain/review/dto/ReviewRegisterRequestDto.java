@@ -3,6 +3,12 @@ package com.yju.toonovel.domain.review.dto;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.yju.toonovel.domain.novel.entity.Novel;
 import com.yju.toonovel.domain.review.entity.Review;
 import com.yju.toonovel.domain.user.entity.User;
@@ -17,7 +23,12 @@ public class ReviewRegisterRequestDto {
 
 	//리뷰 entity
 	private Long reviewId;
+	@NotBlank
+	@Length(max = 1000)
 	private String reviewContent;
+	@NotBlank
+	@Max(value = 5)
+	@Min(value = 0)
 	private int reviewGrade;
 	private LocalDateTime createDate;
 
