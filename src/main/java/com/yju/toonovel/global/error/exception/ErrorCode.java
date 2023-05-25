@@ -32,14 +32,14 @@ public enum ErrorCode {
 
 	//Review
 	REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "R001", "존재하지 않는 리뷰입니다."),
-	REVIEW_DUPLICATE(HttpStatus.NOT_FOUND, "R002", "이미 리뷰를 작성한 작품입니다."),
+	REVIEW_DUPLICATE(HttpStatus.BAD_REQUEST, "R002", "이미 리뷰를 작성한 작품입니다."),
 	REVIEW_NOT_MATCH_USER(HttpStatus.FORBIDDEN, "R003", "유저가 작성한 리뷰가 아닙니다."),
 	REVIEW_ALREADY_LIKED(HttpStatus.BAD_REQUEST, "R004", "이미 좋아요가 되어 있습니다."),
 
 	//Post
 	POST_NOT_FOUND(HttpStatus.NOT_FOUND, "P001", "존재하지 않는 글입니다."),
 	POST_NOT_MATCH_USER(HttpStatus.FORBIDDEN, "P002", "유저가 작성한 게시글이 아닙니다."),
-	POST_ALREADY_LIKED(HttpStatus.NOT_FOUND, "P003", "이미 좋아요가 되어 있습니다."),
+	POST_ALREADY_LIKED(HttpStatus.BAD_REQUEST, "P003", "이미 좋아요가 되어 있습니다."),
 
 	//Comment
 	COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "M001", "존재하지 않는 댓글입니다."),
