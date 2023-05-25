@@ -13,7 +13,6 @@ import com.yju.toonovel.domain.comment.dto.CommentUpdateRequestDto;
 import com.yju.toonovel.domain.comment.entity.Comment;
 import com.yju.toonovel.domain.comment.exception.CommentNotFoundException;
 import com.yju.toonovel.domain.comment.exception.CommentNotMatchUserException;
-import com.yju.toonovel.domain.comment.exception.DuplicateCommentException;
 import com.yju.toonovel.domain.comment.repository.CommentRepository;
 import com.yju.toonovel.domain.comment.repository.CommentRepositoryImpl;
 import com.yju.toonovel.domain.post.entity.Post;
@@ -43,12 +42,7 @@ public class CommentService {
 		Post post = postRepository.findByPostId(dto.getPostId())
 			.orElseThrow(() -> new PostNotFoundException());
 
-		commentRepository.findCommentByPostIdAndUserId(user.getUserId(), post.getPostId())
-			.ifPresentOrElse(
-				isComment -> new DuplicateCommentException(),
-				() -> {
-					commentRepository.save(Comment.of(user, post, dto.getCommentContent()));
-				});
+		commentRepository.save(Comment.of(user, post, dto.getCommentContent()));
 	}
 
 	//댓글 삭제
