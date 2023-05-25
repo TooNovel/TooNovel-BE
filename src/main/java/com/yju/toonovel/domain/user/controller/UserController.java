@@ -22,32 +22,48 @@ import com.yju.toonovel.domain.user.dto.UserRegisterRequestDto;
 import com.yju.toonovel.domain.user.service.UserService;
 import com.yju.toonovel.global.security.jwt.JwtAuthentication;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "유저 API")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
 	private final UserService userService;
 
+	@Operation(summary = "유저(타인) 조회 요청")
+	@ApiResponse(responseCode = "200", description = "요청 성공")
+	@ApiResponse(responseCode = "404", description = "해당 유저가 없는 상태일 때")
 	@GetMapping("/{userId}")
 	@ResponseStatus(HttpStatus.OK)
 	public UserProfileResponseDto getUserProfile(@PathVariable Long userId) {
 		return userService.getUserProfile(userId);
 	}
 
+	@Operation(summary = "유저(본인) 조회 요청")
+	@ApiResponse(responseCode = "200", description = "요청 성공")
+	@ApiResponse(responseCode = "404", description = "해당 유저가 없는 상태일 때")
 	@GetMapping("/me")
 	@ResponseStatus(HttpStatus.OK)
 	public UserProfileResponseDto getMyProfile(@AuthenticationPrincipal JwtAuthentication user) {
 		return userService.getUserProfile(user.userId);
 	}
 
+	@Operation(summary = "유저 탈퇴 요청")
+	@ApiResponse(responseCode = "204", description = "요청 성공")
+	@ApiResponse(responseCode = "404", description = "해당 유저가 없는 상태일 때")
 	@DeleteMapping("/me")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteUser(@AuthenticationPrincipal JwtAuthentication user) {
 		userService.deleteUser(user.userId);
 	}
 
+	@Operation(summary = "유저 정보 수정 요청")
+	@ApiResponse(responseCode = "201", description = "요청 성공")
+	@ApiResponse(responseCode = "404", description = "해당 유저가 없는 상태일 때")
 	@PatchMapping("/me")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void updateUser(@RequestBody @Valid UserRegisterRequestDto requestDto,
@@ -55,6 +71,8 @@ public class UserController {
 		userService.updateUser(user.userId, requestDto);
 	}
 
+	@Operation(summary = "좋아요한 소설 조회 요청")
+	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping("/novel")
 	@ResponseStatus(HttpStatus.OK)
 	public List<LikeNovelPaginationResponseDto> getAllLikeNovel(@AuthenticationPrincipal JwtAuthentication user,

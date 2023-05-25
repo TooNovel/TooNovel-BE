@@ -44,7 +44,8 @@ public class SecurityConfig {
 			.authorizeHttpRequests()
 			.antMatchers("/").permitAll()
 			.antMatchers("/token", "/api/**", "/login/**", "/oauth2/**").permitAll()
-			.antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+			.antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-resources/**",
+				"/favicon.ico").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.httpBasic().disable()

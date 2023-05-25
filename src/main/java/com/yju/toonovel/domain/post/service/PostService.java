@@ -44,8 +44,6 @@ public class PostService {
 		Post post = postRepository.findByPostId(pid)
 			.orElseThrow(() -> new PostNotFoundException());
 		post.increaseViewCount(post.getViewCount());
-		post = postRepository.findByPostId(pid)
-			.orElseThrow(() -> new PostNotFoundException());
 		return new PostAllResponseDto(post);
 	}
 

@@ -22,8 +22,12 @@ import com.yju.toonovel.domain.post.service.LikePostService;
 import com.yju.toonovel.domain.post.service.PostService;
 import com.yju.toonovel.global.security.jwt.JwtAuthentication;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "게시글 API")
 @RestController
 @RequestMapping("/api/v1/post")
 @RequiredArgsConstructor
@@ -32,7 +36,9 @@ public class PostController {
 	private final PostService postService;
 	private final LikePostService likePostService;
 
-	// 게시글 작성
+	@Operation(summary = "게시글 등록 요청")
+	@ApiResponse(responseCode = "201", description = "요청 성공")
+	@ApiResponse(responseCode = "404", description = "해당 유저가 없는 상태일 때")
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
 	public void postRegister(@RequestBody PostRegisterRequestDto dto,
@@ -40,14 +46,18 @@ public class PostController {
 		postService.postRegister(dto, user.userId);
 	}
 
-	// 게시글 부분 조회
+	@Operation(summary = "게시글 상세 조회 요청")
+	@ApiResponse(responseCode = "200", description = "요청 성공")
+	@ApiResponse(responseCode = "404", description = "해당 게시글이 없는 상태일 때")
 	@GetMapping("/{pid}")
 	@ResponseStatus(HttpStatus.OK)
 	public PostAllResponseDto getPost(@PathVariable(value = "pid") Long pid) {
 		return postService.getPost(pid);
 	}
 
-	// 게시글 수정
+	@Operation(summary = "게시글 수정 요청")
+	@ApiResponse(responseCode = "201", description = "요청 성공")
+	@ApiResponse(responseCode = "404", description = "해당 유저나 게시글이 없는 상태일 때")
 	@PatchMapping("/{pid}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void postUpdate(@RequestBody PostUpdateRequestDto dto,
@@ -55,22 +65,27 @@ public class PostController {
 		postService.updatePost(dto, user.userId, pid);
 	}
 
-	// 게시글 전체 조회
+	@Operation(summary = "게시글 전체 조회 요청")
+	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping()
 	@ResponseStatus(HttpStatus.OK)
 	public Page<PostAllResponseDto> getAllPost(@ModelAttribute PostPaginationRequestDto requestDto) {
 		return postService.getAllPost(requestDto);
 	}
 
-	// 게시글 삭제
-
+	@Operation(summary = "게시글 삭제 요청")
+	@ApiResponse(responseCode = "204", description = "요청 성공")
+	@ApiResponse(responseCode = "404", description = "해당 유저나 게시글이 없는 상태일 때")
 	@DeleteMapping("/{pid}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void postDelete(@PathVariable(value = "pid") Long pid, @AuthenticationPrincipal JwtAuthentication user) {
 		postService.deletePost(pid, user.userId);
 	}
 
-	// 게시글 좋아요 기능
+	@Operation(summary = "게시글 좋아요 요청")
+	@ApiResponse(responseCode = "201", description = "요청 성공")
+	@ApiResponse(responseCode = "400", description = "이미 좋아요를 한 상태일 때")
+	@ApiResponse(responseCode = "404", description = "해당 유저나 게시글이 없는 상태일 때")
 	@PostMapping("/{pid}/like")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void registerLikePost(@PathVariable("pid") Long pid,
