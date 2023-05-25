@@ -6,22 +6,25 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class ChatByUserToAuthorDto {
+public class ChatDto {
 	private String senderAccessToken;
+	private String senderName;
 	private Long senderId;
-	private String senderName; // DB 쿼리 작업을 뺀 관계로 임시로 추가. 추후 필요 여부 검토 필요
-	private String receiverId;
+	private String senderRole;
 	private String message;
 
 	@Builder
-	public ChatByUserToAuthorDto(String senderAccessToken, String senderName, String receiverId, String message) {
+	public ChatDto(String senderAccessToken, String senderName, String message) {
 		this.senderAccessToken = senderAccessToken;
 		this.senderName = senderName;
-		this.receiverId = receiverId;
 		this.message = message;
 	}
 
 	public void setSenderId(Long senderId) {
 		this.senderId = senderId;
+	}
+
+	public void setSenderRole(String senderRole) {
+		this.senderRole = senderRole;
 	}
 }
