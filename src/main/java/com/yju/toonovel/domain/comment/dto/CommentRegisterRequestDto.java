@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class CommentRegisterRequestDto {
 
 	private Long postId;
+
 	@NotBlank
 	@Length(max = 500)
 	private String commentContent;

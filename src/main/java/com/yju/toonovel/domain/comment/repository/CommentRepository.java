@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.yju.toonovel.domain.comment.entity.Comment;
+import com.yju.toonovel.domain.review.entity.Review;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 

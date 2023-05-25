@@ -48,11 +48,11 @@ public class CommentController {
 	}
 
 	//댓글 수정(내용만 수정 가능)
-	@PatchMapping()
+	@PatchMapping("/{cid}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void commentUpdate(@RequestBody CommentUpdateRequestDto dto,
-		@AuthenticationPrincipal JwtAuthentication user) {
-		commentService.updateComment(dto, user.userId);
+		@AuthenticationPrincipal JwtAuthentication user, @PathVariable("cid") Long cid) {
+		commentService.updateComment(dto, cid, user.userId);
 	}
 
 	//한 게시글에 대한 댓글 조회

@@ -32,7 +32,7 @@ public class ReviewController {
 	private final LikeReviewService likeReviewService;
 
 	//리뷰등록
-	@PostMapping
+	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
 	public void registerReview(@RequestBody ReviewRegisterRequestDto dto,
 		@AuthenticationPrincipal JwtAuthentication user) {

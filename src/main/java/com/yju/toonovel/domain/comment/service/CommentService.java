@@ -35,8 +35,8 @@ public class CommentService {
 
 	//댓글 작성
 	@Transactional
-	public void commentRegister(CommentRegisterRequestDto dto, Long uid) {
-		User user = userRepository.findByUserId(uid)
+	public void commentRegister(CommentRegisterRequestDto dto, Long userId) {
+		User user = userRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException());
 
 		Post post = postRepository.findByPostId(dto.getPostId())
@@ -62,18 +62,15 @@ public class CommentService {
 
 	//댓글 수정(내용만 수정 가능)
 	@Transactional
-	public void updateComment(CommentUpdateRequestDto dto, Long uid) {
+	public void updateComment(CommentUpdateRequestDto dto, Long commentId, Long userId) {
 
-		userRepository.findByUserId(uid)
+		userRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException());
 
-		postRepository.findByPostId(dto.getPostId())
-			.orElseThrow(() -> new PostNotFoundException());
-
-		Comment comment = commentRepository.findByCommentId(dto.getCommentId())
+		Comment comment = commentRepository.findByCommentId(commentId)
 				.orElseThrow(() -> new CommentNotFoundException());
 
-		validationComment(uid, dto.getCommentId());
+		validationComment(userId, commentId);
 
 		comment.updateContent(dto.getCommentContent());
 	}

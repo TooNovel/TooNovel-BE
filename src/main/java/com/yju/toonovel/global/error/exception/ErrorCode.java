@@ -32,7 +32,7 @@ public enum ErrorCode {
 
 	//Review
 	REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "R001", "존재하지 않는 리뷰입니다."),
-	REVIEW_ID_DUPLICATE(HttpStatus.NOT_FOUND, "R002", "이미 존재하는 리뷰ID입니다."),
+	REVIEW_DUPLICATE(HttpStatus.NOT_FOUND, "R002", "이미 리뷰를 작성한 작품입니다."),
 	REVIEW_NOT_MATCH_USER(HttpStatus.NOT_FOUND, "R003", "유저가 작성한 리뷰가 아닙니다."),
 	REVIEW_ALREADY_LIKED(HttpStatus.BAD_REQUEST, "R004", "이미 좋아요가 되어 있습니다."),
 
@@ -43,9 +43,8 @@ public enum ErrorCode {
 
 	//Comment
 	COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "M001", "존재하지 않는 댓글입니다."),
-	COMMENT_ID_DUPLICATE(HttpStatus.BAD_REQUEST, "M002", "이미 존재하는 댓글ID입니다."),
-	COMMENT_NOT_MATCH_USER(HttpStatus.NOT_FOUND, "M003", "유저가 작성한 댓글이 아닙니다."),
-	COMMENT_ALREADY_LIKED(HttpStatus.BAD_REQUEST, "M004", "이미 좋아요가 되어 있습니다.");
+	COMMENT_NOT_MATCH_USER(HttpStatus.NOT_FOUND, "M002", "유저가 작성한 댓글이 아닙니다."),
+	COMMENT_ALREADY_LIKED(HttpStatus.BAD_REQUEST, "M003", "이미 좋아요가 되어 있습니다.");
 
 	private final HttpStatus status;
 	private final String code;

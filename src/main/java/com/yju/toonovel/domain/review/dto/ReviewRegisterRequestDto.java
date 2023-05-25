@@ -21,8 +21,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReviewRegisterRequestDto {
 
-	//리뷰 entity
-	private Long reviewId;
+	private Long novelId;
+
 	@NotBlank
 	@Length(max = 1000)
 	private String reviewContent;
@@ -32,21 +32,12 @@ public class ReviewRegisterRequestDto {
 	private int reviewGrade;
 	private LocalDateTime createDate;
 
-	//유저 entity
-	private Long writerId;
-
-	//작품 entity
-	private Long novelId;
-
 	@Builder
-	public ReviewRegisterRequestDto(Long reviewId, String reviewContent, int reviewGrade,
-		LocalDateTime createDate, Long writerId, Long novelId) {
-		this.reviewId = reviewId;
+	public ReviewRegisterRequestDto(Long novelId, String reviewContent, int reviewGrade, LocalDateTime createDate) {
+		this.novelId = novelId;
 		this.reviewContent = reviewContent;
 		this.reviewGrade = reviewGrade;
 		this.createDate = createDate;
-		this.writerId = writerId;
-		this.novelId = novelId;
 	}
 
 	// dtoToEntity 수정필요 - 코드내의 엔티티 생성 빌더를 없애고 매개변수로 dto를 받을지 회의 필요
