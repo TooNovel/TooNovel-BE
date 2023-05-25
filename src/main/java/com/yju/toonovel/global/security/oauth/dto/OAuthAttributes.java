@@ -24,7 +24,7 @@ public class OAuthAttributes {
 	public static OAuthAttributes of(Provider provider,
 		String userNameAttributeName, Map<String, Object> attributes) {
 
-		if (provider == provider.GOOGLE) {
+		if (provider == Provider.GOOGLE) {
 			return ofGoogle(userNameAttributeName, attributes);
 		}
 		return ofKakao(userNameAttributeName, attributes);
