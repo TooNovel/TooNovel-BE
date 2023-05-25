@@ -51,10 +51,11 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 			setRefreshTokenInCookie(response, refreshToken);
 
 			tokenProvider.updateRefreshToken(oAuth2User.getUserId(), refreshToken);
-			response.sendRedirect("https://www.toonovel.link/join");
+			response.sendRedirect(determineTargetUrl(request, response, authentication));
 
 		} else {
 			loginSuccess(response, oAuth2User);
+			response.sendRedirect(determineTargetUrl(request, response, authentication));
 		}
 	}
 
@@ -87,17 +88,22 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 		setAccessTokenInCookie(response, accessToken);
 		setRefreshTokenInCookie(response, refreshToken);
-		response.sendRedirect("https://www.toonovel.link");
 
 		tokenProvider.updateRefreshToken(oAuth2User.getUserId(), refreshToken);
 	}
 
-	protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response) {
+	protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response,
+		Authentication authentication) {
 		Optional<String> redirectUri = CookieUtils.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
 			.map(Cookie::getValue);
+		String targetUrl;
 
-		String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
-
+		if (authentication.getAuthorities().toString().equals("[ROLE_GUEST]")) {
+			targetUrl = redirectUri.orElse(getDefaultTargetUrl());
+		} else {
+			targetUrl = redirectUri.orElse(getDefaultTargetUrl())
+				.substring(0, redirectUri.orElse(getDefaultTargetUrl()).length() - 5);
+		}
 		return targetUrl;
 	}
 
