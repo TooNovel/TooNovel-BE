@@ -30,14 +30,12 @@ public class ReviewRegisterRequestDto {
 	@Max(value = 5)
 	@Min(value = 0)
 	private int reviewGrade;
-	private LocalDateTime createDate;
 
 	@Builder
-	public ReviewRegisterRequestDto(Long novelId, String reviewContent, int reviewGrade, LocalDateTime createDate) {
+	public ReviewRegisterRequestDto(Long novelId, String reviewContent, int reviewGrade) {
 		this.novelId = novelId;
 		this.reviewContent = reviewContent;
 		this.reviewGrade = reviewGrade;
-		this.createDate = createDate;
 	}
 
 	// dtoToEntity 수정필요 - 코드내의 엔티티 생성 빌더를 없애고 매개변수로 dto를 받을지 회의 필요
