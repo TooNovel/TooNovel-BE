@@ -11,19 +11,23 @@ import com.yju.toonovel.domain.novel.entity.Novel;
 import com.yju.toonovel.domain.review.entity.Review;
 import com.yju.toonovel.domain.user.entity.User;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Schema(description = "리뷰 작성 요청 DTO")
 @Getter
 @NoArgsConstructor
 public class ReviewRegisterRequestDto {
 
+	@Schema(description = "소설 ID")
 	private Long novelId;
-
+	@Schema(description = "리뷰 본문")
 	@NotBlank
 	@Length(max = 1000)
 	private String reviewContent;
+	@Schema(description = "평점")
 	@NotBlank
 	@Max(value = 5)
 	@Min(value = 0)

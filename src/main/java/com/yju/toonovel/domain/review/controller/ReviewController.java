@@ -21,8 +21,12 @@ import com.yju.toonovel.domain.review.service.LikeReviewService;
 import com.yju.toonovel.domain.review.service.ReviewService;
 import com.yju.toonovel.global.security.jwt.JwtAuthentication;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "리뷰 API")
 @RestController
 @RequestMapping("/api/v1/review")
 @RequiredArgsConstructor
@@ -31,7 +35,10 @@ public class ReviewController {
 	private final ReviewService reviewService;
 	private final LikeReviewService likeReviewService;
 
-	//리뷰등록
+	@Operation(summary = "리뷰 등록 요청")
+	@ApiResponse(responseCode = "201", description = "요청 성공")
+	@ApiResponse(responseCode = "400", description = "이미 해당 소설에 대해 리뷰를 작성한 상태일 때")
+	@ApiResponse(responseCode = "404", description = "해당 유저나 소설이 없는 상태일 때")
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
 	public void registerReview(@RequestBody ReviewRegisterRequestDto dto,
@@ -39,7 +46,10 @@ public class ReviewController {
 		reviewService.reviewRegister(dto, user.userId);
 	}
 
-	//리뷰 삭제
+	@Operation(summary = "리뷰 삭제 요청")
+	@ApiResponse(responseCode = "204", description = "요청 성공")
+	@ApiResponse(responseCode = "403", description = "요청한 유저와 리뷰의 작성자가 다른 상태일 때")
+	@ApiResponse(responseCode = "404", description = "해당 유저나 소설이 없는 상태일 때")
 	@DeleteMapping("/{rid}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteReview(@PathVariable("rid") Long rid,
@@ -47,14 +57,18 @@ public class ReviewController {
 		reviewService.reviewDelete(rid, user.userId);
 	}
 
-	//전체리뷰조회
+	@Operation(summary = "리뷰 조회 요청")
+	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping()
 	@ResponseStatus(HttpStatus.OK)
 	public Page<ReviewByUserResponseDto> getAllReviewPaging(@ModelAttribute ReviewPaginationRequestDto requestDto) {
 		return reviewService.getAllReview(requestDto);
 	}
 
-	//좋아요 등록 기능
+	@Operation(summary = "리뷰 좋아요 요청")
+	@ApiResponse(responseCode = "201", description = "요청 성공")
+	@ApiResponse(responseCode = "400", description = "이미 좋아요를한 상태일 때")
+	@ApiResponse(responseCode = "404", description = "해당 유저나 소설이 없는 상태일 때")
 	@PostMapping("/{rid}/like")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void registerReviewLike(@PathVariable("rid") Long rid,
@@ -63,7 +77,8 @@ public class ReviewController {
 		likeReviewService.clickReviewLike(rid, user.userId);
 	}
 
-	//한작품에 있는 리뷰 전체조회
+	@Operation(summary = "특정 소설에 속한 리뷰 조회 요청")
+	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping("/{nid}/novel")
 	@ResponseStatus(HttpStatus.OK)
 	public Page<ReviewByNovelResponseDto> reviewAllListWithLike(@PathVariable("nid") Long nid,
@@ -72,7 +87,9 @@ public class ReviewController {
 		return reviewService.getAllReviewWithLike(nid, requestDto);
 	}
 
-	//유저가 작성한 리뷰 조회
+	@Operation(summary = "유저가 작성한 조회 요청")
+	@ApiResponse(responseCode = "200", description = "요청 성공")
+	@ApiResponse(responseCode = "404", description = "해당 유저나 소설이 없는 상태일 때")
 	@GetMapping("/myReview")
 	@ResponseStatus(HttpStatus.OK)
 	public Page<ReviewByUserResponseDto> getAllReviewByUser(@AuthenticationPrincipal JwtAuthentication user,

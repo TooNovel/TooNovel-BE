@@ -63,7 +63,7 @@ public class ReviewService {
 	public void reviewDelete(Long reviewId, Long userId) {
 		reviewRepository.findByReviewId(reviewId)
 			.ifPresentOrElse(
-				review -> validateDelete(reviewId, userId),
+				review -> validateDelete(review, userId),
 				() -> {
 					throw new ReviewNotFoundException();
 				}
@@ -71,13 +71,10 @@ public class ReviewService {
 	}
 
 	// 이미 추천했다라는것 - 진입했을때 알필요 x
-	public void validateDelete(Long userId, Long reviewId) {
-		Review review = reviewRepository.deleteReviewByReviewIdAndUserId(reviewId)
-			.orElseThrow(() -> new ReviewNotFoundException());
-
-		log.info("review.getWriter().getUserId()) :" + review.getWriter().getUserId());
+	@Transactional
+	public void validateDelete(Review review, Long userId) {
 		if (userId.equals(review.getWriter().getUserId())) {
-			reviewRepository.deleteByReviewId(reviewId);
+			reviewRepository.deleteByReviewId(review.getReviewId());
 		} else {
 			throw new ReviewNotMatchUserException();
 		}
