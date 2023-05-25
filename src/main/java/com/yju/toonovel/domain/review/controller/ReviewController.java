@@ -32,11 +32,11 @@ public class ReviewController {
 	private final LikeReviewService likeReviewService;
 
 	//리뷰등록
-	@PostMapping("/{novelId}")
+	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
 	public void registerReview(@RequestBody ReviewRegisterRequestDto dto,
-		@AuthenticationPrincipal JwtAuthentication user, @PathVariable("novelId") Long novelId) {
-		reviewService.reviewRegister(dto, novelId, user.userId);
+		@AuthenticationPrincipal JwtAuthentication user) {
+		reviewService.reviewRegister(dto, user.userId);
 	}
 
 	//리뷰 삭제

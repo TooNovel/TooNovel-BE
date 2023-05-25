@@ -21,6 +21,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReviewRegisterRequestDto {
 
+	private Long novelId;
+
 	@NotBlank
 	@Length(max = 1000)
 	private String reviewContent;
@@ -31,7 +33,8 @@ public class ReviewRegisterRequestDto {
 	private LocalDateTime createDate;
 
 	@Builder
-	public ReviewRegisterRequestDto(String reviewContent, int reviewGrade, LocalDateTime createDate) {
+	public ReviewRegisterRequestDto(Long novelId, String reviewContent, int reviewGrade, LocalDateTime createDate) {
+		this.novelId = novelId;
 		this.reviewContent = reviewContent;
 		this.reviewGrade = reviewGrade;
 		this.createDate = createDate;

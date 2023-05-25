@@ -37,16 +37,16 @@ public class ReviewService {
 	private final ReviewRepositoryImpl reviewRepositoryImpl;
 
 	//리뷰 등록
-	public void reviewRegister(ReviewRegisterRequestDto dto, Long novelId, Long userId) {
+	public void reviewRegister(ReviewRegisterRequestDto dto, Long userId) {
 		User user = userRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException());
 
-		Novel novel = novelRepository.findByNovelId(novelId)
+		Novel novel = novelRepository.findByNovelId(dto.getNovelId())
 			.orElseThrow(() -> new NovelNotFoundException());
 
 		reviewRepository.findReviewByNovelIdAndUserId(user.getUserId(), novel.getNovelId())
 			.ifPresentOrElse(
-				review1 -> new DuplicateReviewException(),
+				isReview -> new DuplicateReviewException(),
 				() -> {
 					reviewRepository.save(dto.dtoToEntity(user, novel));
 				});

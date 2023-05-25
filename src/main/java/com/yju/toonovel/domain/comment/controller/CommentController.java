@@ -33,11 +33,11 @@ public class CommentController {
 	private final LikeCommentService likeCommentService;
 
 	//댓글 작성
-	@PostMapping("/{postId}")
+	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
 	public void commentRegister(@RequestBody CommentRegisterRequestDto dto,
-		@AuthenticationPrincipal JwtAuthentication user, @PathVariable("postId") Long postId) {
-		commentService.commentRegister(dto, postId, user.userId);
+		@AuthenticationPrincipal JwtAuthentication user) {
+		commentService.commentRegister(dto, user.userId);
 	}
 
 	//댓글 삭제

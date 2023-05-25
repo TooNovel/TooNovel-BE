@@ -36,16 +36,16 @@ public class CommentService {
 
 	//댓글 작성
 	@Transactional
-	public void commentRegister(CommentRegisterRequestDto dto, Long postId, Long userId) {
+	public void commentRegister(CommentRegisterRequestDto dto, Long userId) {
 		User user = userRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException());
 
-		Post post = postRepository.findByPostId(postId)
+		Post post = postRepository.findByPostId(dto.getPostId())
 			.orElseThrow(() -> new PostNotFoundException());
 
 		commentRepository.findCommentByPostIdAndUserId(user.getUserId(), post.getPostId())
 			.ifPresentOrElse(
-				review1 -> new DuplicateCommentException(),
+				isComment -> new DuplicateCommentException(),
 				() -> {
 					commentRepository.save(Comment.of(user, post, dto.getCommentContent()));
 				});
