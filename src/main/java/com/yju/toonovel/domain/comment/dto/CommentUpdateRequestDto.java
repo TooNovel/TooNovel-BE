@@ -12,14 +12,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CommentUpdateRequestDto {
 
-	private Long commentId;
 	@NotBlank
 	@Length(max = 500)
 	private String commentContent;
 
 	@Builder
-	public CommentUpdateRequestDto(Long commentId, String commentContent) {
-		this.commentId = commentId;
+	public CommentUpdateRequestDto(String commentContent) {
 		this.commentContent = commentContent;
 	}
 }
