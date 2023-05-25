@@ -53,3 +53,13 @@ jwt:
   header:
     access-token: Authorization
     refresh-token: Authorization-refresh
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    operations-sorter: alpha
+    display-request-duration: true
+    display-operation-id: true
+    supported-submit-methods: ""
