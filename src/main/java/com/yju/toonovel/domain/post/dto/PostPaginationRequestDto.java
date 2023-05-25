@@ -1,6 +1,5 @@
 package com.yju.toonovel.domain.post.dto;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 

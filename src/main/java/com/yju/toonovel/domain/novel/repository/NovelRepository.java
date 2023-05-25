@@ -3,7 +3,6 @@ package com.yju.toonovel.domain.novel.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import com.yju.toonovel.domain.novel.entity.Novel;
 
