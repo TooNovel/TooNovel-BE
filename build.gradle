@@ -57,10 +57,12 @@ dependencies {
     //API Docs
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
     implementation 'org.springdoc:springdoc-openapi-security:1.6.15'
-
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     compileOnly 'org.springframework.boot:spring-boot-devtools'
+    // Sentry
+    implementation 'io.sentry:sentry-spring-boot-starter:6.19.1'
+    implementation 'io.sentry:sentry-logback:6.19.1'
 }
 
 // QueryDSL 경로
