@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%-5p %d{yyyyMMdd HH:mm:ss.SSS} [%t] %c{3}, %M at line %L; %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="sentry" class="io.sentry.logback.SentryAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="console"/>
+        <appender-ref ref="sentry"/>
+    </root>
+
+    <root level="debug">
+        <appender-ref ref="console"/>
+        <appender-ref ref="sentry"/>
+    </root>
+</configuration>

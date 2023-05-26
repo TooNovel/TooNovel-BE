@@ -63,4 +63,11 @@ springdoc:
     display-operation-id: true
     supported-submit-methods: ""
 
+sentry:
+  dsn: ${SENTRY_DSN}
+  traces-sample-rate: 1.0
+  logging:
+    minimum-event-level: info
+    minimum-breadcrumb-level: info
+
 

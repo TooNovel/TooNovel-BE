@@ -40,7 +40,8 @@ jobs:
           server.frontEnd: ${{ secrets.FRONTEND_URL }}
           server.backEnd: ${{ secrets.BACKEND_URL }}
           server.machineLearning: ${{ secrets.ML_URL }}
-          
+          sentry.dsn: ${{ secrets.SENTRY_DSN }}
+
       - name: Setup MySQL
         uses: samin/mysql-action@v1
         with:
