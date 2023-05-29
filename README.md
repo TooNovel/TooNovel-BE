@@ -192,6 +192,14 @@
 
 ## 프로젝트 구조도
 
+### 서비스 아키텍처
+
+![test drawio (1)](https://github.com/TooNovel/TooNovel-BE/assets/83005178/7fad38c2-5c2b-4e73-94ba-d46519945347)
+
+### CI/CD
+
+![deploy drawio (1)](https://github.com/TooNovel/TooNovel-BE/assets/83005178/0c4d755c-d148-43a1-9fa9-5ba20be4e1eb)
+
 ## ERD
 
 ## API
