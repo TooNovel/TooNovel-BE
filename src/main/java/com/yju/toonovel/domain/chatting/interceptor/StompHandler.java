@@ -1,4 +1,4 @@
-package com.yju.toonovel.global.websocket.interceptor;
+package com.yju.toonovel.domain.chatting.interceptor;
 
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;

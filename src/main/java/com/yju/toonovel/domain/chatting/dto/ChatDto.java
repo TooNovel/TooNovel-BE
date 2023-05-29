@@ -1,4 +1,4 @@
-package com.yju.toonovel.global.websocket.dto;
+package com.yju.toonovel.domain.chatting.dto;
 
 import lombok.Builder;
 import lombok.Getter;

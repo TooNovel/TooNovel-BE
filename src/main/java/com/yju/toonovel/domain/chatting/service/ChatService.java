@@ -1,4 +1,4 @@
-package com.yju.toonovel.global.websocket.service;
+package com.yju.toonovel.domain.chatting.service;
 
 import org.springframework.stereotype.Service;
 
