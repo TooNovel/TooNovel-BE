@@ -44,7 +44,12 @@ public enum ErrorCode {
 	//Comment
 	COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "M001", "존재하지 않는 댓글입니다."),
 	COMMENT_NOT_MATCH_USER(HttpStatus.FORBIDDEN, "M002", "유저가 작성한 댓글이 아닙니다."),
-	COMMENT_ALREADY_LIKED(HttpStatus.BAD_REQUEST, "M003", "이미 좋아요가 되어 있습니다.");
+	COMMENT_ALREADY_LIKED(HttpStatus.BAD_REQUEST, "M003", "이미 좋아요가 되어 있습니다."),
+
+	//Chat
+	CHAT_ROOM_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "H001", "이미 채팅방이 존재합니다."),
+	CHAT_ROOM_NOT_FOUNT(HttpStatus.NOT_FOUND, "H002", "존재하지 않는 채팅방입니다."),
+	CHAT_ROOM_NOT_MATCH_USER(HttpStatus.FORBIDDEN, "H003", "유저가 생성한 채팅방이 아닙니다.");
 
 	private final HttpStatus status;
 	private final String code;
