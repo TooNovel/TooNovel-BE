@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <conversionRule conversionWord="color" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%-5p %d{yyyyMMdd HH:mm:ss.SSS} [%t] %c{3}, %M at line %L; %m%n</pattern>
+            <pattern>%color(%d{yyyy-MM-dd HH:mm:ss.SSS}){green} %color([%thread]){faint} %color(%-5level){} %color([%logger{0} : %line]){cyan} - %msg %n</pattern>
         </encoder>
     </appender>
 
-    <appender name="sentry" class="io.sentry.logback.SentryAppender">
+    <appender name="Sentry" class="io.sentry.logback.SentryAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>WARN</level>
+            <level>ERROR</level>
         </filter>
+        <encoder>
+            <pattern>%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-5level [%logger{0} : %line] - %msg %n</pattern>
+        </encoder>
     </appender>
 
-    <root level="info">
-        <appender-ref ref="console"/>
-        <appender-ref ref="sentry"/>
-    </root>
+    <springProfile name="develop">
+        <root level="INFO">
+            <appender-ref ref="Console" />
+        </root>
+    </springProfile>
 
-    <root level="debug">
-        <appender-ref ref="console"/>
-        <appender-ref ref="sentry"/>
-    </root>
+    <springProfile name="production">
+        <root level="INFO">
+            <appender-ref ref="Console" />
+            <appender-ref ref="Sentry" />
+        </root>
+    </springProfile>
 </configuration>
