@@ -29,6 +29,7 @@ jobs:
         with:
           files: ${{ env.RESOURCE_PATH }}
         env:
+          spring.profiles.active : ${{ secrets.ACTIVE_PROFILE }}
           spring.datasource.url: ${{ secrets.DB_URL }}
           spring.datasource.username: ${{ secrets.DB_USERNAME }}
           spring.datasource.password: ${{ secrets.DB_PASSWORD }}
