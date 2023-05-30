@@ -74,3 +74,15 @@ sentry:
     minimum-breadcrumb-level: info
 
 
+cloud:
+  aws:
+    s3:
+      bucket: ${AWS_IMAGE_BUCKET}
+    credentials:
+      access-key: ${AWS_IMAGE_BUCKET_ACCESS_KEY_ID}
+      secret-key: ${AWS_IMAGE_BUCKET_SECRET_KEY_ID}
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
