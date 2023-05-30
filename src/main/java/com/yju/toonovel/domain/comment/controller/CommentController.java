@@ -37,7 +37,7 @@ public class CommentController {
 	private final LikeCommentService likeCommentService;
 
 	@Operation(summary = "댓글 작성")
-	@ApiResponse(responseCode = "200", description = "요청 성공")
+	@ApiResponse(responseCode = "201", description = "요청 성공")
 	@ApiResponse(responseCode = "404", description = "유저나 게시글이 없는 상태일 때")
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
