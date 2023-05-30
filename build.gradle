@@ -54,6 +54,8 @@ dependencies {
     // QueryDSL
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+    //AWS
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
     //API Docs
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
     implementation 'org.springdoc:springdoc-openapi-security:1.6.15'
