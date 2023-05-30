@@ -1,12 +1,15 @@
 package com.yju.toonovel.domain.chatting.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.yju.toonovel.domain.chatting.dto.ChatRoomAllRequestDto;
+import com.yju.toonovel.domain.chatting.dto.ChatRoomResponseDto;
 import com.yju.toonovel.domain.chatting.entity.ChatRoom;
 import com.yju.toonovel.domain.chatting.exception.ChatRoomAlreadyExistException;
+import com.yju.toonovel.domain.chatting.exception.ChatRoomAlreadyJoinException;
 import com.yju.toonovel.domain.chatting.exception.ChatRoomNotFoundException;
 import com.yju.toonovel.domain.chatting.exception.ChatRoomNotMatchUserException;
 import com.yju.toonovel.domain.chatting.exception.NotAuthorException;
@@ -29,7 +32,7 @@ public class ChatRoomService {
 	private final ChatRoomRepository chatRoomRepository;
 
 	// 채팅방 생성
-	public void registerChatRoom(ChatRoomAllRequestDto dto, Long userId) {
+	public void createChatRoom(ChatRoomAllRequestDto dto, Long userId) {
 		User user = userRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException());
 
@@ -44,7 +47,10 @@ public class ChatRoomService {
 			throw new ChatRoomAlreadyExistException();
 		}
 
-		chatRoomRepository.save(ChatRoom.of(dto.getChatRoomName(), user));
+		ChatRoom result = chatRoomRepository.save(ChatRoom.of(dto.getChatRoomName(), user));
+
+		// 생성 후 바로 셀프 가입
+		joinChatRoom(result.getChatRoomId(), userId);
 	}
 
 	public void deleteChatRoom(Long rid, Long userId) {
@@ -59,6 +65,31 @@ public class ChatRoomService {
 			.orElseThrow(() -> new ChatRoomNotMatchUserException());
 
 		chatRoomRepository.deleteById(rid);
+	}
+
+	public void joinChatRoom(Long rid, Long userId) {
+		User user = userRepository.findByUserId(userId)
+			.orElseThrow(() -> new UserNotFoundException());
+
+		ChatRoom chatRoom = chatRoomRepository.findById(rid)
+			.orElseThrow(() -> new ChatRoomNotFoundException());
+
+		// 이미 가입되어 있는지 확인
+		if (chatRoom.getUsers().contains(user)) {
+			throw new ChatRoomAlreadyJoinException();
+		}
+
+		chatRoom.join(user);
+
+		// 엔티티 자체가 변경된 것이 아니라, 엔티티 내부의 컬렉션이 변경된 것이므로 dirty checking에 걸리지 않습니다
+		chatRoomRepository.save(chatRoom);
+	}
+
+	public List<ChatRoomResponseDto> getAllChatRoom(Long userId) {
+		User user = userRepository.findByUserId(userId)
+			.orElseThrow(() -> new UserNotFoundException());
+
+		return chatRoomRepository.findAllChatRoomByUser(user);
 	}
 
 }

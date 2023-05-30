@@ -49,7 +49,8 @@ public enum ErrorCode {
 	//Chat
 	CHAT_ROOM_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "H001", "이미 채팅방이 존재합니다."),
 	CHAT_ROOM_NOT_FOUNT(HttpStatus.NOT_FOUND, "H002", "존재하지 않는 채팅방입니다."),
-	CHAT_ROOM_NOT_MATCH_USER(HttpStatus.FORBIDDEN, "H003", "유저가 생성한 채팅방이 아닙니다.");
+	CHAT_ROOM_NOT_MATCH_USER(HttpStatus.FORBIDDEN, "H003", "유저가 생성한 채팅방이 아닙니다."),
+	CHAT_ROOM_ALREADY_JOIN(HttpStatus.BAD_REQUEST, "H004", "이미 가입된 채팅방입니다.");
 
 	private final HttpStatus status;
 	private final String code;

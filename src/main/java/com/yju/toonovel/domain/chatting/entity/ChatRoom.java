@@ -1,5 +1,8 @@
 package com.yju.toonovel.domain.chatting.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 import com.yju.toonovel.domain.user.entity.User;
@@ -32,6 +36,9 @@ public class ChatRoom extends BaseEntity {
 	@JoinColumn(name = "user_id")
 	private User user;
 
+	@ManyToMany(fetch = FetchType.LAZY)
+	private Set<User> users = new HashSet<>();
+
 	@Builder
 	public ChatRoom(String chatRoomName, User user) {
 		this.chatRoomName = chatRoomName;
@@ -42,5 +49,9 @@ public class ChatRoom extends BaseEntity {
 			.chatRoomName(chatRoomName)
 			.user(user)
 			.build();
+	}
+
+	public void join(User user) {
+		this.users.add(user);
 	}
 }
