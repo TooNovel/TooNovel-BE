@@ -14,10 +14,13 @@ public class PlatformResponseDto {
 	private Long platformId;
 	@Schema(description = "플랫폼 이름")
 	private String platformName;
+	@Schema(description = "서비스 중인 url")
+	private String url;
 
-	public PlatformResponseDto(Platform platform) {
+	public PlatformResponseDto(Platform platform, String url) {
 		this.platformId = platform.getPlatformId();
 		this.platformName = platform.getPlatformName();
+		this.url = url;
 	}
 
 }

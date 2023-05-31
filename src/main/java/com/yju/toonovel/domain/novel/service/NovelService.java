@@ -1,6 +1,5 @@
 package com.yju.toonovel.domain.novel.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,9 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.yju.toonovel.domain.novel.dto.NovelDetailResponseDto;
 import com.yju.toonovel.domain.novel.dto.NovelPaginationRequestDto;
 import com.yju.toonovel.domain.novel.dto.NovelPaginationResponseDto;
+import com.yju.toonovel.domain.novel.dto.PlatformResponseDto;
 import com.yju.toonovel.domain.novel.dto.UserLikeCheckResponseDto;
 import com.yju.toonovel.domain.novel.entity.LikeNovel;
 import com.yju.toonovel.domain.novel.entity.Novel;
+import com.yju.toonovel.domain.novel.entity.NovelPlatform;
 import com.yju.toonovel.domain.novel.entity.Platform;
 import com.yju.toonovel.domain.novel.exception.NovelNotFoundException;
 import com.yju.toonovel.domain.novel.exception.PlatformNotFoundException;
@@ -45,18 +46,18 @@ public class NovelService {
 			.collect(Collectors.toList());
 	}
 
+	@Transactional
 	public NovelDetailResponseDto findById(Long novelId) {
 		Novel novel = novelRepository.findById(novelId)
 			.orElseThrow(() -> new NovelNotFoundException());
 
-		List<Platform> platforms = new ArrayList<>();
+		List<NovelPlatform> novelPlatforms = novelPlatformRepository.findAllByNovel(novel);
 
-		novelPlatformRepository.findAllByNovel(novel).forEach(
-			platform -> platforms.add(
-				platformRepository
-					.findById(platform.getPlatform().getPlatformId())
-					.orElseThrow(() -> new PlatformNotFoundException()))
-		);
+		List<PlatformResponseDto> platforms = novelPlatforms.stream().map(novelPlatform -> {
+			Platform platform = platformRepository.findById(novelPlatform.getPlatform().getPlatformId())
+				.orElseThrow(() -> new PlatformNotFoundException());
+			return new PlatformResponseDto(platform, novelPlatform.getUrl());
+		}).collect(Collectors.toList());
 
 		return new NovelDetailResponseDto(novel, platforms);
 	}

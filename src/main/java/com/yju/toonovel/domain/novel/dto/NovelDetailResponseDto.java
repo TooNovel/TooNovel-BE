@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.yju.toonovel.domain.novel.entity.Genre;
 import com.yju.toonovel.domain.novel.entity.Novel;
-import com.yju.toonovel.domain.novel.entity.Platform;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -35,7 +34,7 @@ public class NovelDetailResponseDto {
 	@Schema(description = "소설 표지")
 	private String image;
 
-	public NovelDetailResponseDto(Novel novel, List<Platform> platform) {
+	public NovelDetailResponseDto(Novel novel, List<PlatformResponseDto> platform) {
 		this.novelId = novel.getNovelId();
 		this.title = novel.getTitle();
 		this.description = novel.getDescription();
@@ -43,9 +42,7 @@ public class NovelDetailResponseDto {
 		this.genre = novel.getGenre();
 		this.likeCount = novel.getLikeCount();
 		this.grade = novel.getGrade();
-		platform.forEach(
-			idx -> this.platforms.add(new PlatformResponseDto(idx))
-		);
+		this.platforms = platform;
 		this.image = novel.getImage();
 	}
 
