@@ -13,11 +13,13 @@ import com.yju.toonovel.domain.user.entity.User;
 
 @Repository
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
+	// 작가 = AuthorUser(User 객체), AuthorUserId(user_id)
+	// 독자 = User(User 객체), UserId(user_id)
 	@Query("select r from ChatRoom r where r.user.userId = :uid")
-	Optional<ChatRoom> findByUserId(Long uid);
+	Optional<ChatRoom> findByAuthorUserId(Long uid);
 
 	@Query("select r from ChatRoom r where r.chatRoomId = :rid and r.user.userId = :uid")
-	Optional<ChatRoom> findByChatRoomIdAndUserId(Long rid, Long uid);
+	Optional<ChatRoom> findByChatRoomIdAndAuthorUserId(Long rid, Long uid);
 
 	@Query("select new com.yju.toonovel.domain.chatting.dto.ChatRoomResponseDto"
 		+ "(r.chatRoomId, r.chatRoomName, u.nickname)"

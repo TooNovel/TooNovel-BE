@@ -42,7 +42,7 @@ public class ChatRoomService {
 		}
 
 		// 작가당 1개의 채팅방만 생성 가능
-		Optional<ChatRoom> chatRoom = chatRoomRepository.findByUserId(userId);
+		Optional<ChatRoom> chatRoom = chatRoomRepository.findByAuthorUserId(userId);
 		if (chatRoom.isPresent()) {
 			throw new ChatRoomAlreadyExistException();
 		}
@@ -61,7 +61,7 @@ public class ChatRoomService {
 				.orElseThrow(() -> new ChatRoomNotFoundException());
 
 		// 다른 사람의 채팅방을 삭제 시도하는 경우 방지
-		chatRoomRepository.findByChatRoomIdAndUserId(rid, userId)
+		chatRoomRepository.findByChatRoomIdAndAuthorUserId(rid, userId)
 			.orElseThrow(() -> new ChatRoomNotMatchUserException());
 
 		chatRoomRepository.deleteById(rid);
