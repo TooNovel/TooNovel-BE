@@ -1,7 +1,10 @@
 package com.yju.toonovel.domain.chatting.dto;
 
+import com.yju.toonovel.domain.user.entity.Role;
+
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 @Getter
@@ -9,8 +12,10 @@ import lombok.ToString;
 public class ChatDto {
 	private String senderAccessToken;
 	private String senderName;
+	@Setter
 	private Long senderId;
-	private String senderRole;
+	@Setter
+	private Role role;
 	private String message;
 
 	@Builder
@@ -18,13 +23,5 @@ public class ChatDto {
 		this.senderAccessToken = senderAccessToken;
 		this.senderName = senderName;
 		this.message = message;
-	}
-
-	public void setSenderId(Long senderId) {
-		this.senderId = senderId;
-	}
-
-	public void setSenderRole(String senderRole) {
-		this.senderRole = senderRole;
 	}
 }
