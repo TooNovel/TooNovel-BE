@@ -1,51 +1,81 @@
 package com.yju.toonovel.domain.admin.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.yju.toonovel.domain.admin.dto.WriterRegisterRequestDto;
+import com.yju.toonovel.domain.admin.dto.EnrollListPaginationRequestDto;
+import com.yju.toonovel.domain.admin.dto.EnrollListResponseDto;
+import com.yju.toonovel.domain.admin.dto.EnrollUpdateRequestDto;
 import com.yju.toonovel.domain.admin.entity.EnrollHistory;
-import com.yju.toonovel.domain.admin.repository.AdminRepository;
-import com.yju.toonovel.domain.novel.exception.WriterNotFoundException;
-import com.yju.toonovel.domain.novel.repository.NovelRepository;
+import com.yju.toonovel.domain.admin.exception.AdminAuthenticationFailException;
+import com.yju.toonovel.domain.admin.exception.EnrollNotFoundException;
+import com.yju.toonovel.domain.admin.repository.AdminRepositoryImpl;
+import com.yju.toonovel.domain.admin.repository.EnrollRepository;
+import com.yju.toonovel.domain.user.entity.Role;
 import com.yju.toonovel.domain.user.entity.User;
 import com.yju.toonovel.domain.user.exception.AlreadyWriterException;
 import com.yju.toonovel.domain.user.exception.UserNotFoundException;
 import com.yju.toonovel.domain.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AdminService {
 
-	private final AdminRepository adminRepository;
+	private final EnrollRepository enrollRepository;
 	private final UserRepository userRepository;
-	private final NovelRepository novelRepository;
+	private final AdminRepositoryImpl adminRepositoryImpl;
+
+	public Page<EnrollListResponseDto> getEnrollList(EnrollListPaginationRequestDto dto,
+		Long userId) {
+
+		adminValidation(userId);
+
+		Pageable pageable = PageRequest.of(dto.getPage(), dto.getLimit());
+		return adminRepositoryImpl.enrollList(dto, pageable);
+	}
 
 	@Transactional
-	public void writerRegister(Long userId, WriterRegisterRequestDto dto) {
-		//작가 신청한 유저가 존재하는지 확인
-		User user = userRepository.findByUserId(userId)
+	public void updateWriter(Long userId, EnrollUpdateRequestDto dto) {
+		adminValidation(userId);
+
+		User user = userRepository.findByUserId(dto.getUserId())
 			.orElseThrow(() -> new UserNotFoundException());
 
 		//작가 신청한 유저의 권한이 이미 작가인지 확인
-		userRepository.findByRoleByUserId(user.getUserId())
-			.ifPresent(role -> {
-				if (role.equals("WRITER")) {
-					throw new AlreadyWriterException();
-				}
-			});
+		if (user.getRole() == Role.AUTHOR) {
+			throw new AlreadyWriterException();
+		}
 
-		//작가 신청한 유저의 닉네임이 노벨 테이블에 존재하는지 확인
-		novelRepository.findByAuthor(dto.getNickname())
+		//이미 작가 신청 했을 경우 에러 반환
+		EnrollHistory enroll = enrollRepository.findByEnrollId(dto.getEnrollId())
+			.orElseThrow(() -> new EnrollNotFoundException());
+
+		//작가신청한 id와 신청한 유저id가 맞지 않을 경우의 에러 반환
+		enrollRepository.findByIdByUserId(enroll.getEnrollId(), enroll.getUser().getUserId())
+			.orElseThrow(() -> new EnrollNotFoundException());
+
+		enroll.toggleApproval();
+		user.updateRole(Role.AUTHOR);
+	}
+
+	public void adminValidation(Long userId) {
+		userRepository.findById(userId)
 			.ifPresentOrElse(
-				//존재 한다면 신청내역에 저장, 노벨 테이블 포린키에 해당 유저 id저장
-				isWriter -> {
-					adminRepository.save(EnrollHistory.of(user));
-					isWriter.updateUserId(user);
+				user -> {
+					if (!(user.getRole() == Role.ADMIN)) {
+						throw new AdminAuthenticationFailException();
+					}
 				},
-				() -> new WriterNotFoundException()
+				() -> {
+					throw new UserNotFoundException();
+				}
 			);
 	}
 }

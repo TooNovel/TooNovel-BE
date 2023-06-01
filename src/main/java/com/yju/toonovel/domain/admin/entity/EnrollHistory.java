@@ -28,11 +28,11 @@ public class EnrollHistory extends BaseEntity {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	private Boolean isApproval;
+	private boolean isApproval;
 
 
 	@Builder
-	public EnrollHistory(User user, Boolean isApproval) {
+	public EnrollHistory(User user, boolean isApproval) {
 		this.user = user;
 		this.isApproval = isApproval;
 	}
