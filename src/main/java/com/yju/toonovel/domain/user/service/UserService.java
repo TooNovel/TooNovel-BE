@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.yju.toonovel.domain.user.dto.WriterRegisterRequestDto;
 import com.yju.toonovel.domain.admin.entity.EnrollHistory;
 import com.yju.toonovel.domain.admin.repository.EnrollRepository;
 import com.yju.toonovel.domain.novel.dto.LikeNovelPaginationResponseDto;
@@ -15,6 +14,7 @@ import com.yju.toonovel.domain.novel.repository.LikeNovelRepository;
 import com.yju.toonovel.domain.novel.repository.NovelRepository;
 import com.yju.toonovel.domain.user.dto.UserProfileResponseDto;
 import com.yju.toonovel.domain.user.dto.UserRegisterRequestDto;
+import com.yju.toonovel.domain.user.dto.WriterRegisterRequestDto;
 import com.yju.toonovel.domain.user.entity.Role;
 import com.yju.toonovel.domain.user.entity.User;
 import com.yju.toonovel.domain.user.exception.AlreadyWriterException;

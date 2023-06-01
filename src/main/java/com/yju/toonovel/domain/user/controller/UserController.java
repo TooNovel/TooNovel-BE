@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.yju.toonovel.domain.user.dto.WriterRegisterRequestDto;
 import com.yju.toonovel.domain.novel.dto.LikeNovelPaginationResponseDto;
 import com.yju.toonovel.domain.user.dto.UserProfileResponseDto;
 import com.yju.toonovel.domain.user.dto.UserRegisterRequestDto;
+import com.yju.toonovel.domain.user.dto.WriterRegisterRequestDto;
 import com.yju.toonovel.domain.user.service.UserService;
 import com.yju.toonovel.global.security.jwt.JwtAuthentication;
 
