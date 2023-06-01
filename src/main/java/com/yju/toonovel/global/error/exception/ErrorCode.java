@@ -20,6 +20,7 @@ public enum ErrorCode {
 	USER_NOT_FOUND(HttpStatus.NOT_FOUND, "U001", "존재하지 않는 사용자입니다."),
 	USER_INVALID(HttpStatus.BAD_REQUEST, "U002", "권한이 없는 사용자입니다."),
 	ALREADY_WRITER(HttpStatus.BAD_REQUEST, "U003", "이 유저는 이미 작가입니다."),
+	ADMIN_AUTHENTICATION_FAIL(HttpStatus.BAD_REQUEST, "U004", "관리자만 가능한 요청입니다."),
 
 	// Token
 	REFRESH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "A001", "존재하지 않는 리프레쉬 토큰입니다."),
@@ -46,7 +47,10 @@ public enum ErrorCode {
 	//Comment
 	COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "M001", "존재하지 않는 댓글입니다."),
 	COMMENT_NOT_MATCH_USER(HttpStatus.FORBIDDEN, "M002", "유저가 작성한 댓글이 아닙니다."),
-	COMMENT_ALREADY_LIKED(HttpStatus.BAD_REQUEST, "M003", "이미 좋아요가 되어 있습니다.");
+	COMMENT_ALREADY_LIKED(HttpStatus.BAD_REQUEST, "M003", "이미 좋아요가 되어 있습니다."),
+
+	//Enroll
+	ENROLL_NOT_FOUND(HttpStatus.NOT_FOUND, "E001", "유효하지 않은 작가신청 입니다.");
 
 	private final HttpStatus status;
 	private final String code;
