@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.yju.toonovel.domain.post.dto.PostAllResponseDto;
 import com.yju.toonovel.domain.post.dto.PostPaginationRequestDto;
 import com.yju.toonovel.domain.post.dto.PostRegisterRequestDto;
+import com.yju.toonovel.domain.post.dto.PostResponseDto;
 import com.yju.toonovel.domain.post.dto.PostUpdateRequestDto;
+import com.yju.toonovel.domain.post.dto.UserLikeCheckPostResponseDto;
 import com.yju.toonovel.domain.post.service.LikePostService;
 import com.yju.toonovel.domain.post.service.PostService;
 import com.yju.toonovel.global.security.jwt.JwtAuthentication;
@@ -51,7 +54,7 @@ public class PostController {
 	@ApiResponse(responseCode = "404", description = "해당 게시글이 없는 상태일 때")
 	@GetMapping("/{pid}")
 	@ResponseStatus(HttpStatus.OK)
-	public PostAllResponseDto getPost(@PathVariable(value = "pid") Long pid) {
+	public PostResponseDto getPost(@PathVariable(value = "pid") Long pid) {
 		return postService.getPost(pid);
 	}
 
@@ -86,11 +89,21 @@ public class PostController {
 	@ApiResponse(responseCode = "201", description = "요청 성공")
 	@ApiResponse(responseCode = "400", description = "이미 좋아요를 한 상태일 때")
 	@ApiResponse(responseCode = "404", description = "해당 유저나 게시글이 없는 상태일 때")
-	@PostMapping("/{pid}/like")
+	@PutMapping("/{pid}/like")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void registerLikePost(@PathVariable("pid") Long pid,
 		@AuthenticationPrincipal JwtAuthentication user) {
 		likePostService.postLikeRegister(user.userId, pid);
+	}
+
+	@Operation(summary = "게시글에 좋아요를 한 상태인지 체크 요청")
+	@ApiResponse(responseCode = "200", description = "요청 성공")
+	@ApiResponse(responseCode = "404", description = "해당 게시글이 없는 상태일 때")
+	@GetMapping("/{pid}/like")
+	@ResponseStatus(HttpStatus.OK)
+	public UserLikeCheckPostResponseDto isUserLikes(@PathVariable("pid") Long pid,
+		@AuthenticationPrincipal JwtAuthentication user) {
+		return likePostService.isUserLikes(user.userId, pid);
 	}
 
 }
