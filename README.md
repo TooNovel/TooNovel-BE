@@ -56,7 +56,7 @@
 ### 프로젝트 기획 배경
 
 웹소설 시장이 최근 몇 년 동안 폭발적인 성장을 겪고 있습니다. 그러나 이런 성장의 이면에는 분명 문제점이 존재합니다.<br>
-예전부터 주류 문화였던 영화나 드라마는 리뷰나 추천에 대한 접근성이 높았지만, 웹소설은 그렇지 않은 실정입니다.<br>
+예전부터 주류 문화였던 영화나 드라마는 리뷰나 추천에 대한 접근성이 높지만, 웹소설은 그렇지 않은 실정입니다.<br>
 독자들은 자신의 취향에 맞는 작품을 찾기 위해 여러 플랫폼을 동시에 이용하는 경향을 보이고 있습니다.<br>
 이에 따라 저희는 다양한 플랫폼에서 제공하는 소설 정보를 한 곳에 모아서 리뷰 작성을 가능하게 하고, 이를 기반으로 추천 서비스를 제공해 독자의 경험을 개선하고자 합니다.<br>
 이를 통해 독자들은 더욱 편리하게 취향에 맞는 작품을 찾을 수 있고, 작가들은 자신의 작품을 더욱 많은 독자들에게 알릴 수 있는 기회를 얻을 수 있을 것입니다.
@@ -143,6 +143,9 @@
         <img src="https://github.com/TooNovel/TooNovel-BE/assets/83005178/b8210fe5-7462-4e7e-b8f7-ac01843d1a3e" width="100px" />
     </td>
     <td>
+        <img src="https://github.com/TooNovel/TooNovel-BE/assets/83005178/aa562cf4-a262-4141-96e8-4b8bd2c41eb3" width="100px" />
+    </td>
+    <td>
         <img src="https://github.com/TooNovel/TooNovel-BE/assets/83005178/df05b105-b7e6-4a41-9ae9-5a9659cf6972" width="100px" />
     </td>
   </tr>
@@ -151,6 +154,7 @@
     <td><b>Git</b></td>
     <td><b>GitHub</b></td>
     <td><b>Postman</b></td>
+    <td><b>Sentry</b></td>
     <td><b>IntelliJ</b></td>
   </tr>
 </table>
@@ -202,15 +206,44 @@
 
 ## ERD
 
-## API
+## API 
 
-<img src="https://github.com/TooNovel/TooNovel-BE/assets/83005178/b8210fe5-7462-4e7e-b8f7-ac01843d1a3e" width="100px" />
+<img src="https://github.com/TooNovel/TooNovel-BE/assets/83005178/b429c01c-388e-4584-b298-0ed8b8bfb783" width="100px" />
 
-- [Postman Docs](https://documenter.getpostman.com/view/21999576/2s93ecuVFf#4cce3d46-4ec4-4604-94b7-16d7df8103c2)
+- [Swagger](https://api.toonovel.link/swagger-ui/index.html)
 
+## 로컬 환경 변수
+```dotenv
+#spring profile
+ACTIVE_PROFILE= develop, production 중에 1
 
-## 환경 변수
+#DB 관련 정보
+DB_URL=
+DB_USERNAME=
+DB_PASSWORD=
 
+#이미지 업로드 버킷
+AWS_IMAGE_BUCKET=
+AWS_IMAGE_BUCKET_ACCESS_KEY_ID=
+AWS_IMAGE_BUCKET_SECRET_KEY_ID=
+
+#CORS
+BACK_END=
+FRONT_END=
+MACHINE_LEARNING=
+
+#OAUTH2 정보
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+KAKAO_CLIENT_ID=
+KAKAO_CLIENT_SECRET=
+
+#JWT
+JWT_SECRET_KEY=
+
+#Sentry
+SENTRY_DSN=
+```
 ## 프로젝트 팀 노션
 
 [프로젝트 팀 노션 링크](https://quasar-promise-d15.notion.site/Team-7-TooNovel-d34dae1277ad48ddad630cc6b06dc93c)
