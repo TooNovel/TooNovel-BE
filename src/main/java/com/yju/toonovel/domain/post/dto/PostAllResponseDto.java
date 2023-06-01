@@ -23,8 +23,6 @@ public class PostAllResponseDto {
 	private String title;
 	@Schema(description = "게시글 작성일")
 	private LocalDateTime createdDate;
-	@Schema(description = "게시글 수정일")
-	private LocalDateTime modifiedDate;
 	@Schema(description = "게시글 조회수")
 	private Long viewCount;
 	@Schema(description = "유저 닉네임")
@@ -32,14 +30,13 @@ public class PostAllResponseDto {
 
 	@Builder
 	public PostAllResponseDto(Long postId, Category category,
-		String title, LocalDateTime createdDate, LocalDateTime modifiedDate,
+		String title, LocalDateTime createdDate,
 		Long viewCount, String nickname) {
 
 		this.postId = postId;
 		this.category = category;
 		this.title = title;
 		this.createdDate = createdDate;
-		this.modifiedDate = modifiedDate;
 		this.viewCount = viewCount;
 		this.nickname = nickname;
 	}
@@ -50,7 +47,6 @@ public class PostAllResponseDto {
 		this.category = post.getCategory();
 		this.title = post.getTitle();
 		this.createdDate = post.getCreatedDate();
-		this.modifiedDate = post.getModifiedDate();
 		this.viewCount = post.getViewCount();
 		this.nickname = post.getUser().getNickname();
 	}
