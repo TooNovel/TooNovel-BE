@@ -43,8 +43,8 @@ public class AdminController {
 	@ApiResponse(responseCode = "201", description = "요청 성공")
 	@PatchMapping()
 	@ResponseStatus(HttpStatus.CREATED)
-	public void updateWriter(@RequestBody EnrollUpdateRequestDto dto,
+	public void updateAuthor(@RequestBody EnrollUpdateRequestDto dto,
 		@AuthenticationPrincipal JwtAuthentication user) {
-		adminService.updateWriter(user.userId, dto);
+		adminService.updateAuthor(user.userId, dto);
 	}
 }

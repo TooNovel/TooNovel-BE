@@ -9,15 +9,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.yju.toonovel.domain.admin.entity.EnrollHistory;
 import com.yju.toonovel.domain.admin.repository.EnrollRepository;
 import com.yju.toonovel.domain.novel.dto.LikeNovelPaginationResponseDto;
-import com.yju.toonovel.domain.novel.exception.WriterNotFoundException;
+import com.yju.toonovel.domain.novel.exception.AuthorNotFoundException;
 import com.yju.toonovel.domain.novel.repository.LikeNovelRepository;
 import com.yju.toonovel.domain.novel.repository.NovelRepository;
+import com.yju.toonovel.domain.user.dto.AuthorRegisterRequestDto;
 import com.yju.toonovel.domain.user.dto.UserProfileResponseDto;
 import com.yju.toonovel.domain.user.dto.UserRegisterRequestDto;
-import com.yju.toonovel.domain.user.dto.WriterRegisterRequestDto;
 import com.yju.toonovel.domain.user.entity.Role;
 import com.yju.toonovel.domain.user.entity.User;
-import com.yju.toonovel.domain.user.exception.AlreadyWriterException;
+import com.yju.toonovel.domain.user.exception.AlreadyAuthorException;
 import com.yju.toonovel.domain.user.exception.UserNotFoundException;
 import com.yju.toonovel.domain.user.repository.UserRepository;
 import com.yju.toonovel.global.security.jwt.repository.RefreshTokenRepository;
@@ -70,24 +70,24 @@ public class UserService {
 	}
 
 	@Transactional
-	public void writerRegister(Long userId, WriterRegisterRequestDto dto) {
+	public void authorRegister(Long userId, AuthorRegisterRequestDto dto) {
 
 		User user = userRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException());
 
 		if (user.getRole() == Role.AUTHOR) {
-			throw new AlreadyWriterException();
+			throw new AlreadyAuthorException();
 		}
 
 		novelRepository.findByAuthor(dto.getNickname())
 			.ifPresentOrElse(
-				isWriter -> {
-					isWriter.forEach(i -> {
+				isAuthor -> {
+					isAuthor.forEach(i -> {
 						i.updateUserId(user);
 					});
 					enrollRepository.save(EnrollHistory.of(user));
 				},
-				() -> new WriterNotFoundException()
+				() -> new AuthorNotFoundException()
 			);
 	}
 

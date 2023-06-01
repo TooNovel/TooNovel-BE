@@ -19,7 +19,7 @@ public enum ErrorCode {
 	// User
 	USER_NOT_FOUND(HttpStatus.NOT_FOUND, "U001", "존재하지 않는 사용자입니다."),
 	USER_INVALID(HttpStatus.BAD_REQUEST, "U002", "권한이 없는 사용자입니다."),
-	ALREADY_WRITER(HttpStatus.BAD_REQUEST, "U003", "이 유저는 이미 작가입니다."),
+	ALREADY_AUTHOR(HttpStatus.BAD_REQUEST, "U003", "이 유저는 이미 작가입니다."),
 	ADMIN_AUTHENTICATION_FAIL(HttpStatus.BAD_REQUEST, "U004", "관리자만 가능한 요청입니다."),
 
 	// Token
@@ -31,7 +31,7 @@ public enum ErrorCode {
 	NOVEL_NOT_FOUND(HttpStatus.NOT_FOUND, "N001", "존재하지 않는 작품입니다."),
 	PLATFORM_NOT_FOUND(HttpStatus.NOT_FOUND, "N002", "존재하지 않는 플랫폼입니다."),
 	NOVEL_GENRE_NOT_FOUND(HttpStatus.NOT_FOUND, "N003", "존재하지 않는 장르입니다."),
-	WRITER_NOT_FOUND(HttpStatus.NOT_FOUND, "N004", "존재하지 않는 작가입니다."),
+	AUTHOR_NOT_FOUND(HttpStatus.NOT_FOUND, "N004", "존재하지 않는 작가입니다."),
 
 	//Review
 	REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "R001", "존재하지 않는 리뷰입니다."),

@@ -16,7 +16,7 @@ public class EnrollListPaginationRequestDto {
 	@Schema(description = "page 번호")
 	@PositiveOrZero
 	private Integer page;
-	@Schema(description = "한 페이지안에 담길 리뷰의 수")
+	@Schema(description = "한 페이지안에 담길 작가 신청 리스트의 수")
 	@Positive
 	private Integer limit;
 	@Schema(description = "신청 승인 여부")

@@ -16,7 +16,7 @@ import com.yju.toonovel.domain.admin.repository.AdminRepositoryImpl;
 import com.yju.toonovel.domain.admin.repository.EnrollRepository;
 import com.yju.toonovel.domain.user.entity.Role;
 import com.yju.toonovel.domain.user.entity.User;
-import com.yju.toonovel.domain.user.exception.AlreadyWriterException;
+import com.yju.toonovel.domain.user.exception.AlreadyAuthorException;
 import com.yju.toonovel.domain.user.exception.UserNotFoundException;
 import com.yju.toonovel.domain.user.repository.UserRepository;
 
@@ -42,7 +42,7 @@ public class AdminService {
 	}
 
 	@Transactional
-	public void updateWriter(Long userId, EnrollUpdateRequestDto dto) {
+	public void updateAuthor(Long userId, EnrollUpdateRequestDto dto) {
 		adminValidation(userId);
 
 		User user = userRepository.findByUserId(dto.getUserId())
@@ -50,7 +50,7 @@ public class AdminService {
 
 		//작가 신청한 유저의 권한이 이미 작가인지 확인
 		if (user.getRole() == Role.AUTHOR) {
-			throw new AlreadyWriterException();
+			throw new AlreadyAuthorException();
 		}
 
 		//이미 작가 신청 했을 경우 에러 반환

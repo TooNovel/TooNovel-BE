@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Schema(description = "작가 신청 요청 DTO")
 @Getter
 @NoArgsConstructor
-public class WriterRegisterRequestDto {
+public class AuthorRegisterRequestDto {
 
 	@Schema(description = "닉네임")
 	@Length(max = 15)
@@ -20,7 +20,7 @@ public class WriterRegisterRequestDto {
 	private String nickname;
 
 	@Builder
-	public WriterRegisterRequestDto(String nickname) {
+	public AuthorRegisterRequestDto(String nickname) {
 		this.nickname = nickname;
 	}
 }

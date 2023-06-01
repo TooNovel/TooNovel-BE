@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yju.toonovel.domain.novel.dto.LikeNovelPaginationResponseDto;
+import com.yju.toonovel.domain.user.dto.AuthorRegisterRequestDto;
 import com.yju.toonovel.domain.user.dto.UserProfileResponseDto;
 import com.yju.toonovel.domain.user.dto.UserRegisterRequestDto;
-import com.yju.toonovel.domain.user.dto.WriterRegisterRequestDto;
 import com.yju.toonovel.domain.user.service.UserService;
 import com.yju.toonovel.global.security.jwt.JwtAuthentication;
 
@@ -87,9 +87,9 @@ public class UserController {
 	@ApiResponse(responseCode = "404", description = "해당 유저가 없는 상태일 때")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public void enrollWriter(@RequestBody WriterRegisterRequestDto dto,
+	public void enrollAuthor(@RequestBody AuthorRegisterRequestDto dto,
 		@AuthenticationPrincipal JwtAuthentication user) {
-		userService.writerRegister(user.userId, dto);
+		userService.authorRegister(user.userId, dto);
 	}
 
 }
