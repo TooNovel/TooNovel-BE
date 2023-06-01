@@ -16,4 +16,6 @@ public interface LikePostRepository extends JpaRepository<LikePost, Long> {
 	Optional<LikePost> findLikePostIdByUserIdAndPostId(
 		@Param("user") User user, @Param("post") Post post
 	);
+
+	Optional<LikePost> findByUserUserIdAndPostPostId(Long uid, Long pid);
 }
