@@ -1,5 +1,6 @@
 package com.yju.toonovel.domain.novel.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +11,7 @@ public interface NovelRepository extends JpaRepository<Novel, Long>, NovelCustom
 
 	Optional<Novel> findByNovelId(Long novelId);
 
-	Optional<Novel> findByAuthor(String author);
+	Optional<List<Novel>> findByAuthor(String author);
 
 	// 추후 사용 예정
 	// @Query("select distinct n.genre from Novel n where n.genre = :genre")
