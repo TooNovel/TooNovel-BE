@@ -10,6 +10,8 @@ public interface NovelRepository extends JpaRepository<Novel, Long>, NovelCustom
 
 	Optional<Novel> findByNovelId(Long novelId);
 
+	Optional<Novel> findByAuthor(String author);
+
 	// 추후 사용 예정
 	// @Query("select distinct n.genre from Novel n where n.genre = :genre")
 	// Optional<String> findByGenre(String genre);
