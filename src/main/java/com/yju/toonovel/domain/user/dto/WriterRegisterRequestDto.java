@@ -1,4 +1,4 @@
-package com.yju.toonovel.domain.admin.dto;
+package com.yju.toonovel.domain.user.dto;
 
 import javax.validation.constraints.NotBlank;
 
