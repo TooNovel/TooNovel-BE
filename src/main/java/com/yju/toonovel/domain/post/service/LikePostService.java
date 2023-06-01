@@ -3,6 +3,7 @@ package com.yju.toonovel.domain.post.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yju.toonovel.domain.post.dto.UserLikeCheckPostResponseDto;
 import com.yju.toonovel.domain.post.entity.LikePost;
 import com.yju.toonovel.domain.post.entity.Post;
 import com.yju.toonovel.domain.post.exception.PostAlreadyLikedException;
@@ -41,6 +42,22 @@ public class LikePostService {
 		likePost.toggleLike();
 
 		post.clickPostLike();
+	}
+
+	@Transactional
+	public UserLikeCheckPostResponseDto isUserLikes(
+		long uid,
+		long pid
+	) {
+
+		postRepository
+			.findById(pid)
+			.orElseThrow(() -> new PostNotFoundException());
+
+		return likePostRepository
+			.findByUserUserIdAndPostPostId(uid, pid)
+			.map(likePost -> UserLikeCheckPostResponseDto.from(likePost.isActived()))
+			.orElseGet(() -> UserLikeCheckPostResponseDto.from(false));
 	}
 
 	public LikePost findUserIdAndPostId(User user, Post post) {

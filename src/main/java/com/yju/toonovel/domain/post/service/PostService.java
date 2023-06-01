@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.yju.toonovel.domain.post.dto.PostAllResponseDto;
 import com.yju.toonovel.domain.post.dto.PostPaginationRequestDto;
 import com.yju.toonovel.domain.post.dto.PostRegisterRequestDto;
+import com.yju.toonovel.domain.post.dto.PostResponseDto;
 import com.yju.toonovel.domain.post.dto.PostUpdateRequestDto;
 import com.yju.toonovel.domain.post.entity.Post;
 import com.yju.toonovel.domain.post.exception.PostNotFoundException;
@@ -40,11 +41,11 @@ public class PostService {
 
 	// 게시글 부분 조회
 	@Transactional
-	public PostAllResponseDto getPost(Long pid) {
+	public PostResponseDto getPost(Long pid) {
 		Post post = postRepository.findByPostId(pid)
 			.orElseThrow(() -> new PostNotFoundException());
 		post.increaseViewCount(post.getViewCount());
-		return new PostAllResponseDto(post);
+		return new PostResponseDto(post);
 	}
 
 	// 게시글 전체 조회

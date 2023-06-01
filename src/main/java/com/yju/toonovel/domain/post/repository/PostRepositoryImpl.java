@@ -21,6 +21,7 @@ import com.yju.toonovel.domain.post.dto.PostAllResponseDto;
 import com.yju.toonovel.domain.post.dto.PostPaginationRequestDto;
 import com.yju.toonovel.domain.post.entity.Category;
 import com.yju.toonovel.domain.post.entity.QPost;
+import com.yju.toonovel.domain.user.entity.QUser;
 import com.yju.toonovel.global.common.Sort;
 
 import lombok.RequiredArgsConstructor;
@@ -31,18 +32,19 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
 	private final JPAQueryFactory jpaQueryFactory;
 
-	public Long countQuery(QPost post) {
+	public Long countQuery(QPost post, PostPaginationRequestDto requestDto) {
 		return jpaQueryFactory
 			.select(post.count())
 			.from(post)
+			.where(eqCategory(requestDto.getCategory()))
 			.fetchOne();
 	}
 
-	public QBean<PostAllResponseDto> selectPost(QPost post) {
+	public QBean<PostAllResponseDto> selectPost(QPost post, QUser user) {
 		return Projections.fields(
 			PostAllResponseDto.class,
-			post.postId, post.content, post.category, post.title,
-			post.createdDate, post.modifiedDate, post.like, post.viewCount
+			post.postId, post.category, post.title, post.createdDate,
+			post.like, post.viewCount, user.nickname
 		);
 	}
 
@@ -69,15 +71,16 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 	) {
 
 		JPQLQuery<PostAllResponseDto> results = jpaQueryFactory
-			.select(selectPost(post))
+			.select(selectPost(post, post.user))
 			.from(post)
 			.where(eqCategory(requestDto.getCategory()))
 			.orderBy(getOrderSpecifiers(requestDto.getSort()))
 			.offset(pageable.getOffset())
-			.limit(pageable.getPageSize());
+			.limit(pageable.getPageSize())
+			.join(post.user);
 
 		List<PostAllResponseDto> posts = results.fetch();
 
-		return new PageImpl<>(posts, pageable, countQuery(post));
+		return new PageImpl<>(posts, pageable, countQuery(post, requestDto));
 	}
 }
