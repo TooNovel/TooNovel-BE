@@ -46,6 +46,7 @@ public class SecurityConfig {
 			.antMatchers("/token", "/api/**", "/login/**", "/oauth2/**").permitAll()
 			.antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-resources/**").permitAll()
 			.antMatchers("/api/v1/aws/s3").hasRole("USER")
+			.antMatchers("/api/v1/admin").hasRole("ADMIN")
 			.anyRequest().authenticated()
 			.and()
 			.httpBasic().disable()

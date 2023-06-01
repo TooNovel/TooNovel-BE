@@ -10,7 +10,6 @@ import com.yju.toonovel.domain.admin.dto.EnrollListPaginationRequestDto;
 import com.yju.toonovel.domain.admin.dto.EnrollListResponseDto;
 import com.yju.toonovel.domain.admin.dto.EnrollUpdateRequestDto;
 import com.yju.toonovel.domain.admin.entity.EnrollHistory;
-import com.yju.toonovel.domain.admin.exception.AdminAuthenticationFailException;
 import com.yju.toonovel.domain.admin.exception.EnrollNotFoundException;
 import com.yju.toonovel.domain.admin.repository.AdminRepositoryImpl;
 import com.yju.toonovel.domain.admin.repository.EnrollRepository;
@@ -35,15 +34,12 @@ public class AdminService {
 	public Page<EnrollListResponseDto> getEnrollList(EnrollListPaginationRequestDto dto,
 		Long userId) {
 
-		adminValidation(userId);
-
 		Pageable pageable = PageRequest.of(dto.getPage(), dto.getLimit());
 		return adminRepositoryImpl.enrollList(dto, pageable);
 	}
 
 	@Transactional
 	public void updateAuthor(Long userId, EnrollUpdateRequestDto dto) {
-		adminValidation(userId);
 
 		User user = userRepository.findByUserId(dto.getUserId())
 			.orElseThrow(() -> new UserNotFoundException());
@@ -63,19 +59,5 @@ public class AdminService {
 
 		enroll.toggleApproval();
 		user.updateRole(Role.AUTHOR);
-	}
-
-	public void adminValidation(Long userId) {
-		userRepository.findById(userId)
-			.ifPresentOrElse(
-				user -> {
-					if (!(user.getRole() == Role.ADMIN)) {
-						throw new AdminAuthenticationFailException();
-					}
-				},
-				() -> {
-					throw new UserNotFoundException();
-				}
-			);
 	}
 }
