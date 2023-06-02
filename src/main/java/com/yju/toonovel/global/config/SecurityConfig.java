@@ -44,8 +44,7 @@ public class SecurityConfig {
 			.authorizeHttpRequests()
 			.antMatchers("/").permitAll()
 			.antMatchers("/token", "/api/**", "/login/**", "/oauth2/**").permitAll()
-			.antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-resources/**",
-				"/favicon.ico", "/configuration/**", "/swagger-resources/**", "/v2/api-docs", "/webjars/**").permitAll()
+			.antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-resources/**").permitAll()
 			.antMatchers("/ws", "/ws/**", "/chat/**").permitAll()
 			.antMatchers("/api/v1/aws/s3").hasRole("USER")
 			.anyRequest().authenticated()
