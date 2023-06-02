@@ -11,6 +11,7 @@ import com.yju.toonovel.domain.admin.dto.EnrollListResponseDto;
 import com.yju.toonovel.domain.admin.dto.EnrollUpdateRequestDto;
 import com.yju.toonovel.domain.admin.entity.EnrollHistory;
 import com.yju.toonovel.domain.admin.exception.EnrollNotFoundException;
+import com.yju.toonovel.domain.admin.exception.EnrollNotMatchUserException;
 import com.yju.toonovel.domain.admin.repository.AdminRepositoryImpl;
 import com.yju.toonovel.domain.admin.repository.EnrollRepository;
 import com.yju.toonovel.domain.user.entity.Role;
@@ -49,13 +50,13 @@ public class AdminService {
 			throw new AlreadyAuthorException();
 		}
 
-		//이미 작가 신청 했을 경우 에러 반환
+		//신청되지 않은 신청id가 넘어올 경우 에러 반환
 		EnrollHistory enroll = enrollRepository.findByEnrollId(dto.getEnrollId())
 			.orElseThrow(() -> new EnrollNotFoundException());
 
 		//작가신청한 id와 신청한 유저id가 맞지 않을 경우의 에러 반환
 		enrollRepository.findByIdByUserId(enroll.getEnrollId(), enroll.getUser().getUserId())
-			.orElseThrow(() -> new EnrollNotFoundException());
+			.orElseThrow(() -> new EnrollNotMatchUserException());
 
 		enroll.toggleApproval();
 		user.updateRole(Role.AUTHOR);

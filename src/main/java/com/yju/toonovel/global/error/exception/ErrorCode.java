@@ -50,7 +50,8 @@ public enum ErrorCode {
 	COMMENT_ALREADY_LIKED(HttpStatus.BAD_REQUEST, "M003", "이미 좋아요가 되어 있습니다."),
 
 	//Enroll
-	ENROLL_NOT_FOUND(HttpStatus.NOT_FOUND, "E001", "유효하지 않은 작가신청 입니다.");
+	ENROLL_NOT_FOUND(HttpStatus.NOT_FOUND, "E001", "유효하지 않은 작가신청 입니다."),
+	ENROLL_NOT_MATCH_USER(HttpStatus.FORBIDDEN, "E002", "해당 유저가 보낸 작가 신청이 아닙니다.");
 
 	private final HttpStatus status;
 	private final String code;
