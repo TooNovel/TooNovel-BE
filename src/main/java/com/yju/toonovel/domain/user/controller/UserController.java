@@ -89,7 +89,7 @@ public class UserController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public void enrollAuthor(@RequestBody AuthorRegisterRequestDto dto,
 		@AuthenticationPrincipal JwtAuthentication user) {
-		userService.authorRegister(user.userId, dto);
+		userService.authorEnroll(user.userId, dto);
 	}
 
 }

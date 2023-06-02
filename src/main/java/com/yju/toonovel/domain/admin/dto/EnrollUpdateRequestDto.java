@@ -12,12 +12,15 @@ public class EnrollUpdateRequestDto {
 
 	@Schema(description = "작가 신청한 유저ID")
 	private Long userId;
+	@Schema(description = "작가 신청한 유저 닉네임")
+	private String nickname;
 	@Schema(description = "신청확인 테이블에 존재하는지 체크할 신청ID")
 	private Long enrollId;
 
 	@Builder
-	public EnrollUpdateRequestDto(Long userId, Long enrollId) {
+	public EnrollUpdateRequestDto(Long userId, String nickname, Long enrollId) {
 		this.userId = userId;
+		this.nickname = nickname;
 		this.enrollId = enrollId;
 	}
 }

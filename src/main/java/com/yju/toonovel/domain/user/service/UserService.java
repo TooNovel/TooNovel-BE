@@ -70,7 +70,7 @@ public class UserService {
 	}
 
 	@Transactional
-	public void authorRegister(Long userId, AuthorRegisterRequestDto dto) {
+	public void authorEnroll(Long userId, AuthorRegisterRequestDto dto) {
 
 		User user = userRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException());
@@ -82,13 +82,9 @@ public class UserService {
 		novelRepository.findByAuthor(dto.getNickname())
 			.ifPresentOrElse(
 				isAuthor -> {
-					isAuthor.forEach(i -> {
-						i.updateUserId(user);
-					});
 					enrollRepository.save(EnrollHistory.of(user));
 				},
 				() -> new AuthorNotFoundException()
 			);
 	}
-
 }

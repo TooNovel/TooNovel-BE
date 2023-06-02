@@ -14,6 +14,8 @@ import com.yju.toonovel.domain.admin.exception.EnrollNotFoundException;
 import com.yju.toonovel.domain.admin.exception.EnrollNotMatchUserException;
 import com.yju.toonovel.domain.admin.repository.AdminRepositoryImpl;
 import com.yju.toonovel.domain.admin.repository.EnrollRepository;
+import com.yju.toonovel.domain.novel.exception.AuthorNotFoundException;
+import com.yju.toonovel.domain.novel.repository.NovelRepository;
 import com.yju.toonovel.domain.user.entity.Role;
 import com.yju.toonovel.domain.user.entity.User;
 import com.yju.toonovel.domain.user.exception.AlreadyAuthorException;
@@ -31,6 +33,7 @@ public class AdminService {
 	private final EnrollRepository enrollRepository;
 	private final UserRepository userRepository;
 	private final AdminRepositoryImpl adminRepositoryImpl;
+	private final NovelRepository novelRepository;
 
 	public Page<EnrollListResponseDto> getEnrollList(EnrollListPaginationRequestDto dto,
 		Long userId) {
@@ -58,6 +61,15 @@ public class AdminService {
 		enrollRepository.findByIdByUserId(enroll.getEnrollId(), enroll.getUser().getUserId())
 			.orElseThrow(() -> new EnrollNotMatchUserException());
 
+		novelRepository.findByAuthor(dto.getNickname())
+			.ifPresentOrElse(
+				isAuthor -> {
+					isAuthor.forEach(i -> {
+						i.updateUserId(user);
+					});
+				},
+				() -> new AuthorNotFoundException()
+			);
 		enroll.toggleApproval();
 		user.updateRole(Role.AUTHOR);
 	}
