@@ -1,18 +1,24 @@
 package com.yju.toonovel.domain.chatting.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.yju.toonovel.domain.chatting.dto.ChatDto;
 import com.yju.toonovel.domain.chatting.dto.ChatRoomAllRequestDto;
 import com.yju.toonovel.domain.chatting.dto.ChatRoomResponseDto;
+import com.yju.toonovel.domain.chatting.entity.Chat;
 import com.yju.toonovel.domain.chatting.entity.ChatRoom;
 import com.yju.toonovel.domain.chatting.exception.ChatRoomAlreadyExistException;
 import com.yju.toonovel.domain.chatting.exception.ChatRoomAlreadyJoinException;
 import com.yju.toonovel.domain.chatting.exception.ChatRoomNotFoundException;
+import com.yju.toonovel.domain.chatting.exception.ChatRoomNotJoinException;
 import com.yju.toonovel.domain.chatting.exception.ChatRoomNotMatchUserException;
 import com.yju.toonovel.domain.chatting.exception.NotAuthorException;
+import com.yju.toonovel.domain.chatting.repository.ChatCustomRepository;
 import com.yju.toonovel.domain.chatting.repository.ChatRoomRepository;
 import com.yju.toonovel.domain.user.entity.Role;
 import com.yju.toonovel.domain.user.entity.User;
@@ -30,6 +36,7 @@ public class ChatRoomService {
 
 	private final UserRepository userRepository;
 	private final ChatRoomRepository chatRoomRepository;
+	private final ChatCustomRepository chatCustomRepository;
 
 	// 채팅방 생성
 	public void createChatRoom(ChatRoomAllRequestDto dto, Long userId) {
@@ -90,6 +97,57 @@ public class ChatRoomService {
 			.orElseThrow(() -> new UserNotFoundException());
 
 		return chatRoomRepository.findAllChatRoomByUser(user);
+	}
+
+	public List<ChatDto> getChatListByAuthor(Long userId, Long rid, Long chatId) {
+		User user = userRepository.findByUserId(userId)
+			.orElseThrow(() -> new UserNotFoundException());
+
+		ChatRoom chatRoom = chatRoomRepository.findById(rid)
+			.orElseThrow(() -> new ChatRoomNotFoundException());
+
+		// 해당 채팅방에 가입되어 있는지 확인
+		if (!chatRoom.getUsers().contains(user)) {
+			throw new ChatRoomNotJoinException();
+		}
+
+		return (Objects.equals(chatRoom.getUser().getUserId(), user.getUserId()))
+			? getChatListToAuthor(chatRoom, chatId)
+			: getChatListToUser(chatRoom, user, chatId);
+	}
+
+	// 요청한 사람이 채팅방의 주인인 경우
+	private List<ChatDto> getChatListToAuthor(ChatRoom chatRoom, Long chatId) {
+		if (chatId == null) {
+			return chatCustomRepository.findAllByChatRoomToAuthor(chatRoom)
+				.stream().map(chat -> chatToChatDto(chat)).collect(Collectors.toList());
+		} else {
+			return chatCustomRepository.findAllByChatRoomAndChatIdToAuthor(chatRoom, chatId)
+				.stream().map(chat -> chatToChatDto(chat)).collect(Collectors.toList());
+		}
+	}
+
+	// 요청한 사람이 채팅방의 주인이 아닌 경우
+	private List<ChatDto> getChatListToUser(ChatRoom chatRoom, User user, Long chatId) {
+		if (chatId == null) {
+			return chatCustomRepository
+				.findAllByChatRoomToUser(chatRoom, user.getUserId(), chatRoom.getUser())
+				.stream().map(chat -> chatToChatDto(chat)).collect(Collectors.toList());
+		} else {
+			return chatCustomRepository
+				.findAllByChatRoomAndChatIdToUser(chatRoom, user.getUserId(), chatRoom.getUser(), chatId)
+				.stream().map(chat -> chatToChatDto(chat)).collect(Collectors.toList());
+		}
+	}
+
+	private ChatDto chatToChatDto(Chat chat) {
+		return ChatDto.of(
+			chat.getChatId(),
+			chat.getUser().getNickname(),
+			chat.getUser().getUserId(),
+			chat.getUser().getRole(),
+			chat.getMessage()
+		);
 	}
 
 }

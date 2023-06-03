@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yju.toonovel.domain.chatting.dto.ChatDto;
 import com.yju.toonovel.domain.chatting.dto.ChatRoomAllRequestDto;
 import com.yju.toonovel.domain.chatting.dto.ChatRoomResponseDto;
 import com.yju.toonovel.domain.chatting.service.ChatRoomService;
@@ -70,5 +72,18 @@ public class ChatRoomHttpController {
 	@ResponseStatus(HttpStatus.OK)
 	public List<ChatRoomResponseDto> getAllChatRoom(@AuthenticationPrincipal JwtAuthentication user) {
 		return chatRoomService.getAllChatRoom(user.userId);
+	}
+
+	@Operation(summary = "채팅 목록 조회")
+	@ApiResponse(responseCode = "200", description = "요청 성공")
+	@ApiResponse(responseCode = "403", description = "요청한 유저가 해당 채팅방에 가입되어 있지 않을 때")
+	@ApiResponse(responseCode = "404", description = "해당 채팅방이 없을 때")
+	@GetMapping("{rid}")
+	@ResponseStatus(HttpStatus.OK)
+	public List<ChatDto> getChatListByAuthor(
+		@AuthenticationPrincipal JwtAuthentication user,
+		@PathVariable("rid") Long rid,
+		@RequestParam(required = false) Long chatId) {
+		return chatRoomService.getChatListByAuthor(user.userId, rid, chatId);
 	}
 }
