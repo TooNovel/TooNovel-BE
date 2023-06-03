@@ -6,6 +6,7 @@ import com.yju.toonovel.domain.chatting.dto.ChatDto;
 import com.yju.toonovel.domain.chatting.entity.Chat;
 import com.yju.toonovel.domain.chatting.entity.ChatRoom;
 import com.yju.toonovel.domain.chatting.exception.ChatRoomNotFoundException;
+import com.yju.toonovel.domain.chatting.exception.ChatRoomNotJoinException;
 import com.yju.toonovel.domain.chatting.repository.ChatRepository;
 import com.yju.toonovel.domain.chatting.repository.ChatRoomRepository;
 import com.yju.toonovel.domain.user.entity.User;
@@ -35,6 +36,11 @@ public class ChatService {
 		// 채팅방 존재 여부 확인
 		ChatRoom chatRoom = chatRoomRepository.findById(Long.valueOf(roomId))
 			.orElseThrow(() -> new ChatRoomNotFoundException());
+
+		// 해당 채팅방에 가입되어 있는지 확인
+		if (!chatRoom.getUsers().contains(user)) {
+			throw new ChatRoomNotJoinException();
+		}
 
 		// WebSocket 통신 전 필요한 데이터 set
 		dto.setRole(user.getRole());
