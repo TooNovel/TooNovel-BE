@@ -55,19 +55,20 @@ dependencies {
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
     //AWS
-    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+    implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.4'
     //API Docs
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
     implementation 'org.springdoc:springdoc-openapi-security:1.6.15'
     // WebSocket
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
-
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     compileOnly 'org.springframework.boot:spring-boot-devtools'
     // Sentry
     implementation 'io.sentry:sentry-spring-boot-starter:6.19.1'
     implementation 'io.sentry:sentry-logback:6.19.1'
+    // CloudWatch
+    implementation "ca.pjer:logback-awslogs-appender:1.6.0"
 }
 
 // QueryDSL 경로
