@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <conversionRule conversionWord="color" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <springProperty name="AWS_ACCESS_KEY" source="cloud.aws.credentials.access-key"/>
+    <springProperty name="AWS_SECRET_KEY" source="cloud.aws.credentials.secret-key"/>
+
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%color(%d{yyyy-MM-dd HH:mm:ss.SSS}){green} %color([%thread]){faint} %color(%-5level){} %color([%logger{0} : %line]){cyan} - %msg %n</pattern>
+            <pattern>%color(%d{yyyy-MM-dd HH:mm:ss.SSS}){green} %color([%thread]){faint} %color(%-5level){}
+                %color([%logger{0} : %line]){cyan} - %msg %n
+            </pattern>
         </encoder>
     </appender>
 
@@ -16,16 +21,54 @@
         </encoder>
     </appender>
 
+    <appender name="AWS_Error" class="ca.pjer.logback.AwsLogsAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <layout>
+            <pattern>%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-5level [%logger{0} : %line] - %msg %n</pattern>
+        </layout>
+        <logGroupName>toonovel-error</logGroupName>
+        <logStreamUuidPrefix>toonovel-error-</logStreamUuidPrefix>
+        <logRegion>ap-northeast-2</logRegion>
+        <maxBatchLogEvents>50</maxBatchLogEvents>
+        <maxFlushTimeMillis>30000</maxFlushTimeMillis>
+        <maxBlockTimeMillis>5000</maxBlockTimeMillis>
+        <retentionTimeDays>0</retentionTimeDays>
+        <accessKeyId>${AWS_ACCESS_KEY}</accessKeyId>
+        <secretAccessKey>${AWS_SECRET_KEY}</secretAccessKey>
+    </appender>
+
+    <appender name="AWS_Info" class="ca.pjer.logback.AwsLogsAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <layout>
+            <pattern>%d{yyyyMMdd HH:mm:ss.SSS} [%thread] %-5level [%logger{0} : %line] - %msg %n</pattern>
+        </layout>
+        <logGroupName>toonovel-info</logGroupName>
+        <logStreamUuidPrefix>toonovel-info-</logStreamUuidPrefix>
+        <logRegion>ap-northeast-2</logRegion>
+        <maxBatchLogEvents>50</maxBatchLogEvents>
+        <maxFlushTimeMillis>30000</maxFlushTimeMillis>
+        <maxBlockTimeMillis>5000</maxBlockTimeMillis>
+        <retentionTimeDays>0</retentionTimeDays>
+        <accessKeyId>${AWS_ACCESS_KEY}</accessKeyId>
+        <secretAccessKey>${AWS_SECRET_KEY}</secretAccessKey>
+    </appender>
+
     <springProfile name="develop">
         <root level="INFO">
-            <appender-ref ref="Console" />
+            <appender-ref ref="Console"/>
         </root>
     </springProfile>
 
     <springProfile name="production">
         <root level="INFO">
-            <appender-ref ref="Console" />
-            <appender-ref ref="Sentry" />
+            <appender-ref ref="Console"/>
+            <appender-ref ref="Sentry"/>
+            <appender-ref ref="AWS_error"/>
+            <appender-ref ref="AWS_Info"/>
         </root>
     </springProfile>
 </configuration>
