@@ -198,7 +198,7 @@
 
 ### 서비스 아키텍처
 
-![test drawio (1)](https://github.com/TooNovel/TooNovel-BE/assets/83005178/7fad38c2-5c2b-4e73-94ba-d46519945347)
+![test drawio (2)](https://github.com/TooNovel/TooNovel-BE/assets/83005178/d2236682-43c8-4aab-9596-8cd44eed3b75)
 
 ### CI/CD
 
@@ -222,10 +222,10 @@ DB_URL=
 DB_USERNAME=
 DB_PASSWORD=
 
-#이미지 업로드 버킷
+#AWS
 AWS_IMAGE_BUCKET=
-AWS_IMAGE_BUCKET_ACCESS_KEY_ID=
-AWS_IMAGE_BUCKET_SECRET_KEY_ID=
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_KEY_ID=
 
 #CORS
 BACK_END=
