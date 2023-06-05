@@ -12,10 +12,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Formula;
 
+import com.yju.toonovel.domain.user.entity.User;
 import com.yju.toonovel.global.common.entity.BaseEntity;
 
 import lombok.Getter;
@@ -57,4 +60,11 @@ public class Novel extends BaseEntity {
 	@Column(name = "image", nullable = false, length = 2000)
 	private String image;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private User user;
+
+	public void updateUserId(User user) {
+		this.user = user;
+	}
 }

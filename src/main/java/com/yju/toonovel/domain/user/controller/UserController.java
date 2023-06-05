@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yju.toonovel.domain.novel.dto.LikeNovelPaginationResponseDto;
+import com.yju.toonovel.domain.user.dto.AuthorRegisterRequestDto;
 import com.yju.toonovel.domain.user.dto.UserProfileResponseDto;
 import com.yju.toonovel.domain.user.dto.UserRegisterRequestDto;
 import com.yju.toonovel.domain.user.service.UserService;
@@ -78,6 +80,16 @@ public class UserController {
 	public List<LikeNovelPaginationResponseDto> getAllLikeNovel(@AuthenticationPrincipal JwtAuthentication user,
 		@RequestParam Long novelId) {
 		return userService.findAllUserLike(novelId, user.userId);
+	}
+
+	@Operation(summary = "작가 신청 요청")
+	@ApiResponse(responseCode = "201", description = "요청 성공")
+	@ApiResponse(responseCode = "404", description = "해당 유저가 없는 상태일 때")
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public void enrollAuthor(@RequestBody AuthorRegisterRequestDto dto,
+		@AuthenticationPrincipal JwtAuthentication user) {
+		userService.authorEnroll(user.userId, dto);
 	}
 
 }

@@ -47,6 +47,7 @@ public class SecurityConfig {
 			.antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/swagger-resources/**").permitAll()
 			.antMatchers("/ws", "/ws/**", "/chat/**").permitAll()
 			.antMatchers("/api/v1/aws/s3").hasRole("USER")
+			.antMatchers("/api/v1/admin").hasRole("ADMIN")
 			.anyRequest().authenticated()
 			.and()
 			.httpBasic().disable()
