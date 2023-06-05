@@ -68,6 +68,8 @@ dependencies {
     // Sentry
     implementation 'io.sentry:sentry-spring-boot-starter:6.19.1'
     implementation 'io.sentry:sentry-logback:6.19.1'
+    // CloudWatch
+    implementation "ca.pjer:logback-awslogs-appender:1.6.0"
 }
 
 // QueryDSL 경로
