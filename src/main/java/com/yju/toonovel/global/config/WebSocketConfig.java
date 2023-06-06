@@ -7,7 +7,8 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
-import com.yju.toonovel.domain.chatting.interceptor.StompHandler;
+import com.yju.toonovel.domain.chatting.interceptor.CustomChannelInterceptor;
+import com.yju.toonovel.domain.chatting.interceptor.CustomHandshakeInterceptor;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
-	private final StompHandler stompHandler;
+	private final CustomChannelInterceptor channelInterceptor;
+	private final CustomHandshakeInterceptor handshakeInterceptor;
 
 	// 메세지 브로커 설정
 	@Override
@@ -31,12 +33,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/ws")
 			.setAllowedOriginPatterns("*")
+			.addInterceptors(handshakeInterceptor)
 			.withSockJS(); // 프론트 구성에 따라 변경될 수 있음
 	}
 
 	@Override
 	public void configureClientInboundChannel(ChannelRegistration registration) {
 		log.info("WebSocketConfig - configureClientInboundChannel");
-		registration.interceptors(stompHandler);
+		registration.interceptors(channelInterceptor);
 	}
 }
