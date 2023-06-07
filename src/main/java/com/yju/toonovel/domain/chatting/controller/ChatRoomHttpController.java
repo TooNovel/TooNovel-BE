@@ -84,6 +84,6 @@ public class ChatRoomHttpController {
 		@AuthenticationPrincipal JwtAuthentication user,
 		@PathVariable("rid") Long rid,
 		@RequestParam(required = false) Long chatId) {
-		return chatRoomService.getChatListByAuthor(user.userId, rid, chatId);
+		return chatRoomService.getChatList(user.userId, rid, chatId);
 	}
 }

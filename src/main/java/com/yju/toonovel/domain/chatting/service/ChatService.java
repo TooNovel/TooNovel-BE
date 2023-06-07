@@ -1,6 +1,7 @@
 package com.yju.toonovel.domain.chatting.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yju.toonovel.domain.chatting.dto.ChatDto;
 import com.yju.toonovel.domain.chatting.entity.Chat;
@@ -26,6 +27,7 @@ public class ChatService {
 	private final ChatRoomRepository chatRoomRepository;
 	private final TokenService tokenService;
 
+	@Transactional
 	public void authenticationAndSaveChat(ChatDto dto, String roomId) {
 		// 유저 인증
 		JwtAuthenticationToken token = tokenService.getAuthentication(dto.getSenderAccessToken());

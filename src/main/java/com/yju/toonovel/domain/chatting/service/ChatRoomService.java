@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yju.toonovel.domain.chatting.dto.ChatDto;
 import com.yju.toonovel.domain.chatting.dto.ChatRoomAllRequestDto;
@@ -74,6 +75,7 @@ public class ChatRoomService {
 		chatRoomRepository.deleteById(rid);
 	}
 
+	@Transactional
 	public void joinChatRoom(Long rid, Long userId) {
 		User user = userRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException());
@@ -99,7 +101,8 @@ public class ChatRoomService {
 		return chatRoomRepository.findAllChatRoomByUser(user);
 	}
 
-	public List<ChatDto> getChatListByAuthor(Long userId, Long rid, Long chatId) {
+	@Transactional
+	public List<ChatDto> getChatList(Long userId, Long rid, Long chatId) {
 		User user = userRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException());
 
