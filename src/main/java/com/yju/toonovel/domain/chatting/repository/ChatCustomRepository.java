@@ -14,4 +14,6 @@ public interface ChatCustomRepository {
 	List<Chat> findAllByChatRoomToUser(ChatRoom chatRoom, Long userId, User author);
 
 	List<Chat> findAllByChatRoomAndChatIdToUser(ChatRoom chatRoom, Long userId, User author, Long chatId);
+
+	List<Chat> findRecentChatByChatRoomAndUser(ChatRoom chatRoom, Long userId, long limit);
 }
