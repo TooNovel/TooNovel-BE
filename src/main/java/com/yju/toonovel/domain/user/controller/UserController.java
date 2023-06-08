@@ -85,7 +85,7 @@ public class UserController {
 	@Operation(summary = "작가 신청 요청")
 	@ApiResponse(responseCode = "201", description = "요청 성공")
 	@ApiResponse(responseCode = "404", description = "해당 유저가 없는 상태일 때")
-	@PostMapping
+	@PostMapping("/author")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void enrollAuthor(@RequestBody AuthorRegisterRequestDto dto,
 		@AuthenticationPrincipal JwtAuthentication user) {

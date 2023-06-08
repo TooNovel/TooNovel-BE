@@ -1,5 +1,7 @@
 package com.yju.toonovel.domain.admin.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,6 +17,8 @@ import com.yju.toonovel.domain.admin.dto.EnrollListPaginationRequestDto;
 import com.yju.toonovel.domain.admin.dto.EnrollListResponseDto;
 import com.yju.toonovel.domain.admin.dto.EnrollUpdateRequestDto;
 import com.yju.toonovel.domain.admin.service.AdminService;
+import com.yju.toonovel.domain.statistics.dto.AdminStatisticsResponseDto;
+import com.yju.toonovel.domain.statistics.service.StatisticsService;
 import com.yju.toonovel.global.security.jwt.JwtAuthentication;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 public class AdminController {
 
 	private final AdminService adminService;
+	private final StatisticsService statisticsService;
 
 	@Operation(summary = "작가 신청 리스트 조회 요청")
 	@ApiResponse(responseCode = "200", description = "요청 성공")
@@ -41,10 +46,26 @@ public class AdminController {
 
 	@Operation(summary = "작가 승인 요청")
 	@ApiResponse(responseCode = "201", description = "요청 성공")
-	@PatchMapping()
+	@PatchMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public void updateAuthor(@RequestBody EnrollUpdateRequestDto dto,
 		@AuthenticationPrincipal JwtAuthentication user) {
 		adminService.updateAuthor(user.userId, dto);
+	}
+
+	@Operation(summary = "일별 리뷰 개수 조회 요청")
+	@ApiResponse(responseCode = "200", description = "요청 성공")
+	@GetMapping("/review")
+	@ResponseStatus(HttpStatus.OK)
+	public List<AdminStatisticsResponseDto> reviewStatistics() {
+		return statisticsService.getReviewStatistic();
+	}
+
+	@Operation(summary = "일별 작품 개수 조회 요청")
+	@ApiResponse(responseCode = "200", description = "요청 성공")
+	@GetMapping("/novel")
+	@ResponseStatus(HttpStatus.OK)
+	public List<AdminStatisticsResponseDto> novelStatistics() {
+		return statisticsService.getNovelStatistic();
 	}
 }

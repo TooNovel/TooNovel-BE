@@ -50,6 +50,18 @@ public class NovelCustomRepositoryImpl implements NovelCustomRepository {
 			.fetch();
 	}
 
+	@Override
+	public List<Novel> findNovelByAuthor(NovelPaginationRequestDto requestDto, Long userId) {
+		return jpaQueryFactory
+			.selectFrom(novel)
+			.where(novel.user.userId.eq(userId))
+			.limit(30)
+			.orderBy(
+				getOrderSpecifier(requestDto.getSort())
+			)
+			.fetch();
+	}
+
 	private BooleanExpression ltNovelId(Long novelId) {
 		if (novelId == null) {
 			return null;
