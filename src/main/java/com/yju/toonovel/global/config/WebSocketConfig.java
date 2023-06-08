@@ -24,7 +24,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	// 메세지 브로커 설정
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry config) {
-		config.enableSimpleBroker("/chat", "/error", "reply");
+		config.enableSimpleBroker("/chat", "/error", "/reply");
 		config.setApplicationDestinationPrefixes("/app");
 	}
 

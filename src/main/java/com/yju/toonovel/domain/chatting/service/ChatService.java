@@ -7,16 +7,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yju.toonovel.domain.chatting.dto.ChatDto;
+import com.yju.toonovel.domain.chatting.dto.ReplyDto;
 import com.yju.toonovel.domain.chatting.entity.Chat;
 import com.yju.toonovel.domain.chatting.entity.ChatRoom;
+import com.yju.toonovel.domain.chatting.entity.Reply;
 import com.yju.toonovel.domain.chatting.exception.websocket.ChatCountLimitWebSocketException;
+import com.yju.toonovel.domain.chatting.exception.websocket.ChatNotFoundWebSocketException;
 import com.yju.toonovel.domain.chatting.exception.websocket.ChatRoomNotFoundWebSocketException;
 import com.yju.toonovel.domain.chatting.exception.websocket.ChatRoomNotJoinWebSocketException;
+import com.yju.toonovel.domain.chatting.exception.websocket.ChatRoomNotMatchUserWebSocketException;
 import com.yju.toonovel.domain.chatting.exception.websocket.UserNotFoundWebSocketException;
 import com.yju.toonovel.domain.chatting.repository.ChatCustomRepository;
 import com.yju.toonovel.domain.chatting.repository.ChatRepository;
 import com.yju.toonovel.domain.chatting.repository.ChatRoomRepository;
-import com.yju.toonovel.domain.user.entity.Role;
+import com.yju.toonovel.domain.chatting.repository.ReplyRepository;
 import com.yju.toonovel.domain.user.entity.User;
 import com.yju.toonovel.domain.user.repository.UserRepository;
 import com.yju.toonovel.global.security.jwt.JwtAuthentication;
@@ -34,6 +38,7 @@ public class ChatService {
 	private final ChatRepository chatRepository;
 	private final ChatCustomRepository chatCustomRepository;
 	private final ChatRoomRepository chatRoomRepository;
+	private final ReplyRepository replyRepository;
 	private final TokenService tokenService;
 	private final long chatLimit = 3;
 
@@ -65,6 +70,27 @@ public class ChatService {
 
 		// DB 작업
 		chatRepository.save(Chat.of(dto.getMessage(), chatRoom, user));
+	}
+
+	@Transactional
+	public void authenticationAndSaveReply(ReplyDto dto, String roomId) {
+		User user = userRepository.findByUserId(dto.getSenderId())
+			.orElseThrow(() -> new UserNotFoundWebSocketException(dto.getSenderId(), roomId));
+
+		// 해당 채팅방의 작가인지 확인
+		ChatRoom chatRoom = chatRoomRepository.findByChatRoomIdAndAuthorUserId(Long.valueOf(roomId), user.getUserId())
+			.orElseThrow(() -> new ChatRoomNotMatchUserWebSocketException(user.getUserId(), roomId));
+
+		// 해당 메세지가 존재하는지 확인
+		Chat chat = chatRepository.findById(dto.getChatId())
+			.orElseThrow(() -> new ChatNotFoundWebSocketException(user.getUserId(), roomId));
+
+		// DB 작업
+		Reply reply = replyRepository.save(Reply.of(chat.getMessage(), chatRoom, user, chat));
+
+		// WebSocket 통신 전 필요한 데이터 set
+		dto.setReplyId(reply.getReplyId());
+		dto.setSenderName(user.getNickname());
 	}
 
 	private void limitCheck(User user, ChatRoom chatRoom, long limit) {

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yju.toonovel.domain.chatting.dto.ChatDto;
+import com.yju.toonovel.domain.chatting.dto.ReplyDto;
 import com.yju.toonovel.domain.chatting.exception.WebSocketErrorResponse;
 import com.yju.toonovel.domain.chatting.exception.websocket.ChatCountLimitWebSocketException;
 import com.yju.toonovel.domain.chatting.exception.websocket.ChatRoomNotFoundWebSocketException;
@@ -33,6 +34,12 @@ public class ChatWebSocketController {
 	public void chatToReader(@Payload ChatDto dto, @DestinationVariable String roomId) {
 		chatService.authenticationAndSaveChat(dto, roomId);
 		messagingTemplate.convertAndSend("/chat/" + roomId, dto);
+	}
+
+	@MessageMapping("/reply/{roomId}")
+	public void reply(@Payload ReplyDto dto, @DestinationVariable String roomId) {
+		chatService.authenticationAndSaveReply(dto, roomId);
+		messagingTemplate.convertAndSend("/reply/" + roomId, dto);
 	}
 
 	@MessageExceptionHandler
