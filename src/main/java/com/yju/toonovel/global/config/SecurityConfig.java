@@ -48,6 +48,7 @@ public class SecurityConfig {
 			.antMatchers("/ws", "/ws/**", "/chat/**").permitAll()
 			.antMatchers("/api/v1/aws/s3").hasRole("USER")
 			.antMatchers("/api/v1/admin").hasRole("ADMIN")
+			.antMatchers("api/v1/statistics").hasRole("AUTHOR")
 			.anyRequest().authenticated()
 			.and()
 			.httpBasic().disable()
