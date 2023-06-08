@@ -33,9 +33,21 @@ public class CookieUtils {
 		response.addCookie(cookie);
 	}
 
-	public static String addCookie(String name, String value, int maxAge) {
+	public static String addAccessTokenCookie(String name, String value, int maxAge) {
 		ResponseCookie cookie = ResponseCookie.from(name, value)
 			.sameSite("None")
+			.path("/")
+			.secure(true)
+			.maxAge(maxAge)
+			.build();
+		return cookie.toString();
+	}
+
+	public static String addRefreshTokenCookie(String name, String value, int maxAge) {
+		ResponseCookie cookie = ResponseCookie.from(name, value)
+			.sameSite("None")
+			.path("/")
+			.httpOnly(true)
 			.secure(true)
 			.maxAge(maxAge)
 			.build();

@@ -72,11 +72,11 @@ public class TokenService {
 	}
 
 	private String createAccessTokenCookie(String accessToken) {
-		return CookieUtils.addCookie("accessTokenCookie", accessToken, accessTokenExpireSeconds);
+		return CookieUtils.addAccessTokenCookie("accessTokenCookie", accessToken, accessTokenExpireSeconds);
 	}
 
 	private String createRefreshTokenCookie(String refreshToken) {
-		return CookieUtils.addCookie("refreshTokenCookie", refreshToken, refreshTokenExpireSeconds);
+		return CookieUtils.addRefreshTokenCookie("refreshTokenCookie", refreshToken, refreshTokenExpireSeconds);
 	}
 
 	public Optional<String> getAccessToken(HttpServletRequest request) {

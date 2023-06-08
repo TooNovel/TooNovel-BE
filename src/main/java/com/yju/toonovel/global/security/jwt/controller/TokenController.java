@@ -3,8 +3,8 @@ package com.yju.toonovel.global.security.jwt.controller;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,14 +21,12 @@ public class TokenController {
 
 	private final TokenService tokenService;
 
-	@PostMapping(value = "", headers = "Authorization-refresh")
+	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Void> reIssueTokens(
-		@RequestHeader("Authorization-refresh") String refreshToken) {
+	public ResponseEntity<Void> reIssueTokens(@CookieValue("refreshTokenCookie") String refreshToken) {
 
 		TokenReIssueResponseDto tokenResponse = tokenService.reIssueTokens(refreshToken);
 
-		// 헤더에 액세스 토큰과 리프레쉬 토큰 값을 설정
 		HttpHeaders headers = new HttpHeaders();
 
 		headers.add("Set-Cookie", tokenResponse.getAccessToken());
