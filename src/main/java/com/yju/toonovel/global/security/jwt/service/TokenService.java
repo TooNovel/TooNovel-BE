@@ -100,4 +100,11 @@ public class TokenService {
 		return new JwtAuthenticationToken(principal, null, authorities);
 	}
 
+	@Transactional
+	public void deleteRefreshToken(String refreshToken) {
+
+		refreshTokenRepository.findByRefreshToken(refreshToken)
+			.ifPresent(token -> refreshTokenRepository.delete(token));
+	}
+
 }

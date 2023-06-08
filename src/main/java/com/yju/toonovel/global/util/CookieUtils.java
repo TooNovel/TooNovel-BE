@@ -54,6 +54,17 @@ public class CookieUtils {
 		return cookie.toString();
 	}
 
+	public static String getEmptyCookie(String name) {
+		ResponseCookie cookie = ResponseCookie.from(name, "")
+			.sameSite("None")
+			.path("/")
+			.httpOnly(true)
+			.secure(true)
+			.maxAge(0)
+			.build();
+		return cookie.toString();
+	}
+
 	public static void deleteCookie(HttpServletRequest request, HttpServletResponse response, String name) {
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
