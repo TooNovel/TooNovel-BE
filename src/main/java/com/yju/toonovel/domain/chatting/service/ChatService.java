@@ -54,8 +54,8 @@ public class ChatService {
 			throw new ChatRoomNotJoinWebSocketException(user.getUserId(), roomId);
 		}
 
-		// USER는 하루 채팅 3회 제한
-		if (user.getRole() == Role.USER) {
+		// 해당 채팅방의 생성자가 아니면 하루 채팅 3회 제한
+		if (chatRoom.getUser().getUserId() != user.getUserId()) {
 			limitCheck(user, chatRoom, chatLimit);
 		}
 
