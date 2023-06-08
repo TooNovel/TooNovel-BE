@@ -89,7 +89,6 @@ public class UserController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public void enrollAuthor(@RequestBody AuthorRegisterRequestDto dto,
 		@AuthenticationPrincipal JwtAuthentication user) {
-		System.out.println(dto.getNickname());
 		userService.authorEnroll(user.userId, dto);
 	}
 
