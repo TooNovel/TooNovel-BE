@@ -15,12 +15,14 @@ import com.yju.toonovel.domain.novel.entity.LikeNovel;
 import com.yju.toonovel.domain.novel.entity.Novel;
 import com.yju.toonovel.domain.novel.entity.NovelPlatform;
 import com.yju.toonovel.domain.novel.entity.Platform;
+import com.yju.toonovel.domain.novel.exception.AuthorNotFoundException;
 import com.yju.toonovel.domain.novel.exception.NovelNotFoundException;
 import com.yju.toonovel.domain.novel.exception.PlatformNotFoundException;
 import com.yju.toonovel.domain.novel.repository.LikeNovelRepository;
 import com.yju.toonovel.domain.novel.repository.NovelPlatformRepository;
 import com.yju.toonovel.domain.novel.repository.NovelRepository;
 import com.yju.toonovel.domain.novel.repository.PlatformRepository;
+import com.yju.toonovel.domain.user.entity.Role;
 import com.yju.toonovel.domain.user.entity.User;
 import com.yju.toonovel.domain.user.exception.UserNotFoundException;
 import com.yju.toonovel.domain.user.repository.UserRepository;
@@ -43,6 +45,21 @@ public class NovelService {
 			.findAllNovel(requestDto)
 			.stream()
 			.map(novel -> NovelPaginationResponseDto.from(novel))
+			.collect(Collectors.toList());
+	}
+
+	public List<NovelPaginationResponseDto> getNovelByAuthor(NovelPaginationRequestDto requestDto, Long userId) {
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new UserNotFoundException());
+
+		if (user.getRole() != Role.AUTHOR) {
+			throw new AuthorNotFoundException();
+		}
+
+		return novelRepository
+			.findNovelByAuthor(requestDto, user.getUserId())
+			.stream()
+			.map(isNovel -> NovelPaginationResponseDto.from(isNovel))
 			.collect(Collectors.toList());
 	}
 
@@ -99,5 +116,4 @@ public class NovelService {
 			.map(likeNovel -> UserLikeCheckResponseDto.from(likeNovel.isActived()))
 			.orElseGet(() -> UserLikeCheckResponseDto.from(false));
 	}
-
 }

@@ -71,4 +71,12 @@ public class NovelController {
 		@PathVariable long novelId) {
 		return novelService.isUserLikes(user.userId, novelId);
 	}
+
+	@Operation(summary = "작가가 연재한 소설 조회 요청")
+	@ApiResponse(responseCode = "200", description = "요청 성공")
+	@GetMapping("/author")
+	public List<NovelPaginationResponseDto> getNovelByAuthor(@ModelAttribute NovelPaginationRequestDto requestDto,
+		@AuthenticationPrincipal JwtAuthentication user) {
+		return novelService.getNovelByAuthor(requestDto, user.userId);
+	}
 }
