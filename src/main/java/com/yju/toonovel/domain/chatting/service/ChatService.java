@@ -9,14 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.yju.toonovel.domain.chatting.dto.ChatDto;
 import com.yju.toonovel.domain.chatting.entity.Chat;
 import com.yju.toonovel.domain.chatting.entity.ChatRoom;
-import com.yju.toonovel.domain.chatting.exception.ChatCountLimitException;
-import com.yju.toonovel.domain.chatting.exception.ChatRoomNotFoundException;
-import com.yju.toonovel.domain.chatting.exception.ChatRoomNotJoinException;
+import com.yju.toonovel.domain.chatting.exception.websocket.ChatCountLimitWebSocketException;
+import com.yju.toonovel.domain.chatting.exception.websocket.ChatRoomNotFoundWebSocketException;
+import com.yju.toonovel.domain.chatting.exception.websocket.ChatRoomNotJoinWebSocketException;
+import com.yju.toonovel.domain.chatting.exception.websocket.UserNotFoundWebSocketException;
 import com.yju.toonovel.domain.chatting.repository.ChatCustomRepository;
 import com.yju.toonovel.domain.chatting.repository.ChatRepository;
 import com.yju.toonovel.domain.chatting.repository.ChatRoomRepository;
 import com.yju.toonovel.domain.user.entity.User;
-import com.yju.toonovel.domain.user.exception.UserNotFoundException;
 import com.yju.toonovel.domain.user.repository.UserRepository;
 import com.yju.toonovel.global.security.jwt.JwtAuthentication;
 import com.yju.toonovel.global.security.jwt.JwtAuthenticationToken;
@@ -42,15 +42,15 @@ public class ChatService {
 		JwtAuthenticationToken token = tokenService.getAuthentication(dto.getSenderAccessToken());
 		JwtAuthentication userJwt = (JwtAuthentication) token.getPrincipal();
 		User user = userRepository.findByUserId(userJwt.userId)
-			.orElseThrow(() -> new UserNotFoundException());
+			.orElseThrow(() -> new UserNotFoundWebSocketException(userJwt.userId, roomId));
 
 		// 채팅방 존재 여부 확인
 		ChatRoom chatRoom = chatRoomRepository.findById(Long.valueOf(roomId))
-			.orElseThrow(() -> new ChatRoomNotFoundException());
+			.orElseThrow(() -> new ChatRoomNotFoundWebSocketException(user.getUserId(), roomId));
 
 		// 해당 채팅방에 가입되어 있는지 확인
 		if (!chatRoom.getUsers().contains(user)) {
-			throw new ChatRoomNotJoinException();
+			throw new ChatRoomNotJoinWebSocketException(user.getUserId(), roomId);
 		}
 
 		// USER는 하루 채팅 3회 제한
@@ -73,7 +73,7 @@ public class ChatService {
 		}).count();
 
 		if (todayChatCount >= limit) {
-			throw new ChatCountLimitException();
+			throw new ChatCountLimitWebSocketException(user.getUserId(), chatRoom.getChatRoomId().toString());
 		}
 	}
 }
