@@ -32,6 +32,7 @@ public enum ErrorCode {
 	PLATFORM_NOT_FOUND(HttpStatus.NOT_FOUND, "N002", "존재하지 않는 플랫폼입니다."),
 	NOVEL_GENRE_NOT_FOUND(HttpStatus.NOT_FOUND, "N003", "존재하지 않는 장르입니다."),
 	AUTHOR_NOT_FOUND(HttpStatus.NOT_FOUND, "N004", "존재하지 않는 작가입니다."),
+	NOVEL_NOT_MATCH_AUTHOR(HttpStatus.NOT_FOUND, "N005", "로그인한 작가가 연재한 작품이 아닙니다."),
 
 	//Review
 	REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "R001", "존재하지 않는 리뷰입니다."),
