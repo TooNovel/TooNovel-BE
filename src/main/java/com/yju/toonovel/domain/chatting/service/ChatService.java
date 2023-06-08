@@ -16,6 +16,7 @@ import com.yju.toonovel.domain.chatting.exception.websocket.UserNotFoundWebSocke
 import com.yju.toonovel.domain.chatting.repository.ChatCustomRepository;
 import com.yju.toonovel.domain.chatting.repository.ChatRepository;
 import com.yju.toonovel.domain.chatting.repository.ChatRoomRepository;
+import com.yju.toonovel.domain.user.entity.Role;
 import com.yju.toonovel.domain.user.entity.User;
 import com.yju.toonovel.domain.user.repository.UserRepository;
 import com.yju.toonovel.global.security.jwt.JwtAuthentication;
@@ -54,7 +55,9 @@ public class ChatService {
 		}
 
 		// USER는 하루 채팅 3회 제한
-		limitCheck(user, chatRoom, chatLimit);
+		if (user.getRole() == Role.USER) {
+			limitCheck(user, chatRoom, chatLimit);
+		}
 
 		// WebSocket 통신 전 필요한 데이터 set
 		dto.setRole(user.getRole());
