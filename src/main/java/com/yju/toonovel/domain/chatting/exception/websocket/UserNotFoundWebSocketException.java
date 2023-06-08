@@ -7,7 +7,7 @@ import com.yju.toonovel.domain.user.exception.UserNotFoundException;
 import lombok.Getter;
 
 @Getter
-public class UserNotFoundWebSocketException extends UserNotFoundException {
+public class UserNotFoundWebSocketException extends UserNotFoundException implements WebSocketExceptionInterface {
 
 	private String roomId;
 	private Long userId;

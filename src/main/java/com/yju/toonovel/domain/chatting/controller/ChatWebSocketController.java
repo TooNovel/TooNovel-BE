@@ -14,6 +14,7 @@ import com.yju.toonovel.domain.chatting.exception.websocket.ChatCountLimitWebSoc
 import com.yju.toonovel.domain.chatting.exception.websocket.ChatRoomNotFoundWebSocketException;
 import com.yju.toonovel.domain.chatting.exception.websocket.ChatRoomNotJoinWebSocketException;
 import com.yju.toonovel.domain.chatting.exception.websocket.UserNotFoundWebSocketException;
+import com.yju.toonovel.domain.chatting.exception.websocket.WebSocketExceptionInterface;
 import com.yju.toonovel.domain.chatting.service.ChatService;
 
 import lombok.RequiredArgsConstructor;
@@ -36,49 +37,33 @@ public class ChatWebSocketController {
 
 	@MessageExceptionHandler
 	public void handleException(UserNotFoundWebSocketException exception) {
-		log.info(exception.getMessage());
-		WebSocketErrorResponse response = WebSocketErrorResponse.of(
-			exception.getRoomId(),
-			exception.getUserId(),
-			exception.getErrorCode().getStatus(),
-			exception.getErrorCode().getCode(),
-			exception.getMessage());
-		messagingTemplate.convertAndSend("/error/" + exception.getRoomId(), response);
+		sendException(exception);
 	}
 
 	@MessageExceptionHandler
 	public void handleException(ChatRoomNotFoundWebSocketException exception) {
-		log.info(exception.getMessage());
-		WebSocketErrorResponse response = WebSocketErrorResponse.of(
-			exception.getRoomId(),
-			exception.getUserId(),
-			exception.getErrorCode().getStatus(),
-			exception.getErrorCode().getCode(),
-			exception.getMessage());
-		messagingTemplate.convertAndSend("/error/" + exception.getRoomId(), response);
+		sendException(exception);
 	}
 
 	@MessageExceptionHandler
 	public void handleException(ChatRoomNotJoinWebSocketException exception) {
-		log.info(exception.getMessage());
-		WebSocketErrorResponse response = WebSocketErrorResponse.of(
-			exception.getRoomId(),
-			exception.getUserId(),
-			exception.getErrorCode().getStatus(),
-			exception.getErrorCode().getCode(),
-			exception.getMessage());
-		messagingTemplate.convertAndSend("/error/" + exception.getRoomId(), response);
+		sendException(exception);
 	}
 
 	@MessageExceptionHandler
 	public void handleException(ChatCountLimitWebSocketException exception) {
+		sendException(exception);
+	}
+
+	private void sendException(WebSocketExceptionInterface exception) {
 		log.info(exception.getMessage());
 		WebSocketErrorResponse response = WebSocketErrorResponse.of(
 			exception.getRoomId(),
 			exception.getUserId(),
-			exception.getErrorCode().getStatus(),
-			exception.getErrorCode().getCode(),
-			exception.getMessage());
+			exception.getStatus(),
+			exception.getCode(),
+			exception.getMessage()
+		);
 		messagingTemplate.convertAndSend("/error/" + exception.getRoomId(), response);
 	}
 }

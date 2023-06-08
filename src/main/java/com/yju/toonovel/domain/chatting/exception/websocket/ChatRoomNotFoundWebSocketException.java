@@ -7,7 +7,8 @@ import com.yju.toonovel.domain.chatting.exception.ChatRoomNotFoundException;
 import lombok.Getter;
 
 @Getter
-public class ChatRoomNotFoundWebSocketException extends ChatRoomNotFoundException {
+public class ChatRoomNotFoundWebSocketException extends ChatRoomNotFoundException implements
+	WebSocketExceptionInterface {
 
 	private String roomId;
 	private Long userId;

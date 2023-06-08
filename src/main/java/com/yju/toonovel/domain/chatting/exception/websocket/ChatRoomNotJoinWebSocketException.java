@@ -6,7 +6,7 @@ import com.yju.toonovel.domain.chatting.exception.ChatRoomNotJoinException;
 
 import lombok.Getter;
 @Getter
-public class ChatRoomNotJoinWebSocketException extends ChatRoomNotJoinException {
+public class ChatRoomNotJoinWebSocketException extends ChatRoomNotJoinException implements WebSocketExceptionInterface {
 
 	private String roomId;
 	private Long userId;

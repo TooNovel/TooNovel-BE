@@ -7,7 +7,7 @@ import com.yju.toonovel.domain.chatting.exception.ChatCountLimitException;
 import lombok.Getter;
 
 @Getter
-public class ChatCountLimitWebSocketException extends ChatCountLimitException {
+public class ChatCountLimitWebSocketException extends ChatCountLimitException implements WebSocketExceptionInterface {
 
 	private String roomId;
 	private Long userId;
