@@ -66,6 +66,18 @@ public class ChatRoomHttpController {
 		chatRoomService.joinChatRoom(rid, user.userId);
 	}
 
+	@Operation(summary = "채팅방 탈퇴")
+	@ApiResponse(responseCode = "204", description = "요청 성공")
+	@ApiResponse(responseCode = "400", description = "요청한 유저가 해당 채팅방에 가입되어 있지 않을 때")
+	@ApiResponse(responseCode = "403", description = "작가가 탈퇴 요청을 했을 때")
+	@ApiResponse(responseCode = "404", description = "해당 채팅방이 없을 때")
+	@DeleteMapping("/leave/{rid}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void leaveChatRoom(@AuthenticationPrincipal JwtAuthentication user,
+		@PathVariable Long rid) {
+		chatRoomService.leaveChatRoom(rid, user.userId);
+	}
+
 	@Operation(summary = "채팅방 리스트 조회")
 	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping()
