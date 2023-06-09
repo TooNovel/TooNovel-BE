@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yju.toonovel.domain.chatting.dto.ChatDto;
-import com.yju.toonovel.domain.chatting.dto.ChatRoomAllRequestDto;
+import com.yju.toonovel.domain.chatting.dto.ChatRoomCreateRequestDto;
 import com.yju.toonovel.domain.chatting.dto.ChatRoomResponseDto;
 import com.yju.toonovel.domain.chatting.service.ChatRoomService;
 import com.yju.toonovel.global.security.jwt.JwtAuthentication;
@@ -37,11 +37,12 @@ public class ChatRoomHttpController {
 
 	@Operation(summary = "채팅방 생성")
 	@ApiResponse(responseCode = "201", description = "요청 성공")
+	@ApiResponse(responseCode = "400", description = "이미 채팅방이 있는데, 생성 요청을 보냈을 때")
 	@ApiResponse(responseCode = "403", description = "요청한 유저가 작가가 아닐 때")
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createChatRoom(@AuthenticationPrincipal JwtAuthentication user,
-		@RequestBody ChatRoomAllRequestDto dto) {
+		@RequestBody ChatRoomCreateRequestDto dto) {
 		chatRoomService.createChatRoom(dto, user.userId);
 	}
 
@@ -68,9 +69,9 @@ public class ChatRoomHttpController {
 
 	@Operation(summary = "채팅방 탈퇴")
 	@ApiResponse(responseCode = "204", description = "요청 성공")
-	@ApiResponse(responseCode = "400", description = "요청한 유저가 해당 채팅방에 가입되어 있지 않을 때")
 	@ApiResponse(responseCode = "403", description = "작가가 탈퇴 요청을 했을 때")
 	@ApiResponse(responseCode = "404", description = "해당 채팅방이 없을 때")
+	@ApiResponse(responseCode = "409", description = "요청한 유저가 해당 채팅방에 가입되어 있지 않을 때")
 	@DeleteMapping("/leave/{rid}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void leaveChatRoom(@AuthenticationPrincipal JwtAuthentication user,
@@ -88,8 +89,8 @@ public class ChatRoomHttpController {
 
 	@Operation(summary = "채팅 목록 조회")
 	@ApiResponse(responseCode = "200", description = "요청 성공")
-	@ApiResponse(responseCode = "403", description = "요청한 유저가 해당 채팅방에 가입되어 있지 않을 때")
 	@ApiResponse(responseCode = "404", description = "해당 채팅방이 없을 때")
+	@ApiResponse(responseCode = "409", description = "요청한 유저가 해당 채팅방에 가입되어 있지 않을 때")
 	@GetMapping("{rid}")
 	@ResponseStatus(HttpStatus.OK)
 	public List<ChatDto> getChatListByAuthor(

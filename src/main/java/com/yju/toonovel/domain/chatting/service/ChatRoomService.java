@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.yju.toonovel.domain.chatting.dto.ChatDto;
-import com.yju.toonovel.domain.chatting.dto.ChatRoomAllRequestDto;
+import com.yju.toonovel.domain.chatting.dto.ChatRoomCreateRequestDto;
 import com.yju.toonovel.domain.chatting.dto.ChatRoomResponseDto;
 import com.yju.toonovel.domain.chatting.entity.Chat;
 import com.yju.toonovel.domain.chatting.entity.ChatRoom;
@@ -41,7 +41,7 @@ public class ChatRoomService {
 	private final ChatCustomRepository chatCustomRepository;
 
 	// 채팅방 생성
-	public void createChatRoom(ChatRoomAllRequestDto dto, Long userId) {
+	public void createChatRoom(ChatRoomCreateRequestDto dto, Long userId) {
 		User user = userRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException());
 
