@@ -72,11 +72,11 @@ public class TokenService {
 	}
 
 	private String createAccessTokenCookie(String accessToken) {
-		return CookieUtils.addCookie("accessTokenCookie", accessToken, accessTokenExpireSeconds);
+		return CookieUtils.addAccessTokenCookie("accessTokenCookie", accessToken, accessTokenExpireSeconds);
 	}
 
 	private String createRefreshTokenCookie(String refreshToken) {
-		return CookieUtils.addCookie("refreshTokenCookie", refreshToken, refreshTokenExpireSeconds);
+		return CookieUtils.addRefreshTokenCookie("refreshTokenCookie", refreshToken, refreshTokenExpireSeconds);
 	}
 
 	public Optional<String> getAccessToken(HttpServletRequest request) {
@@ -98,6 +98,13 @@ public class TokenService {
 		List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
 
 		return new JwtAuthenticationToken(principal, null, authorities);
+	}
+
+	@Transactional
+	public void deleteRefreshToken(String refreshToken) {
+
+		refreshTokenRepository.findByRefreshToken(refreshToken)
+			.ifPresent(token -> refreshTokenRepository.delete(token));
 	}
 
 }
