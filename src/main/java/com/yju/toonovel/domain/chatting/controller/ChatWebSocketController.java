@@ -12,8 +12,10 @@ import com.yju.toonovel.domain.chatting.dto.ChatDto;
 import com.yju.toonovel.domain.chatting.dto.ReplyDto;
 import com.yju.toonovel.domain.chatting.exception.WebSocketErrorResponse;
 import com.yju.toonovel.domain.chatting.exception.websocket.ChatCountLimitWebSocketException;
+import com.yju.toonovel.domain.chatting.exception.websocket.ChatNotFoundWebSocketException;
 import com.yju.toonovel.domain.chatting.exception.websocket.ChatRoomNotFoundWebSocketException;
 import com.yju.toonovel.domain.chatting.exception.websocket.ChatRoomNotJoinWebSocketException;
+import com.yju.toonovel.domain.chatting.exception.websocket.ChatRoomNotMatchUserWebSocketException;
 import com.yju.toonovel.domain.chatting.exception.websocket.UserNotFoundWebSocketException;
 import com.yju.toonovel.domain.chatting.exception.websocket.WebSocketExceptionInterface;
 import com.yju.toonovel.domain.chatting.service.ChatService;
@@ -61,6 +63,17 @@ public class ChatWebSocketController {
 	public void handleException(ChatCountLimitWebSocketException exception) {
 		sendException(exception);
 	}
+
+	@MessageExceptionHandler
+	public void handleException(ChatRoomNotMatchUserWebSocketException exception) {
+		sendException(exception);
+	}
+
+	@MessageExceptionHandler
+	public void handleException(ChatNotFoundWebSocketException exception) {
+		sendException(exception);
+	}
+
 
 	private void sendException(WebSocketExceptionInterface exception) {
 		log.info(exception.getMessage());

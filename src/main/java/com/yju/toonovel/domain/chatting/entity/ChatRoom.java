@@ -54,4 +54,8 @@ public class ChatRoom extends BaseEntity {
 	public void join(User user) {
 		this.users.add(user);
 	}
+
+	public void leave(User user) {
+		this.users.remove(user);
+	}
 }

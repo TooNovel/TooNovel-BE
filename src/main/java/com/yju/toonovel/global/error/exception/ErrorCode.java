@@ -60,7 +60,8 @@ public enum ErrorCode {
 	CHAT_ROOM_ALREADY_JOIN(HttpStatus.BAD_REQUEST, "H004", "이미 가입된 채팅방입니다."),
 	CHAT_ROOM_NOT_JOIN(HttpStatus.FORBIDDEN, "H005", "가입되어 있지 않은 채팅방입니다."),
 	CHAT_COUNT_LIMIT(HttpStatus.TOO_MANY_REQUESTS, "H006", "일일 채팅 횟수를 초과했습니다"),
-	CHAT_NOT_FOUNT(HttpStatus.NOT_FOUND, "H007", "존재하지 않는 채팅입니다.");
+	CHAT_NOT_FOUNT(HttpStatus.NOT_FOUND, "H007", "존재하지 않는 채팅입니다."),
+	AUTHOR_CANNOT_LEAVE_CHATROOM(HttpStatus.FORBIDDEN, "H008", "작가는 채팅방을 탈퇴할 수 없습니다.");
 
 	private final HttpStatus status;
 	private final String code;

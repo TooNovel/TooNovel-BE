@@ -23,9 +23,6 @@ import com.yju.toonovel.domain.chatting.repository.ChatRoomRepository;
 import com.yju.toonovel.domain.chatting.repository.ReplyRepository;
 import com.yju.toonovel.domain.user.entity.User;
 import com.yju.toonovel.domain.user.repository.UserRepository;
-import com.yju.toonovel.global.security.jwt.JwtAuthentication;
-import com.yju.toonovel.global.security.jwt.JwtAuthenticationToken;
-import com.yju.toonovel.global.security.jwt.service.TokenService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,16 +36,13 @@ public class ChatService {
 	private final ChatCustomRepository chatCustomRepository;
 	private final ChatRoomRepository chatRoomRepository;
 	private final ReplyRepository replyRepository;
-	private final TokenService tokenService;
 	private final long chatLimit = 3;
 
 	@Transactional
 	public void authenticationAndSaveChat(ChatDto dto, String roomId) {
-		// 유저 인증
-		JwtAuthenticationToken token = tokenService.getAuthentication(dto.getSenderAccessToken());
-		JwtAuthentication userJwt = (JwtAuthentication) token.getPrincipal();
-		User user = userRepository.findByUserId(userJwt.userId)
-			.orElseThrow(() -> new UserNotFoundWebSocketException(userJwt.userId, roomId));
+		// 유저 존재 여부 확인
+		User user = userRepository.findByUserId(dto.getSenderId())
+			.orElseThrow(() -> new UserNotFoundWebSocketException(dto.getSenderId(), roomId));
 
 		// 채팅방 존재 여부 확인
 		ChatRoom chatRoom = chatRoomRepository.findById(Long.valueOf(roomId))
@@ -59,21 +53,27 @@ public class ChatService {
 			throw new ChatRoomNotJoinWebSocketException(user.getUserId(), roomId);
 		}
 
+		// 작가 여부 확인
+		boolean isCreator = chatRoom.getUser().getUserId() == user.getUserId();
+
 		// 해당 채팅방의 생성자가 아니면 하루 채팅 3회 제한
-		if (chatRoom.getUser().getUserId() != user.getUserId()) {
+		if (!isCreator) {
 			limitCheck(user, chatRoom, chatLimit);
 		}
 
-		// WebSocket 통신 전 필요한 데이터 set
-		dto.setRole(user.getRole());
-		dto.setSenderId(user.getUserId());
-
 		// DB 작업
-		chatRepository.save(Chat.of(dto.getMessage(), chatRoom, user));
+		Chat chat = chatRepository.save(Chat.of(dto.getMessage(), chatRoom, user));
+
+		// WebSocket 통신 전 필요한 데이터 set
+		dto.setChatId(chat.getChatId());
+		dto.setSenderName(user.getNickname());
+		dto.setCreator(isCreator);
+
 	}
 
 	@Transactional
 	public void authenticationAndSaveReply(ReplyDto dto, String roomId) {
+		// 유저 존재 여부 확인 (채팅방 생성자)
 		User user = userRepository.findByUserId(dto.getSenderId())
 			.orElseThrow(() -> new UserNotFoundWebSocketException(dto.getSenderId(), roomId));
 
@@ -86,20 +86,21 @@ public class ChatService {
 			.orElseThrow(() -> new ChatNotFoundWebSocketException(user.getUserId(), roomId));
 
 		// DB 작업
-		Reply reply = replyRepository.save(Reply.of(chat.getMessage(), chatRoom, user, chat));
+		Reply reply = replyRepository.save(Reply.of(dto.getReplyMessage(), chatRoom, user, chat));
 
 		// WebSocket 통신 전 필요한 데이터 set
 		dto.setReplyId(reply.getReplyId());
 		dto.setSenderName(user.getNickname());
+		dto.setUserName(chat.getUser().getNickname());
 	}
 
 	private void limitCheck(User user, ChatRoom chatRoom, long limit) {
 		List<Chat> recentChat =
 			chatCustomRepository.findRecentChatByChatRoomAndUser(chatRoom, user.getUserId(), limit);
 		LocalDate today = LocalDate.now();
-		long todayChatCount = recentChat.stream().filter(chat -> {
-			return chat.getCreatedDate().toLocalDate().isEqual(today);
-		}).count();
+		long todayChatCount = recentChat
+			.stream().filter(chat -> chat.getCreatedDate().toLocalDate().isEqual(today))
+			.count();
 
 		if (todayChatCount >= limit) {
 			throw new ChatCountLimitWebSocketException(user.getUserId(), chatRoom.getChatRoomId().toString());
