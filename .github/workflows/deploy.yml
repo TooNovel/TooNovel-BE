@@ -35,8 +35,8 @@ jobs:
           spring.datasource.password: ${{ secrets.DB_PASSWORD }}
           spring.security.oauth2.client.registration.google.client-id: ${{ secrets.GOOGLE_CLIENT_ID }}
           spring.security.oauth2.client.registration.google.client-secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          spring.security.oauth2.client.registration.kakao.client-id: ${{ secrets.GOOGLE_CLIENT_ID }}
-          spring.security.oauth2.client.registration.kakao.client-secret: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          spring.security.oauth2.client.registration.kakao.client-id: ${{ secrets.KAKAO_CLIENT_ID }}
+          spring.security.oauth2.client.registration.kakao.client-secret: ${{ secrets.KAKAO_CLIENT_SECRET }}
           jwt.secret-key: ${{ secrets.JWT_SECRET_KEY }}
           server.frontEnd: ${{ secrets.FRONTEND_URL }}
           server.backEnd: ${{ secrets.BACKEND_URL }}
