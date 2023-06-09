@@ -54,7 +54,10 @@ public class NovelCustomRepositoryImpl implements NovelCustomRepository {
 	public List<Novel> findNovelByAuthor(NovelPaginationRequestDto requestDto, Long userId) {
 		return jpaQueryFactory
 			.selectFrom(novel)
-			.where(novel.user.userId.eq(userId))
+			.where(
+				novel.user.userId.eq(userId),
+				ltNovelId(requestDto.getNovelId())
+			)
 			.limit(30)
 			.orderBy(
 				getOrderSpecifier(requestDto.getSort())
