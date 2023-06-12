@@ -31,6 +31,8 @@ public class PostResponseDto {
 	private Long viewCount;
 	@Schema(description = "유저 닉네임")
 	private String nickname;
+	@Schema(description = "댓글 수")
+	private long commentCount;
 
 	public PostResponseDto(Post post) {
 		this.postId = post.getPostId();
@@ -42,5 +44,6 @@ public class PostResponseDto {
 		this.like = post.getLike();
 		this.viewCount = post.getViewCount();
 		this.nickname = post.getUser().getNickname();
+		this.commentCount = post.getCommentCount();
 	}
 }

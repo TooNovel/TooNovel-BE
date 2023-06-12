@@ -1,5 +1,6 @@
 package com.yju.toonovel.domain.post.entity;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,6 +15,7 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.Formula;
 
 import com.yju.toonovel.domain.user.entity.User;
 import com.yju.toonovel.global.common.entity.BaseEntity;
@@ -55,6 +57,10 @@ public class Post extends BaseEntity {
 	@Column(name = "view_count")
 	@ColumnDefault("0")
 	private Long viewCount;
+
+	@Basic(fetch = FetchType.LAZY)
+	@Formula("(SELECT COUNT(1) FROM comment c WHERE c.post_id = post_id)")
+	private long commentCount;
 
 	@Builder
 	public Post(User user, Category category, String title, String content) {

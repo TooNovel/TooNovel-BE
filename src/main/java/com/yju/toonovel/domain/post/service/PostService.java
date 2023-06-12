@@ -49,6 +49,7 @@ public class PostService {
 	}
 
 	// 게시글 전체 조회
+	@Transactional
 	public Page<PostAllResponseDto> getAllPost(PostPaginationRequestDto requestDto) {
 		Pageable pageable = PageRequest.of(requestDto.getPage(), requestDto.getLimit());
 		return postRepositoryImpl.getAllPost(pageable, requestDto);
