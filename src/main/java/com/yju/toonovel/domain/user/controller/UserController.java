@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.yju.toonovel.domain.novel.dto.LikeNovelPaginationResponseDto;
 import com.yju.toonovel.domain.user.dto.AuthorRegisterRequestDto;
+import com.yju.toonovel.domain.user.dto.UserMyProfileResponseDto;
 import com.yju.toonovel.domain.user.dto.UserProfileResponseDto;
+import com.yju.toonovel.domain.user.dto.UserProfileUpdateRequestDto;
 import com.yju.toonovel.domain.user.dto.UserRegisterRequestDto;
 import com.yju.toonovel.domain.user.service.UserService;
 import com.yju.toonovel.global.security.jwt.JwtAuthentication;
@@ -50,8 +52,18 @@ public class UserController {
 	@ApiResponse(responseCode = "404", description = "해당 유저가 없는 상태일 때")
 	@GetMapping("/me")
 	@ResponseStatus(HttpStatus.OK)
-	public UserProfileResponseDto getMyProfile(@AuthenticationPrincipal JwtAuthentication user) {
-		return userService.getUserProfile(user.userId);
+	public UserMyProfileResponseDto getMyProfile(@AuthenticationPrincipal JwtAuthentication user) {
+		return userService.getMyProfile(user.userId);
+	}
+
+	@Operation(summary = "유저 기본 정보 입력 요청")
+	@ApiResponse(responseCode = "201", description = "요청 성공")
+	@ApiResponse(responseCode = "404", description = "해당 유저가 없는 상태일 때")
+	@PatchMapping("/join")
+	@ResponseStatus(HttpStatus.CREATED)
+	public void registerUser(@RequestBody @Valid UserRegisterRequestDto requestDto,
+		@AuthenticationPrincipal JwtAuthentication user) {
+		userService.registerUser(user.userId, requestDto);
 	}
 
 	@Operation(summary = "유저 탈퇴 요청")
@@ -63,14 +75,14 @@ public class UserController {
 		userService.deleteUser(user.userId);
 	}
 
-	@Operation(summary = "유저 정보 수정 요청")
+	@Operation(summary = "유저 프로필 수정 요청")
 	@ApiResponse(responseCode = "201", description = "요청 성공")
 	@ApiResponse(responseCode = "404", description = "해당 유저가 없는 상태일 때")
 	@PatchMapping("/me")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void updateUser(@RequestBody @Valid UserRegisterRequestDto requestDto,
+	public void updateUserProfile(@RequestBody @Valid UserProfileUpdateRequestDto requestDto,
 		@AuthenticationPrincipal JwtAuthentication user) {
-		userService.updateUser(user.userId, requestDto);
+		userService.updateProfile(user.userId, requestDto);
 	}
 
 	@Operation(summary = "좋아요한 소설 조회 요청")
