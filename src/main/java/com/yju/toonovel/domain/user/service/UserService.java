@@ -102,7 +102,9 @@ public class UserService {
 				isAuthor -> {
 					enrollRepository.save(EnrollHistory.of(user));
 				},
-				() -> new AuthorNotFoundException()
+				() -> {
+					throw new AuthorNotFoundException();
+				}
 			);
 	}
 }
