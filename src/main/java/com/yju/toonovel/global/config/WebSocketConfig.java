@@ -1,5 +1,6 @@
 package com.yju.toonovel.global.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -18,6 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+	@Value("${server.frontEnd}")
+	private String frontEndServer;
 	private final CustomChannelInterceptor channelInterceptor;
 	private final CustomHandshakeInterceptor handshakeInterceptor;
 
@@ -28,11 +31,11 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 		config.setApplicationDestinationPrefixes("/app");
 	}
 
-	// 소켓 연결 엔드 포인트 설정. 현재 CORS 떄문에 *로 지정했지만 추후 변경 필요
+	// 소켓 연결 엔드 포인트 설정
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry.addEndpoint("/ws")
-			.setAllowedOriginPatterns("*")
+			.setAllowedOriginPatterns("http://localhost:3000/", frontEndServer)
 			.addInterceptors(handshakeInterceptor)
 			.withSockJS(); // 프론트 구성에 따라 변경될 수 있음
 	}
