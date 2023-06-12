@@ -70,4 +70,17 @@ public class ChatCustomRepositoryImpl implements ChatCustomRepository {
 			.limit(30)
 			.fetch();
 	}
+
+	@Override
+	public List<Chat> findRecentChatByChatRoomAndUser(ChatRoom chatRoom, Long userId, long limit) {
+		return jpaQueryFactory
+			.selectFrom(chat)
+			.where(
+				chat.chatRoom.eq(chatRoom),
+				chat.user.userId.eq(userId)
+			)
+			.orderBy(chat.chatId.desc())
+			.limit(limit)
+			.fetch();
+	}
 }

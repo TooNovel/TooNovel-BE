@@ -1,8 +1,5 @@
 package com.yju.toonovel.domain.chatting.entity;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,8 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 import com.yju.toonovel.domain.user.entity.User;
 import com.yju.toonovel.global.common.entity.BaseEntity;
@@ -23,39 +19,39 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class ChatRoom extends BaseEntity {
-
+public class Reply extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long chatRoomId;
+	private Long replyId;
 
 	@Column(nullable = false)
-	private String chatRoomName;
+	private String message;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "chat_room")
+	private ChatRoom chatRoom;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "sender_id")
 	private User user;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	private Set<User> users = new HashSet<>();
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Chat chat;
 
 	@Builder
-	public ChatRoom(String chatRoomName, User user) {
-		this.chatRoomName = chatRoomName;
+	public Reply(String message, ChatRoom chatRoom, User user, Chat chat) {
+		this.message = message;
+		this.chatRoom = chatRoom;
 		this.user = user;
+		this.chat = chat;
 	}
-	public static ChatRoom of(String chatRoomName, User user) {
-		return ChatRoom.builder()
-			.chatRoomName(chatRoomName)
+
+	public static Reply of(String message, ChatRoom chatRoom, User user, Chat chat) {
+		return Reply.builder()
+			.message(message)
+			.chatRoom(chatRoom)
 			.user(user)
+			.chat(chat)
 			.build();
-	}
-
-	public void join(User user) {
-		this.users.add(user);
-	}
-
-	public void leave(User user) {
-		this.users.remove(user);
 	}
 }
