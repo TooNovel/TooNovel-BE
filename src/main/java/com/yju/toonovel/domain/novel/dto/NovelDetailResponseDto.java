@@ -27,6 +27,8 @@ public class NovelDetailResponseDto {
 	private Genre genre;
 	@Schema(description = "좋아요 수")
 	private long likeCount;
+	@Schema(description = "리뷰 수")
+	private long reviewCount;
 	@Schema(description = "소설 평점")
 	private Double grade;
 	@Schema(description = "서비스 중인 플랫폼 리스트")
@@ -41,6 +43,7 @@ public class NovelDetailResponseDto {
 		this.author = novel.getAuthor();
 		this.genre = novel.getGenre();
 		this.likeCount = novel.getLikeCount();
+		this.reviewCount = novel.getReviewCount();
 		this.grade = novel.getGrade();
 		this.platforms = platform;
 		this.image = novel.getImage();
