@@ -1,12 +1,19 @@
 package com.yju.toonovel.domain.chatting.service;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.yju.toonovel.domain.chatting.dto.ChatDto;
+import com.yju.toonovel.domain.chatting.dto.FilterChatRequestDto;
+import com.yju.toonovel.domain.chatting.dto.FilterChatResponseDto;
 import com.yju.toonovel.domain.chatting.dto.ReplyDto;
 import com.yju.toonovel.domain.chatting.entity.Chat;
 import com.yju.toonovel.domain.chatting.entity.ChatRoom;
@@ -38,6 +45,9 @@ public class ChatService {
 	private final ReplyRepository replyRepository;
 	private final long chatLimit = 3;
 
+	@Value("${server.machineLearning}")
+	private String machineLearningServer;
+
 	@Transactional
 	public void authenticationAndSaveChat(ChatDto dto, String roomId) {
 		// 유저 존재 여부 확인
@@ -62,13 +72,41 @@ public class ChatService {
 		}
 
 		// DB 작업
-		Chat chat = chatRepository.save(Chat.of(dto.getMessage(), chatRoom, user));
+		Chat chat = chatRepository.save(Chat.of(dto.getMessage(), chatRoom, user, false));
+
+		//메시지 필터링
+		FilterChatResponseDto response = filterChat(dto.getMessage());
+
+		if (response.getFilteredResult().equals("bad")) {
+			chat.filteringChat();
+		}
 
 		// WebSocket 통신 전 필요한 데이터 set
 		dto.setChatId(chat.getChatId());
 		dto.setSenderName(user.getNickname());
 		dto.setCreator(isCreator);
+		dto.setFilterResult(response.getFilteredResult());
+	}
 
+	public FilterChatResponseDto filterChat(String message) {
+		RestTemplate restTemplate = new RestTemplate();
+
+		URI uri = UriComponentsBuilder
+			.fromUriString(machineLearningServer)
+			.path("/filter")
+			.encode()
+			.build()
+			.expand(message)
+			.toUri();
+
+		FilterChatRequestDto request = FilterChatRequestDto
+			.builder()
+			.message(message)
+			.build();
+		ResponseEntity<FilterChatResponseDto> response =
+			restTemplate.postForEntity(uri, request, FilterChatResponseDto.class);
+
+		return response.getBody();
 	}
 
 	@Transactional

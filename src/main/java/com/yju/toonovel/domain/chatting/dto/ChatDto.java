@@ -30,6 +30,9 @@ public class ChatDto {
 	@Schema(description = "채팅 내용")
 	private String message;
 
+	@Schema(description = "메시지 필터링 결과 'ok' or 'bad'")
+	private String filterResult;
+
 	@Builder
 	public ChatDto(Long chatId, String senderName, Long senderId, boolean isCreator, String message) {
 		this.chatId = chatId;

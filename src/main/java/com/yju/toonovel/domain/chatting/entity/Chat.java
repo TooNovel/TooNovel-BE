@@ -25,7 +25,7 @@ public class Chat extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long chatId;
 
-	@Column(nullable = false)
+	@Column(nullable = false, length = 300)
 	private String message;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -36,18 +36,26 @@ public class Chat extends BaseEntity {
 	@JoinColumn(name = "sender_id")
 	private User user;
 
+	private boolean isFiltered;
+
 	@Builder
-	public Chat(String message, ChatRoom chatRoom, User user) {
+	public Chat(String message, ChatRoom chatRoom, User user, boolean isFiltered) {
 		this.message = message;
 		this.chatRoom = chatRoom;
 		this.user = user;
+		this.isFiltered = isFiltered;
 	}
 
-	public static Chat of(String message, ChatRoom chatRoom, User user) {
+	public static Chat of(String message, ChatRoom chatRoom, User user, boolean isFiltered) {
 		return Chat.builder()
 			.message(message)
 			.chatRoom(chatRoom)
 			.user(user)
+			.isFiltered(isFiltered)
 			.build();
+	}
+
+	public void filteringChat() {
+		isFiltered = !isFiltered;
 	}
 }
