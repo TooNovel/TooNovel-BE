@@ -27,11 +27,13 @@ public class PostAllResponseDto {
 	private Long viewCount;
 	@Schema(description = "유저 닉네임")
 	private String nickname;
+	@Schema(description = "댓글 수")
+	private long commentCount;
 
 	@Builder
 	public PostAllResponseDto(Long postId, Category category,
 		String title, LocalDateTime createdDate,
-		Long viewCount, String nickname) {
+		Long viewCount, String nickname, long commentCount) {
 
 		this.postId = postId;
 		this.category = category;
@@ -39,6 +41,7 @@ public class PostAllResponseDto {
 		this.createdDate = createdDate;
 		this.viewCount = viewCount;
 		this.nickname = nickname;
+		this.commentCount = commentCount;
 	}
 
 	public PostAllResponseDto(Post post) {
@@ -49,6 +52,7 @@ public class PostAllResponseDto {
 		this.createdDate = post.getCreatedDate();
 		this.viewCount = post.getViewCount();
 		this.nickname = post.getUser().getNickname();
+		this.commentCount = post.getCommentCount();
 	}
 
 }

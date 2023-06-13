@@ -13,7 +13,9 @@ import com.yju.toonovel.domain.novel.exception.AuthorNotFoundException;
 import com.yju.toonovel.domain.novel.repository.LikeNovelRepository;
 import com.yju.toonovel.domain.novel.repository.NovelRepository;
 import com.yju.toonovel.domain.user.dto.AuthorRegisterRequestDto;
+import com.yju.toonovel.domain.user.dto.UserMyProfileResponseDto;
 import com.yju.toonovel.domain.user.dto.UserProfileResponseDto;
+import com.yju.toonovel.domain.user.dto.UserProfileUpdateRequestDto;
 import com.yju.toonovel.domain.user.dto.UserRegisterRequestDto;
 import com.yju.toonovel.domain.user.entity.Role;
 import com.yju.toonovel.domain.user.entity.User;
@@ -33,6 +35,7 @@ public class UserService {
 	private final NovelRepository novelRepository;
 	private final EnrollRepository enrollRepository;
 
+	@Transactional
 	public UserProfileResponseDto getUserProfile(Long id) {
 		User user = userRepository.findById(id)
 			.orElseThrow(() -> new UserNotFoundException());
@@ -40,10 +43,25 @@ public class UserService {
 	}
 
 	@Transactional
-	public void updateUser(Long id, UserRegisterRequestDto requestDto) {
+	public UserMyProfileResponseDto getMyProfile(Long id) {
+		User user = userRepository.findById(id)
+			.orElseThrow(() -> new UserNotFoundException());
+		return new UserMyProfileResponseDto(user);
+	}
+
+	@Transactional
+	public void registerUser(Long id, UserRegisterRequestDto requestDto) {
 		User user = userRepository.findByUserId(id)
 			.orElseThrow(() -> new UserNotFoundException());
-		user.update(requestDto.getNickname(), requestDto.getGender(), requestDto.getBirth());
+		user.register(requestDto.getNickname(), requestDto.getGender(), requestDto.getBirth());
+	}
+
+	@Transactional
+	public void updateProfile(Long id, UserProfileUpdateRequestDto requestDto) {
+		User user = userRepository.findByUserId(id)
+			.orElseThrow(() -> new UserNotFoundException());
+		user.updateProfile(requestDto.getNickname(), requestDto.getGender(), requestDto.getImageUrl(),
+			requestDto.getBirth());
 	}
 
 	@Transactional
@@ -84,7 +102,9 @@ public class UserService {
 				isAuthor -> {
 					enrollRepository.save(EnrollHistory.of(user));
 				},
-				() -> new AuthorNotFoundException()
+				() -> {
+					throw new AuthorNotFoundException();
+				}
 			);
 	}
 }

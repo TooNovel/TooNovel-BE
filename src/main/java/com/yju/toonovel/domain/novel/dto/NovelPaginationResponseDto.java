@@ -21,17 +21,23 @@ public class NovelPaginationResponseDto {
 	private Genre genre;
 	@Schema(description = "소설 평점")
 	private Double grade;
+	@Schema(description = "리뷰 수")
+	private Long reviewCount;
+	@Schema(description = "좋아요 수")
+	private Long likeCount;
 	@Schema(description = "소설 표지")
 	private String image;
 
 	@Builder
 	public NovelPaginationResponseDto(Long novelId, String title, String author, Genre genre, Double grade,
-		String image) {
+		Long reviewCount, Long likeCount, String image) {
 		this.novelId = novelId;
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
 		this.grade = grade;
+		this.reviewCount = reviewCount;
+		this.likeCount = likeCount;
 		this.image = image;
 	}
 
@@ -42,6 +48,8 @@ public class NovelPaginationResponseDto {
 			novel.getAuthor(),
 			novel.getGenre(),
 			novel.getGrade(),
+			novel.getReviewCount(),
+			novel.getLikeCount(),
 			novel.getImage()
 		);
 	}

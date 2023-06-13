@@ -66,11 +66,18 @@ public class User extends BaseEntity {
 		this.birth = birth;
 	}
 
-	public void update(String nickname, String gender, String birth) {
+	public void register(String nickname, String gender, String birth) {
 		this.nickname = nickname;
 		this.gender = gender;
 		this.birth = birth;
 		this.role = Role.USER;
+	}
+
+	public void updateProfile(String nickname, String imageUrl, String gender, String birth) {
+		this.nickname = nickname;
+		this.imageUrl = imageUrl;
+		this.gender = gender;
+		this.birth = birth;
 	}
 
 	public void updateRole(Role role) {
