@@ -17,7 +17,7 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
 	// 작가 = AuthorUser(User 객체), AuthorUserId(user_id)
 	// 독자 = User(User 객체), UserId(user_id)
 	@Query("select r from ChatRoom r where r.user.userId = :uid")
-	Optional<ChatRoom> findByAuthorUserId(@Param("rid") Long uid);
+	Optional<ChatRoom> findByAuthorUserId(@Param("uid") Long uid);
 
 	@Query("select r from ChatRoom r where r.chatRoomId = :rid and r.user.userId = :uid")
 	Optional<ChatRoom> findByChatRoomIdAndAuthorUserId(@Param("rid") Long rid, @Param("uid") Long uid);
