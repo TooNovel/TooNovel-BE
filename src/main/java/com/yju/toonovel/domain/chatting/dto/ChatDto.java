@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.Length;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -14,6 +15,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @Setter
+@NoArgsConstructor
 public class ChatDto {
 	@Schema(description = "채팅 ID")
 	private Long chatId;
