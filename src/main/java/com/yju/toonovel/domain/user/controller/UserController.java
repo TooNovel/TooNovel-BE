@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yju.toonovel.domain.novel.dto.LikeNovelPaginationResponseDto;
+import com.yju.toonovel.domain.user.dto.AuthorListPaginationRequestDto;
+import com.yju.toonovel.domain.user.dto.AuthorListResponseDto;
 import com.yju.toonovel.domain.user.dto.AuthorRegisterRequestDto;
 import com.yju.toonovel.domain.user.dto.UserMyProfileResponseDto;
 import com.yju.toonovel.domain.user.dto.UserProfileResponseDto;
@@ -104,4 +107,12 @@ public class UserController {
 		userService.authorEnroll(user.userId, dto);
 	}
 
+	@Operation(summary = "최신 작가 요청")
+	@ApiResponse(responseCode = "200", description = "요청 성공")
+	@GetMapping("/author")
+	@ResponseStatus(HttpStatus.OK)
+	public List<AuthorListResponseDto> getNewAuthor(@ModelAttribute AuthorListPaginationRequestDto dto) {
+		return userService.findNewAuthor(dto);
+	}
 }
+

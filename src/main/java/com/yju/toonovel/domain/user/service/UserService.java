@@ -12,7 +12,9 @@ import com.yju.toonovel.domain.novel.dto.LikeNovelPaginationResponseDto;
 import com.yju.toonovel.domain.novel.exception.AuthorNotFoundException;
 import com.yju.toonovel.domain.novel.repository.LikeNovelRepository;
 import com.yju.toonovel.domain.novel.repository.NovelRepository;
+import com.yju.toonovel.domain.user.dto.AuthorListPaginationRequestDto;
 import com.yju.toonovel.domain.user.dto.AuthorRegisterRequestDto;
+import com.yju.toonovel.domain.user.dto.AuthorListResponseDto;
 import com.yju.toonovel.domain.user.dto.UserMyProfileResponseDto;
 import com.yju.toonovel.domain.user.dto.UserProfileResponseDto;
 import com.yju.toonovel.domain.user.dto.UserProfileUpdateRequestDto;
@@ -21,19 +23,23 @@ import com.yju.toonovel.domain.user.entity.Role;
 import com.yju.toonovel.domain.user.entity.User;
 import com.yju.toonovel.domain.user.exception.AlreadyAuthorException;
 import com.yju.toonovel.domain.user.exception.UserNotFoundException;
+import com.yju.toonovel.domain.user.repository.EnrollCustomRepository;
 import com.yju.toonovel.domain.user.repository.UserRepository;
 import com.yju.toonovel.global.security.jwt.repository.RefreshTokenRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class UserService {
 	private final UserRepository userRepository;
 	private final RefreshTokenRepository refreshTokenRepository;
 	private final LikeNovelRepository likeNovelRepository;
 	private final NovelRepository novelRepository;
 	private final EnrollRepository enrollRepository;
+	private final EnrollCustomRepository enrollCustomRepository;
 
 	@Transactional
 	public UserProfileResponseDto getUserProfile(Long id) {
@@ -106,5 +112,9 @@ public class UserService {
 					throw new AuthorNotFoundException();
 				}
 			);
+	}
+
+	public List<AuthorListResponseDto> findNewAuthor(AuthorListPaginationRequestDto dto) {
+		return enrollCustomRepository.findAllAuthor(dto.getEnrollId(), dto.getLimit(), dto.getSort());
 	}
 }
