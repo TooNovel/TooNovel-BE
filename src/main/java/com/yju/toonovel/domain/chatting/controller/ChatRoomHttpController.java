@@ -79,7 +79,7 @@ public class ChatRoomHttpController {
 		chatRoomService.leaveChatRoom(rid, user.userId);
 	}
 
-	@Operation(summary = "채팅방 리스트 조회")
+	@Operation(summary = "자신이 가입한 채팅방 리스트 조회")
 	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping()
 	@ResponseStatus(HttpStatus.OK)
