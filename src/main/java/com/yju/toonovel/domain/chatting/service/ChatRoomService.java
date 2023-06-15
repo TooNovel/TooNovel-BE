@@ -59,7 +59,7 @@ public class ChatRoomService {
 		ChatRoom result = chatRoomRepository.save(ChatRoom.of(dto.getChatRoomName(), user));
 
 		// 생성 후 바로 셀프 가입
-		joinChatRoom(result.getChatRoomId(), userId);
+		joinChatRoomByUserId(userId, userId);
 	}
 
 	public void deleteChatRoom(Long rid, Long userId) {
@@ -77,11 +77,11 @@ public class ChatRoomService {
 	}
 
 	@Transactional
-	public void joinChatRoom(Long rid, Long userId) {
+	public void joinChatRoomByUserId(Long uid, Long userId) {
 		User user = userRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException());
 
-		ChatRoom chatRoom = chatRoomRepository.findById(rid)
+		ChatRoom chatRoom = chatRoomRepository.findByAuthorUserId(uid)
 			.orElseThrow(() -> new ChatRoomNotFoundException());
 
 		// 이미 가입되어 있는지 확인
@@ -204,5 +204,6 @@ public class ChatRoomService {
 			chat.getMessage()
 		);
 	}
+
 
 }
