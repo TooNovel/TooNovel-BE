@@ -69,7 +69,7 @@ public class UserService {
 	public void updateProfile(Long id, UserProfileUpdateRequestDto requestDto) {
 		User user = userRepository.findByUserId(id)
 			.orElseThrow(() -> new UserNotFoundException());
-		user.updateProfile(requestDto.getNickname(), requestDto.getGender(), requestDto.getImageUrl(),
+		user.updateProfile(requestDto.getNickname(), requestDto.getImageUrl(), requestDto.getGender(),
 			requestDto.getBirth());
 	}
 
