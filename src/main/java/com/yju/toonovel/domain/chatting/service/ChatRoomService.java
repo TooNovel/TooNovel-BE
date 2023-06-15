@@ -59,7 +59,7 @@ public class ChatRoomService {
 		ChatRoom result = chatRoomRepository.save(ChatRoom.of(dto.getChatRoomName(), user));
 
 		// 생성 후 바로 셀프 가입
-		joinChatRoom(result.getChatRoomId(), userId);
+		joinChatRoomByUserId(userId, userId);
 	}
 
 	public void deleteChatRoom(Long rid, Long userId) {
@@ -74,25 +74,6 @@ public class ChatRoomService {
 			.orElseThrow(() -> new ChatRoomNotMatchUserException());
 
 		chatRoomRepository.deleteById(rid);
-	}
-
-	@Transactional
-	public void joinChatRoom(Long rid, Long userId) {
-		User user = userRepository.findByUserId(userId)
-			.orElseThrow(() -> new UserNotFoundException());
-
-		ChatRoom chatRoom = chatRoomRepository.findById(rid)
-			.orElseThrow(() -> new ChatRoomNotFoundException());
-
-		// 이미 가입되어 있는지 확인
-		if (chatRoom.getUsers().contains(user)) {
-			throw new ChatRoomAlreadyJoinException();
-		}
-
-		chatRoom.join(user);
-
-		// 엔티티 자체가 변경된 것이 아니라, 엔티티 내부의 컬렉션이 변경된 것이므로 dirty checking에 걸리지 않습니다
-		chatRoomRepository.save(chatRoom);
 	}
 
 	@Transactional
