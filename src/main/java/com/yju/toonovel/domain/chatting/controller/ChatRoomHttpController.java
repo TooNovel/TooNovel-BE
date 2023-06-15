@@ -67,6 +67,17 @@ public class ChatRoomHttpController {
 		chatRoomService.joinChatRoom(rid, user.userId);
 	}
 
+	@Operation(summary = "userId로 채팅방 가입")
+	@ApiResponse(responseCode = "201", description = "요청 성공")
+	@ApiResponse(responseCode = "400", description = "이미 가입된 채팅방일 때")
+	@ApiResponse(responseCode = "404", description = "해당 채팅방이 없을 때")
+	@PostMapping("/author/{uid}")
+	@ResponseStatus(HttpStatus.CREATED)
+	public void joinChatRoomByUserId(@AuthenticationPrincipal JwtAuthentication user,
+		@PathVariable Long uid) {
+		chatRoomService.joinChatRoomByUserId(uid, user.userId);
+	}
+
 	@Operation(summary = "채팅방 탈퇴")
 	@ApiResponse(responseCode = "204", description = "요청 성공")
 	@ApiResponse(responseCode = "403", description = "작가가 탈퇴 요청을 했을 때")
