@@ -46,7 +46,9 @@ public class ReviewService {
 
 		reviewRepository.findReviewByNovelIdAndUserId(user.getUserId(), novel.getNovelId())
 			.ifPresentOrElse(
-				isReview -> new DuplicateReviewException(),
+				isReview -> {
+					throw new DuplicateReviewException();
+				},
 				() -> {
 					reviewRepository.save(dto.dtoToEntity(user, novel));
 				});
