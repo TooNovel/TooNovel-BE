@@ -68,7 +68,9 @@ public class AdminService {
 						i.updateUserId(user);
 					});
 				},
-				() -> new AuthorNotFoundException()
+				() -> {
+					throw new AuthorNotFoundException();
+				}
 			);
 		enroll.toggleApproval();
 		user.updateRole(Role.AUTHOR);

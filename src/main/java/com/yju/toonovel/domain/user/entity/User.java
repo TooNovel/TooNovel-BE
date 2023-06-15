@@ -73,11 +73,9 @@ public class User extends BaseEntity {
 		this.role = Role.USER;
 	}
 
-	public void updateProfile(String nickname, String imageUrl, String gender, String birth) {
+	public void updateProfile(String nickname, String imageUrl) {
 		this.nickname = nickname;
 		this.imageUrl = imageUrl;
-		this.gender = gender;
-		this.birth = birth;
 	}
 
 	public void updateRole(Role role) {

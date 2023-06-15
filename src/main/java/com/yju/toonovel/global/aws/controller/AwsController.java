@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,8 +27,8 @@ public class AwsController {
 
 	@GetMapping("/s3")
 	@ResponseStatus(HttpStatus.OK)
-	public Map<String, Serializable> getPreSignedUrl(@RequestParam String fileName) {
-		return s3Service.getPreSignedUrl(fileName);
+	public Map<String, Serializable> getPreSignedUrl() {
+		return s3Service.getPreSignedUrl();
 	}
 
 }

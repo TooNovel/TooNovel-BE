@@ -1,10 +1,10 @@
 package com.yju.toonovel.global.aws.service;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,8 +24,8 @@ public class S3Service {
 	@Value("${cloud.aws.s3.bucket}")
 	private String bucket;
 
-	public Map<String, Serializable> getPreSignedUrl(String fileName) {
-		String encodedFileName = LocalDateTime.now() + "_" + fileName;
+	public Map<String, Serializable> getPreSignedUrl() {
+		String encodedFileName = UUID.randomUUID().toString();
 		String objectKey = "image/" + encodedFileName;
 
 		Date expiration = new Date();
