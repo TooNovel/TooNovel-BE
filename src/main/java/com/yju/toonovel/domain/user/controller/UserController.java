@@ -114,5 +114,13 @@ public class UserController {
 	public List<AuthorListResponseDto> getNewAuthor(@ModelAttribute AuthorListPaginationRequestDto dto) {
 		return userService.findNewAuthor(dto);
 	}
+
+	@Operation(summary = "인기 채팅방 조회 요청")
+	@ApiResponse(responseCode = "200", description = "요청 성공")
+	@GetMapping("/chatroom")
+	@ResponseStatus(HttpStatus.OK)
+	public List<AuthorListResponseDto> getPopularChatRoomAuthor() {
+		return userService.findPopularChatRoomAuthor();
+	}
 }
 

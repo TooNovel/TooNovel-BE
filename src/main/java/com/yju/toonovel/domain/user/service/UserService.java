@@ -8,13 +8,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.yju.toonovel.domain.admin.entity.EnrollHistory;
 import com.yju.toonovel.domain.admin.repository.EnrollRepository;
+import com.yju.toonovel.domain.chatting.entity.ChatRoom;
 import com.yju.toonovel.domain.novel.dto.LikeNovelPaginationResponseDto;
 import com.yju.toonovel.domain.novel.exception.AuthorNotFoundException;
 import com.yju.toonovel.domain.novel.repository.LikeNovelRepository;
 import com.yju.toonovel.domain.novel.repository.NovelRepository;
 import com.yju.toonovel.domain.user.dto.AuthorListPaginationRequestDto;
-import com.yju.toonovel.domain.user.dto.AuthorRegisterRequestDto;
 import com.yju.toonovel.domain.user.dto.AuthorListResponseDto;
+import com.yju.toonovel.domain.user.dto.AuthorRegisterRequestDto;
 import com.yju.toonovel.domain.user.dto.UserMyProfileResponseDto;
 import com.yju.toonovel.domain.user.dto.UserProfileResponseDto;
 import com.yju.toonovel.domain.user.dto.UserProfileUpdateRequestDto;
@@ -23,6 +24,7 @@ import com.yju.toonovel.domain.user.entity.Role;
 import com.yju.toonovel.domain.user.entity.User;
 import com.yju.toonovel.domain.user.exception.AlreadyAuthorException;
 import com.yju.toonovel.domain.user.exception.UserNotFoundException;
+import com.yju.toonovel.domain.user.repository.ChatRoomCustomRepository;
 import com.yju.toonovel.domain.user.repository.EnrollCustomRepository;
 import com.yju.toonovel.domain.user.repository.UserRepository;
 import com.yju.toonovel.global.security.jwt.repository.RefreshTokenRepository;
@@ -40,6 +42,7 @@ public class UserService {
 	private final NovelRepository novelRepository;
 	private final EnrollRepository enrollRepository;
 	private final EnrollCustomRepository enrollCustomRepository;
+	private final ChatRoomCustomRepository chatRoomCustomRepository;
 
 	@Transactional
 	public UserProfileResponseDto getUserProfile(Long id) {
@@ -116,5 +119,16 @@ public class UserService {
 
 	public List<AuthorListResponseDto> findNewAuthor(AuthorListPaginationRequestDto dto) {
 		return enrollCustomRepository.findAllAuthor(dto.getEnrollId(), dto.getLimit(), dto.getSort());
+	}
+
+	public List<AuthorListResponseDto> findPopularChatRoomAuthor() {
+		List<ChatRoom> chatRoomList = chatRoomCustomRepository.findByChatRoomMemberCount();
+
+		List<AuthorListResponseDto> result =
+			chatRoomList.stream().map(chatRoom -> {
+				User author = chatRoom.getUser();
+				return new AuthorListResponseDto(author.getUserId(), author.getNickname(), author.getImageUrl());
+			}).collect(Collectors.toList());
+		return result;
 	}
 }
