@@ -50,7 +50,7 @@ public class EnrollCustomRepositoryImpl implements EnrollCustomRepository {
 	}
 
 	private Predicate makeWhereCondition(Long enrollId, Sort sort) {
-		if (sort == Sort.CREATED_DATE_DESC && enrollId.equals(0L)) {
+		if (enrollId == null) {
 			return null;
 		} else if (sort == Sort.CREATED_DATE_DESC) {
 			return enrollHistory.enrollId.lt(enrollId);

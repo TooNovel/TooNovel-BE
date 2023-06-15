@@ -107,7 +107,7 @@ public class UserController {
 		userService.authorEnroll(user.userId, dto);
 	}
 
-	@Operation(summary = "최신 작가 요청")
+	@Operation(summary = "작가 리스트 조회 요청")
 	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping("/author")
 	@ResponseStatus(HttpStatus.OK)
