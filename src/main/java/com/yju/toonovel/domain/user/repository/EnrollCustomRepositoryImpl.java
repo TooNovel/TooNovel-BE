@@ -36,7 +36,8 @@ public class EnrollCustomRepositoryImpl implements EnrollCustomRepository {
 			.join(enrollHistory.user, user)
 			.where(
 				enrollIdCondition(dto.getEnrollId(), dto.getSort()),
-				titleCondition(dto.getNickname())
+				titleCondition(dto.getNickname()),
+				enrollHistory.isApproval.eq(true)
 				)
 			.orderBy(makeOrderByCondition(dto.getSort()))
 			.limit(dto.getLimit())
