@@ -117,8 +117,8 @@ public class UserService {
 			);
 	}
 
-	public List<AuthorListResponseDto> findNewAuthor(AuthorListPaginationRequestDto dto) {
-		return enrollCustomRepository.findAllAuthor(dto.getEnrollId(), dto.getLimit(), dto.getSort());
+	public List<AuthorListResponseDto> findAuthor(AuthorListPaginationRequestDto dto) {
+		return enrollCustomRepository.findAllAuthor(dto);
 	}
 
 	public List<AuthorListResponseDto> findPopularChatRoomAuthor() {

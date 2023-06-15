@@ -111,8 +111,8 @@ public class UserController {
 	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping("/author")
 	@ResponseStatus(HttpStatus.OK)
-	public List<AuthorListResponseDto> getNewAuthor(@ModelAttribute AuthorListPaginationRequestDto dto) {
-		return userService.findNewAuthor(dto);
+	public List<AuthorListResponseDto> getAuthor(@ModelAttribute AuthorListPaginationRequestDto dto) {
+		return userService.findAuthor(dto);
 	}
 
 	@Operation(summary = "인기 채팅방 조회 요청")

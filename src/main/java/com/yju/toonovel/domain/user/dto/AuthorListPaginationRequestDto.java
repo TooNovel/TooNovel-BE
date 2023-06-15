@@ -16,6 +16,9 @@ public class AuthorListPaginationRequestDto {
 	@Schema(description = "이전에 받은 마지막 enroll ID")
 	private Long enrollId;
 
+	@Schema(description = "작가 이름")
+	private String nickname;
+
 	@Schema(description = "한 페이지 안에 담길 작가의 수", defaultValue = "30")
 	private Integer limit = 30;
 

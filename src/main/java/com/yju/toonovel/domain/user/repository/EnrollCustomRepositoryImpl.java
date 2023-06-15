@@ -11,6 +11,7 @@ import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.yju.toonovel.domain.user.dto.AuthorListPaginationRequestDto;
 import com.yju.toonovel.domain.user.dto.AuthorListResponseDto;
 import com.yju.toonovel.global.common.Sort;
 
@@ -23,7 +24,7 @@ public class EnrollCustomRepositoryImpl implements EnrollCustomRepository {
 	private final JPAQueryFactory jpaQueryFactory;
 
 	@Override
-	public List<AuthorListResponseDto> findAllAuthor(Long enrollId, Integer limit, Sort sort) {
+	public List<AuthorListResponseDto> findAllAuthor(AuthorListPaginationRequestDto dto) {
 		return jpaQueryFactory
 			.select(Projections.fields(
 				AuthorListResponseDto.class,
@@ -33,10 +34,28 @@ public class EnrollCustomRepositoryImpl implements EnrollCustomRepository {
 			))
 			.from(enrollHistory)
 			.join(enrollHistory.user, user)
-			.where(makeWhereCondition(enrollId, sort))
-			.orderBy(makeOrderByCondition(sort))
-			.limit(limit)
+			.where(
+				enrollIdCondition(dto.getEnrollId(), dto.getSort()),
+				titleCondition(dto.getNickname())
+				)
+			.orderBy(makeOrderByCondition(dto.getSort()))
+			.limit(dto.getLimit())
 			.fetch();
+	}
+
+	private Predicate enrollIdCondition(Long enrollId, Sort sort) {
+		if (enrollId == null) {
+			return null;
+		} else if (sort == Sort.CREATED_DATE_DESC) {
+			return enrollHistory.enrollId.lt(enrollId);
+		} else if (sort == Sort.CREATED_DATE_ASC) {
+			return enrollHistory.enrollId.gt(enrollId);
+		}
+		return enrollHistory.enrollId.lt(enrollId);
+	}
+
+	private Predicate titleCondition(String nickname) {
+		return (nickname == null) ? null : enrollHistory.user.nickname.contains(nickname);
 	}
 
 	private OrderSpecifier<?> makeOrderByCondition(Sort sort) {
@@ -49,14 +68,5 @@ public class EnrollCustomRepositoryImpl implements EnrollCustomRepository {
 		return enrollHistory.enrollId.desc();
 	}
 
-	private Predicate makeWhereCondition(Long enrollId, Sort sort) {
-		if (enrollId == null) {
-			return null;
-		} else if (sort == Sort.CREATED_DATE_DESC) {
-			return enrollHistory.enrollId.lt(enrollId);
-		} else if (sort == Sort.CREATED_DATE_ASC) {
-			return enrollHistory.enrollId.gt(enrollId);
-		}
-		return enrollHistory.enrollId.lt(enrollId);
-	}
+
 }
