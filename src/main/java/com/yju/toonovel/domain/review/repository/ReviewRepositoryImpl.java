@@ -49,7 +49,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 		return Projections.fields(
 			ReviewByUserResponseDto.class,
 			review.novel.image, review.novel.genre, review.novel.author, review.novel.description,
-			review.novel.title,
+			review.novel.title, review.novel.novelId,
 			review.reviewContent, review.reviewGrade, review.createdDate, review.reviewLike,
 			review.writer.nickname, review.writer.imageUrl
 		);
