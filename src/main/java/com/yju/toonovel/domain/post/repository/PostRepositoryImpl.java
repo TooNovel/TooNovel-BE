@@ -44,7 +44,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 		return Projections.fields(
 			PostAllResponseDto.class,
 			post.postId, post.category, post.title, post.createdDate,
-			post.like, post.viewCount, user.nickname
+			post.like, post.viewCount, user.nickname, post.commentCount
 		);
 	}
 
