@@ -1,5 +1,7 @@
 package com.yju.toonovel.domain.chatting.dto;
 
+import java.time.LocalDateTime;
+
 import javax.validation.constraints.NotBlank;
 
 import org.hibernate.validator.constraints.Length;
@@ -26,6 +28,8 @@ public class ReplyDto {
 	@Length(max = 300)
 	@Schema(description = "답장 내용")
 	private String replyMessage;
+	@Schema(description = "답장을 보낸 시간")
+	private LocalDateTime createdDate;
 	@Schema(description = "원문 채팅의 채팅 번호")
 	private Long chatId;
 	@Schema(description = "원문 채팅의 채팅 내용")

@@ -1,7 +1,9 @@
 package com.yju.toonovel.domain.chatting.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.yju.toonovel.domain.chatting.dto.ChatDto;
 import com.yju.toonovel.domain.chatting.dto.ChatRoomCreateRequestDto;
 import com.yju.toonovel.domain.chatting.dto.ChatRoomResponseDto;
+import com.yju.toonovel.domain.chatting.dto.ReplyDto;
 import com.yju.toonovel.domain.chatting.service.ChatRoomService;
 import com.yju.toonovel.global.security.jwt.JwtAuthentication;
 
@@ -87,16 +90,29 @@ public class ChatRoomHttpController {
 		return chatRoomService.getAllChatRoom(user.userId);
 	}
 
-	@Operation(summary = "채팅 목록 조회")
+	@Operation(summary = "채팅 목록 조회 (요청 날짜 형식 yyyy-MM-dd)")
 	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@ApiResponse(responseCode = "404", description = "해당 채팅방이 없을 때")
 	@ApiResponse(responseCode = "409", description = "요청한 유저가 해당 채팅방에 가입되어 있지 않을 때")
 	@GetMapping("{rid}")
 	@ResponseStatus(HttpStatus.OK)
-	public List<ChatDto> getChatListByAuthor(
+	public List<ChatDto> getChatList(
 		@AuthenticationPrincipal JwtAuthentication user,
 		@PathVariable("rid") Long rid,
-		@RequestParam(required = false) Long chatId) {
-		return chatRoomService.getChatList(user.userId, rid, chatId);
+		@RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+		return chatRoomService.getChatList(user.userId, rid, date);
+	}
+
+	@Operation(summary = "답장 목록 조회 (요청 날짜 형식 yyyy-MM-dd)")
+	@ApiResponse(responseCode = "200", description = "요청 성공")
+	@ApiResponse(responseCode = "404", description = "해당 채팅방이 없을 때")
+	@ApiResponse(responseCode = "409", description = "요청한 유저가 해당 채팅방에 가입되어 있지 않을 때")
+	@GetMapping("/reply/{rid}")
+	@ResponseStatus(HttpStatus.OK)
+	public List<ReplyDto> getReplyList(
+		@AuthenticationPrincipal JwtAuthentication user,
+		@PathVariable("rid") Long rid,
+		@RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+		return chatRoomService.getReplyList(user.userId, rid, date);
 	}
 }
