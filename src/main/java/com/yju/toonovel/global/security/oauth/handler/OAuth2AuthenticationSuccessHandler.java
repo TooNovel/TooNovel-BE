@@ -65,6 +65,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 			.sameSite("None")
 			.secure(true)
 			.maxAge(accessTokenExpireSeconds)
+			.domain(".toonovel.link")
 			.build();
 
 		response.addHeader("Set-Cookie", token.toString());
@@ -77,6 +78,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 			.httpOnly(true)
 			.secure(true)
 			.maxAge(refreshTokenExpireSeconds)
+			.domain(".toonovel.link")
 			.build();
 
 		response.addHeader("Set-Cookie", token.toString());

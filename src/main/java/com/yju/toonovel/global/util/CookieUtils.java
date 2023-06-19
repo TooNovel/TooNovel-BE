@@ -39,6 +39,7 @@ public class CookieUtils {
 			.path("/")
 			.secure(true)
 			.maxAge(maxAge)
+			.domain(".toonovel.link")
 			.build();
 		return cookie.toString();
 	}
@@ -50,6 +51,7 @@ public class CookieUtils {
 			.httpOnly(true)
 			.secure(true)
 			.maxAge(maxAge)
+			.domain(".toonovel.link")
 			.build();
 		return cookie.toString();
 	}
@@ -61,6 +63,7 @@ public class CookieUtils {
 			.httpOnly(true)
 			.secure(true)
 			.maxAge(0)
+			.domain(".toonovel.link")
 			.build();
 		return cookie.toString();
 	}
