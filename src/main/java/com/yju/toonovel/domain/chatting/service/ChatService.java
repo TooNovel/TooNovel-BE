@@ -86,6 +86,7 @@ public class ChatService {
 		dto.setSenderName(user.getNickname());
 		dto.setCreator(isCreator);
 		dto.setFilterResult(response.getFilteredResult());
+		dto.setCreatedDate(chat.getCreatedDate());
 	}
 
 	public FilterChatResponseDto filterChat(String message) {
@@ -130,6 +131,7 @@ public class ChatService {
 		dto.setReplyId(reply.getReplyId());
 		dto.setSenderName(user.getNickname());
 		dto.setUserName(chat.getUser().getNickname());
+		dto.setCreatedDate(chat.getCreatedDate());
 	}
 
 	private void limitCheck(User user, ChatRoom chatRoom, long limit) {

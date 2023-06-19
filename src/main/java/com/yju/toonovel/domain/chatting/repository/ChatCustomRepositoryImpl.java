@@ -2,6 +2,7 @@ package com.yju.toonovel.domain.chatting.repository;
 
 import static com.yju.toonovel.domain.chatting.entity.QChat.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -25,20 +26,18 @@ public class ChatCustomRepositoryImpl implements ChatCustomRepository {
 			.selectFrom(chat)
 			.where(chat.chatRoom.eq(chatRoom))
 			.orderBy(chat.chatId.desc())
-			.limit(30)
 			.fetch();
 	}
 
 	@Override
-	public List<Chat> findAllByChatRoomAndChatIdToAuthor(ChatRoom chatRoom, Long chatId) {
+	public List<Chat> findAllByChatRoomAndDateToAuthor(ChatRoom chatRoom, LocalDate date) {
 		return jpaQueryFactory
 			.selectFrom(chat)
 			.where(
 				chat.chatRoom.eq(chatRoom),
-				chat.chatId.lt(chatId)
+				chat.createdDate.between(date.atStartOfDay(), date.plusDays(1).atStartOfDay())
 			)
 			.orderBy(chat.chatId.desc())
-			.limit(30)
 			.fetch();
 	}
 
@@ -52,22 +51,20 @@ public class ChatCustomRepositoryImpl implements ChatCustomRepository {
 					.or(chat.user.eq(author))
 			)
 			.orderBy(chat.chatId.desc())
-			.limit(30)
 			.fetch();
 	}
 
 	@Override
-	public List<Chat> findAllByChatRoomAndChatIdToUser(ChatRoom chatRoom, Long userId, User author, Long chatId) {
+	public List<Chat> findAllByChatRoomAndDateToUser(ChatRoom chatRoom, Long userId, User author, LocalDate date) {
 		return jpaQueryFactory
 			.selectFrom(chat)
 			.where(
 				chat.chatRoom.eq(chatRoom),
-				chat.chatId.lt(chatId),
+				chat.createdDate.between(date.atStartOfDay(), date.plusDays(1).atStartOfDay()),
 				chat.user.userId.eq(userId)
 					.or(chat.user.eq(author))
 			)
 			.orderBy(chat.chatId.desc())
-			.limit(30)
 			.fetch();
 	}
 
