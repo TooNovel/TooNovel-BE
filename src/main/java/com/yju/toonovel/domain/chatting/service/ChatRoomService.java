@@ -23,8 +23,10 @@ import com.yju.toonovel.domain.chatting.exception.ChatRoomNotJoinException;
 import com.yju.toonovel.domain.chatting.exception.ChatRoomNotMatchUserException;
 import com.yju.toonovel.domain.chatting.exception.NotAuthorException;
 import com.yju.toonovel.domain.chatting.repository.ChatCustomRepository;
+import com.yju.toonovel.domain.chatting.repository.ChatRepository;
 import com.yju.toonovel.domain.chatting.repository.ChatRoomRepository;
 import com.yju.toonovel.domain.chatting.repository.ReplyCustomRepository;
+import com.yju.toonovel.domain.chatting.repository.ReplyRepository;
 import com.yju.toonovel.domain.user.entity.Role;
 import com.yju.toonovel.domain.user.entity.User;
 import com.yju.toonovel.domain.user.exception.UserNotFoundException;
@@ -43,6 +45,8 @@ public class ChatRoomService {
 	private final ChatRoomRepository chatRoomRepository;
 	private final ChatCustomRepository chatCustomRepository;
 	private final ReplyCustomRepository replyCustomRepository;
+	private final ChatRepository chatRepository;
+	private final ReplyRepository replyRepository;
 
 
 	// 채팅방 생성
@@ -67,16 +71,20 @@ public class ChatRoomService {
 		joinChatRoomByUserId(userId, userId);
 	}
 
+	@Transactional
 	public void deleteChatRoom(Long rid, Long userId) {
 		// 자신의 채팅방이 존재한다는 것은, registerChatRoom 시에 유저 및 작가 확인이 되었다는 뜻이므로 재확인하지 않았습니다
 
 		// 채팅방 존재 여부 확인
-		chatRoomRepository.findById(rid)
+		ChatRoom chatRoom = chatRoomRepository.findById(rid)
 				.orElseThrow(() -> new ChatRoomNotFoundException());
 
 		// 다른 사람의 채팅방을 삭제 시도하는 경우 방지
 		chatRoomRepository.findByChatRoomIdAndAuthorUserId(rid, userId)
 			.orElseThrow(() -> new ChatRoomNotMatchUserException());
+
+		chatRepository.deleteAllByChatRoom(chatRoom);
+		replyRepository.deleteAllByChatRoom(chatRoom);
 
 		chatRoomRepository.deleteById(rid);
 	}
