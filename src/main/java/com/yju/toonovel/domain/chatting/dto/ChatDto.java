@@ -43,6 +43,7 @@ public class ChatDto {
 		Long senderId,
 		boolean isCreator,
 		String message,
+		String filterResult,
 		LocalDateTime createdDate
 	) {
 		this.chatId = chatId;
@@ -50,6 +51,7 @@ public class ChatDto {
 		this.senderId = senderId;
 		this.isCreator = isCreator;
 		this.message = message;
+		this.filterResult = filterResult;
 		this.createdDate = createdDate;
 	}
 
@@ -59,6 +61,7 @@ public class ChatDto {
 		Long senderId,
 		boolean isCreator,
 		String message,
+		String filterResult,
 		LocalDateTime createdDate
 	) {
 		// chatId = no offset 페이징용, Reply시 식별용
@@ -72,6 +75,7 @@ public class ChatDto {
 			.senderId(senderId)
 			.isCreator(isCreator)
 			.message(message)
+			.filterResult(filterResult)
 			.createdDate(createdDate)
 			.build();
 	}
