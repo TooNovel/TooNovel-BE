@@ -6,5 +6,5 @@ import com.yju.toonovel.domain.chatting.entity.ChatRoom;
 import com.yju.toonovel.domain.chatting.entity.Reply;
 
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
-	void deleteAllByChatRoom(ChatRoom chatRoom);
+	void deleteAllInBatchByChatRoom(ChatRoom chatRoom);
 }

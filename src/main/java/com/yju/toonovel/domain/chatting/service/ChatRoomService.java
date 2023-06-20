@@ -83,8 +83,8 @@ public class ChatRoomService {
 		chatRoomRepository.findByChatRoomIdAndAuthorUserId(rid, userId)
 			.orElseThrow(() -> new ChatRoomNotMatchUserException());
 
-		chatRepository.deleteAllByChatRoom(chatRoom);
-		replyRepository.deleteAllByChatRoom(chatRoom);
+		replyRepository.deleteAllInBatchByChatRoom(chatRoom);
+		chatRepository.deleteAllInBatchByChatRoom(chatRoom);
 
 		chatRoomRepository.deleteById(rid);
 	}
