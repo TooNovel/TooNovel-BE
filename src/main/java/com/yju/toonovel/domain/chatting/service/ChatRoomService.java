@@ -231,6 +231,7 @@ public class ChatRoomService {
 			chat.getUser().getUserId(),
 			isCreator,
 			chat.getMessage(),
+			(chat.isFiltered()) ? "bad" : "ok",
 			chat.getCreatedDate()
 		);
 	}
