@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.yju.toonovel.domain.admin.dto.AdminStatisticsRequestDto;
 import com.yju.toonovel.domain.novel.entity.Novel;
 import com.yju.toonovel.domain.novel.exception.NovelNotFoundException;
 import com.yju.toonovel.domain.novel.exception.NovelNotMatchAuthorException;
@@ -56,13 +57,13 @@ public class StatisticsService {
 		return statisticRepositoryImpl.getAgeStatistic(novel.getNovelId());
 	}
 
-	public List<AdminStatisticsResponseDto> getReviewStatistic() {
+	public List<AdminStatisticsResponseDto> getReviewStatistic(AdminStatisticsRequestDto dto) {
 
-		return statisticRepositoryImpl.getReviewStatistic();
+		return statisticRepositoryImpl.getReviewStatistic(dto);
 	}
 
-	public List<AdminStatisticsResponseDto> getNovelStatistic() {
+	public List<AdminStatisticsResponseDto> getNovelStatistic(AdminStatisticsRequestDto dto) {
 
-		return statisticRepositoryImpl.getNovelStatistic();
+		return statisticRepositoryImpl.getNovelStatistic(dto);
 	}
 }

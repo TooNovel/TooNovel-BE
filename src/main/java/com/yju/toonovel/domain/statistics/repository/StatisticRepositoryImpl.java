@@ -15,6 +15,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.JPQLQueryFactory;
+import com.yju.toonovel.domain.admin.dto.AdminStatisticsRequestDto;
 import com.yju.toonovel.domain.statistics.dto.AdminStatisticsResponseDto;
 import com.yju.toonovel.domain.statistics.dto.StatisticsResultResponseDto;
 
@@ -89,7 +90,7 @@ public class StatisticRepositoryImpl implements StatisticRepositoryCustom {
 			.groupBy(ageGroup(birthYear, year)).fetch();
 	}
 
-	public List<AdminStatisticsResponseDto> getReviewStatistic() {
+	public List<AdminStatisticsResponseDto> getReviewStatistic(AdminStatisticsRequestDto dto) {
 
 		StringExpression createdDate = Expressions.stringTemplate("SUBSTRING({0}, 1, 10)", review.createdDate);
 
@@ -102,11 +103,13 @@ public class StatisticRepositoryImpl implements StatisticRepositoryCustom {
 				)
 			)
 			.from(review)
+			.where(createdDate.between(dto.getStartDate(), dto.getEndDate()))
 			.groupBy(createdDate)
+			.orderBy(review.createdDate.asc())
 			.fetch();
 	}
 
-	public List<AdminStatisticsResponseDto> getNovelStatistic() {
+	public List<AdminStatisticsResponseDto> getNovelStatistic(AdminStatisticsRequestDto dto) {
 
 		StringExpression createdDate = Expressions.stringTemplate("SUBSTRING({0}, 1, 10)", novel.createdDate);
 
@@ -119,7 +122,9 @@ public class StatisticRepositoryImpl implements StatisticRepositoryCustom {
 				)
 			)
 			.from(novel)
+			.where(createdDate.between(dto.getStartDate(), dto.getEndDate()))
 			.groupBy(createdDate)
+			.orderBy(novel.createdDate.asc())
 			.fetch();
 	}
 }
