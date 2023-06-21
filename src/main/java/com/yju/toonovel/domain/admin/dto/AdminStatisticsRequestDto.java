@@ -22,11 +22,11 @@ public class AdminStatisticsRequestDto {
 
 	public String todayDate() {
 		LocalDateTime today = LocalDateTime.now();
-		return today.format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+		return today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 	}
 
 	public String oneWeekAgoDate() {
 		LocalDateTime today = LocalDateTime.now().minusWeeks(1);
-		return today.format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+		return today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 	}
 }
