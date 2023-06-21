@@ -24,7 +24,12 @@ public class ChatCustomRepositoryImpl implements ChatCustomRepository {
 	public List<Chat> findAllByChatRoomToAuthor(ChatRoom chatRoom) {
 		return jpaQueryFactory
 			.selectFrom(chat)
-			.where(chat.chatRoom.eq(chatRoom))
+			.where(
+				chat.chatRoom.eq(chatRoom),
+				chat.createdDate.between(
+					LocalDate.now().minusDays(7).atStartOfDay(), LocalDate.now().plusDays(1).atStartOfDay()
+				)
+			)
 			.orderBy(chat.chatId.desc())
 			.fetch();
 	}
@@ -48,7 +53,10 @@ public class ChatCustomRepositoryImpl implements ChatCustomRepository {
 			.where(
 				chat.chatRoom.eq(chatRoom),
 				chat.user.userId.eq(userId)
-					.or(chat.user.eq(author))
+					.or(chat.user.eq(author)),
+				chat.createdDate.between(
+					LocalDate.now().minusDays(7).atStartOfDay(), LocalDate.now().plusDays(1).atStartOfDay()
+				)
 			)
 			.orderBy(chat.chatId.desc())
 			.fetch();
@@ -74,7 +82,10 @@ public class ChatCustomRepositoryImpl implements ChatCustomRepository {
 			.selectFrom(chat)
 			.where(
 				chat.chatRoom.eq(chatRoom),
-				chat.user.userId.eq(userId)
+				chat.user.userId.eq(userId),
+				chat.createdDate.between(
+					LocalDate.now().minusDays(7).atStartOfDay(), LocalDate.now().plusDays(1).atStartOfDay()
+				)
 			)
 			.orderBy(chat.chatId.desc())
 			.limit(limit)
