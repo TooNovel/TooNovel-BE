@@ -21,6 +21,7 @@ public enum ErrorCode {
 	USER_INVALID(HttpStatus.BAD_REQUEST, "U002", "권한이 없는 사용자입니다."),
 	ALREADY_AUTHOR(HttpStatus.BAD_REQUEST, "U003", "이 유저는 이미 작가입니다."),
 	ADMIN_AUTHENTICATION_FAIL(HttpStatus.BAD_REQUEST, "U004", "관리자만 가능한 요청입니다."),
+	AUTHOR_ALREADY_ENROLL(HttpStatus.BAD_REQUEST, "U005", "이미 작가 신청을 했습니다"),
 
 	// Token
 	REFRESH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "A001", "존재하지 않는 리프레쉬 토큰입니다."),
