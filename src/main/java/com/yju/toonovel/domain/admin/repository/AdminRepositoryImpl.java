@@ -47,7 +47,7 @@ public class AdminRepositoryImpl implements AdminRepositoryCustom {
 				Projections.fields(
 					EnrollListResponseDto.class,
 					enrollHistory.user.userId, enrollHistory.enrollId,
-					enrollHistory.user.nickname, enrollHistory.isApproval,
+					enrollHistory.nickname, enrollHistory.isApproval,
 					enrollHistory.createdDate
 				)
 			)

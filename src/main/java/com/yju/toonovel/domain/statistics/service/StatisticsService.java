@@ -36,7 +36,7 @@ public class StatisticsService {
 		novelRepository.findByNovelId(nid)
 			.orElseThrow(() -> new NovelNotFoundException());
 
-		Novel novel = statisticsRepository.findNovelByUserIdAndNovelId(nid, user.getNickname())
+		Novel novel = statisticsRepository.findNovelByUserIdAndNovelId(nid, user.getUserId())
 			.orElseThrow(()-> new NovelNotMatchAuthorException());
 
 		return statisticRepositoryImpl.getGenderStatistic(novel.getNovelId());
@@ -50,7 +50,7 @@ public class StatisticsService {
 		novelRepository.findByNovelId(nid)
 			.orElseThrow(() -> new NovelNotFoundException());
 
-		Novel novel = statisticsRepository.findNovelByUserIdAndNovelId(nid, user.getNickname())
+		Novel novel = statisticsRepository.findNovelByUserIdAndNovelId(nid, user.getUserId())
 			.orElseThrow(()-> new NovelNotMatchAuthorException());
 
 		return statisticRepositoryImpl.getAgeStatistic(novel.getNovelId());
