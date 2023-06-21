@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yju.toonovel.domain.admin.dto.AdminStatisticsRequestDto;
 import com.yju.toonovel.domain.admin.dto.EnrollListPaginationRequestDto;
 import com.yju.toonovel.domain.admin.dto.EnrollListResponseDto;
 import com.yju.toonovel.domain.admin.dto.EnrollUpdateRequestDto;
@@ -57,15 +58,15 @@ public class AdminController {
 	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping("/review")
 	@ResponseStatus(HttpStatus.OK)
-	public List<AdminStatisticsResponseDto> reviewStatistics() {
-		return statisticsService.getReviewStatistic();
+	public List<AdminStatisticsResponseDto> reviewStatistics(@ModelAttribute AdminStatisticsRequestDto dto) {
+		return statisticsService.getReviewStatistic(dto);
 	}
 
 	@Operation(summary = "일별 작품 개수 조회 요청")
 	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping("/novel")
 	@ResponseStatus(HttpStatus.OK)
-	public List<AdminStatisticsResponseDto> novelStatistics() {
-		return statisticsService.getNovelStatistic();
+	public List<AdminStatisticsResponseDto> novelStatistics(@ModelAttribute AdminStatisticsRequestDto dto) {
+		return statisticsService.getNovelStatistic(dto);
 	}
 }
