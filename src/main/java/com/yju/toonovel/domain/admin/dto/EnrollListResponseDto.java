@@ -21,7 +21,7 @@ public class EnrollListResponseDto {
 	private Long userId;
 	@Schema(description = "신청확인 테이블에 존재하는지 체크할 신청번호")
 	private Long enrollId;
-	@Schema(description = "닉네임")
+	@Schema(description = "유저가 신청한 작가 닉네임")
 	@Length(max = 15)
 	@NotBlank
 	private String nickname;

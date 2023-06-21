@@ -114,7 +114,7 @@ public class UserService {
 		novelRepository.findByAuthor(dto.getNickname())
 			.ifPresentOrElse(
 				isAuthor -> {
-					enrollRepository.save(EnrollHistory.of(user));
+					enrollRepository.save(EnrollHistory.of(dto.getNickname(), user));
 				},
 				() -> {
 					throw new AuthorNotFoundException();
