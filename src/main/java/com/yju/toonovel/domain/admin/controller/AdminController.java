@@ -26,13 +26,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Tag(name = "관리자 API")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/admin")
-@Slf4j
 public class AdminController {
 
 	private final AdminService adminService;
@@ -61,8 +59,6 @@ public class AdminController {
 	@GetMapping("/review")
 	@ResponseStatus(HttpStatus.OK)
 	public List<AdminStatisticsResponseDto> reviewStatistics(@ModelAttribute AdminStatisticsRequestDto dto) {
-		log.info("startDate : {}", dto.getStartDate());
-		log.info("endDate : {}", dto.getEndDate());
 		return statisticsService.getReviewStatistic(dto);
 	}
 
