@@ -22,6 +22,7 @@ import com.yju.toonovel.domain.user.dto.UserProfileUpdateRequestDto;
 import com.yju.toonovel.domain.user.dto.UserRegisterRequestDto;
 import com.yju.toonovel.domain.user.entity.Role;
 import com.yju.toonovel.domain.user.entity.User;
+import com.yju.toonovel.domain.user.exception.AlreadyAuthorEnrollException;
 import com.yju.toonovel.domain.user.exception.AlreadyAuthorException;
 import com.yju.toonovel.domain.user.exception.UserNotFoundException;
 import com.yju.toonovel.domain.user.repository.ChatRoomCustomRepository;
@@ -104,6 +105,11 @@ public class UserService {
 		if (user.getRole() == Role.AUTHOR) {
 			throw new AlreadyAuthorException();
 		}
+
+		enrollRepository.findByUserId(userId)
+			.ifPresent(isAlready -> {
+				throw new AlreadyAuthorEnrollException();
+			});
 
 		novelRepository.findByAuthor(dto.getNickname())
 			.ifPresentOrElse(

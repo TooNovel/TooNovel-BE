@@ -12,6 +12,9 @@ public interface EnrollRepository extends JpaRepository<EnrollHistory, Long> {
 
 	Optional<EnrollHistory> findByEnrollId(Long eid);
 
+	@Query("select e from EnrollHistory e where e.user.userId = :uid")
+	Optional<EnrollHistory> findByUserId(@Param("uid") Long uid);
+
 	@Query("select e from EnrollHistory e where e.enrollId = :eid and e.user.userId = :uid")
 	Optional<EnrollHistory> findByIdByUserId(@Param("eid") Long eid, @Param("uid") Long uid);
 }
