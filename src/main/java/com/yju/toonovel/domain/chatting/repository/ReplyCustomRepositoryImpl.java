@@ -51,7 +51,10 @@ public class ReplyCustomRepositoryImpl implements ReplyCustomRepository {
 	}
 
 	private Predicate makeWhereCondition(LocalDate date) {
-		return (date == null) ? null : reply.createdDate.between(date.atStartOfDay(), date.plusDays(1).atStartOfDay());
+		return (date == null)
+			? reply.createdDate.between(
+				LocalDate.now().minusDays(7).atStartOfDay(), LocalDate.now().plusDays(1).atStartOfDay()
+		)
+			: reply.createdDate.between(date.atStartOfDay(), date.plusDays(1).atStartOfDay());
 	}
-
 }

@@ -18,4 +18,7 @@ public class AuthorListResponseDto {
 
 	@Schema(description = "작가의 프로필 사진")
 	private String imageUrl;
+
+	@Schema(description = "페이징용 신청 ID")
+	private Long enrollId;
 }

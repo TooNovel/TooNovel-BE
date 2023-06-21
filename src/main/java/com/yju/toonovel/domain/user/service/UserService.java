@@ -132,7 +132,7 @@ public class UserService {
 		List<AuthorListResponseDto> result =
 			chatRoomList.stream().map(chatRoom -> {
 				User author = chatRoom.getUser();
-				return new AuthorListResponseDto(author.getUserId(), author.getNickname(), author.getImageUrl());
+				return new AuthorListResponseDto(author.getUserId(), author.getNickname(), author.getImageUrl(), null);
 			}).collect(Collectors.toList());
 		return result;
 	}

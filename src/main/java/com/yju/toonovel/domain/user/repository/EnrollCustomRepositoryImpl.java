@@ -30,7 +30,8 @@ public class EnrollCustomRepositoryImpl implements EnrollCustomRepository {
 				AuthorListResponseDto.class,
 				enrollHistory.user.userId,
 				enrollHistory.user.nickname,
-				enrollHistory.user.imageUrl
+				enrollHistory.user.imageUrl,
+				enrollHistory.enrollId
 			))
 			.from(enrollHistory)
 			.join(enrollHistory.user, user)
