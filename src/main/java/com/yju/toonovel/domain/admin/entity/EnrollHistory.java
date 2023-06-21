@@ -24,6 +24,8 @@ public class EnrollHistory extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long enrollId;
 
+	private String nickname;
+
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -32,13 +34,15 @@ public class EnrollHistory extends BaseEntity {
 
 
 	@Builder
-	public EnrollHistory(User user, boolean isApproval) {
+	public EnrollHistory(String nickname, User user, boolean isApproval) {
+		this.nickname = nickname;
 		this.user = user;
 		this.isApproval = isApproval;
 	}
 
-	public static EnrollHistory of(User user) {
+	public static EnrollHistory of(String nickname, User user) {
 		return EnrollHistory.builder()
+			.nickname(nickname)
 			.user(user)
 			.build();
 	}
