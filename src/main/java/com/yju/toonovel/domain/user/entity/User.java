@@ -24,6 +24,8 @@ import lombok.NoArgsConstructor;
 @SQLDelete(sql = "UPDATE user SET deleted = true where user_id=?")
 public class User extends BaseEntity {
 
+	public static final String DEFAULT_IMAGE_URL = "https://toonovel-image-bucket.s3.ap-northeast-2.amazonaws.com/image/default_image.png";
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userId;
@@ -55,10 +57,9 @@ public class User extends BaseEntity {
 	private boolean deleted;
 
 	@Builder
-	public User(String nickname, String imageUrl, Provider provider, String oauthId,
-		Role role, String gender, String birth) {
+	public User(String nickname, Provider provider, String oauthId, Role role, String gender, String birth) {
 		this.nickname = nickname;
-		this.imageUrl = imageUrl;
+		this.imageUrl = DEFAULT_IMAGE_URL;
 		this.provider = provider;
 		this.oauthId = oauthId;
 		this.role = role;
