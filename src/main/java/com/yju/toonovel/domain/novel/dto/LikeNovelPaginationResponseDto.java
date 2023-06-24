@@ -23,12 +23,16 @@ public class LikeNovelPaginationResponseDto {
 	private Genre genre;
 	@Schema(description = "소설 평점")
 	private Double grade;
+	@Schema(description = "리뷰 수")
+	private Long reviewCount;
+	@Schema(description = "좋아요 수")
+	private Long likeCount;
 	@Schema(description = "소설 표지")
 	private String image;
 
 	@Builder
 	public LikeNovelPaginationResponseDto(Long likeNovelId, Long novelId, String title, String author, Genre genre,
-		Double grade, String image) {
+		Double grade, String image, Long reviewCount, Long likeCount) {
 		this.likeNovelId = likeNovelId;
 		this.novelId = novelId;
 		this.title = title;
@@ -36,6 +40,8 @@ public class LikeNovelPaginationResponseDto {
 		this.genre = genre;
 		this.grade = grade;
 		this.image = image;
+		this.reviewCount = reviewCount;
+		this.likeCount = likeCount;
 	}
 
 	public static LikeNovelPaginationResponseDto from(LikeNovel novel) {
@@ -46,7 +52,9 @@ public class LikeNovelPaginationResponseDto {
 			novel.getNovel().getAuthor(),
 			novel.getNovel().getGenre(),
 			novel.getNovel().getGrade(),
-			novel.getNovel().getImage()
+			novel.getNovel().getImage(),
+			novel.getNovel().getReviewCount(),
+			novel.getNovel().getLikeCount()
 		);
 	}
 }
