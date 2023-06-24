@@ -17,11 +17,14 @@ public class ChatRoomResponseDto {
 	private String chatRoomName;
 	@Schema(description = "채팅방을 생성한 작가의 닉네임")
 	private String nickname;
+	@Schema(description = "작가의 userId")
+	private Long userId;
 
 	@Builder
-	public ChatRoomResponseDto(Long chatRoomId, String chatRoomName, String nickname) {
+	public ChatRoomResponseDto(Long chatRoomId, String chatRoomName, String nickname, Long userId) {
 		this.chatRoomId = chatRoomId;
 		this.chatRoomName = chatRoomName;
 		this.nickname = nickname;
+		this.userId = userId;
 	}
 }
