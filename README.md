@@ -198,7 +198,7 @@
 
 ### 서비스 아키텍처
 
-![test drawio (2)](https://github.com/TooNovel/TooNovel-BE/assets/83005178/d2236682-43c8-4aab-9596-8cd44eed3b75)
+![test drawio (5)](https://github.com/TooNovel/TooNovel-BE/assets/83005178/0223edc2-5e44-4c52-ae3c-4c4d60835311)
 
 ### CI/CD
 
@@ -208,8 +208,7 @@
 
 ## API 
 
-<img src="https://github.com/TooNovel/TooNovel-BE/assets/83005178/b429c01c-388e-4584-b298-0ed8b8bfb783" width="100px" />
-
+![image](https://github.com/TooNovel/TooNovel-BE/assets/83005178/6cd8abea-e05b-47f8-a271-94b849120232)
 - [Swagger](https://api.toonovel.link/swagger-ui/index.html)
 
 ## 로컬 환경 변수
@@ -226,11 +225,12 @@ DB_PASSWORD=
 AWS_IMAGE_BUCKET=
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_KEY_ID=
+AWS_REGION=
 
 #CORS
-BACK_END=
-FRONT_END=
-MACHINE_LEARNING=
+BACKEND_URL=
+FRONTEND_URL=
+ML_URL=
 
 #OAUTH2 정보
 GOOGLE_CLIENT_ID=
