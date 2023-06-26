@@ -23,7 +23,7 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
 	Optional<ChatRoom> findByChatRoomIdAndAuthorUserId(@Param("rid") Long rid, @Param("uid") Long uid);
 
 	@Query("select new com.yju.toonovel.domain.chatting.dto.ChatRoomResponseDto"
-		+ "(r.chatRoomId, r.chatRoomName, u.nickname)"
+		+ "(r.chatRoomId, r.chatRoomName, u.nickname, u.userId)"
 		+ " from ChatRoom r join r.user u where :user member of r.users")
 	List<ChatRoomResponseDto> findAllChatRoomByUser(@Param("user") User user);
 }
