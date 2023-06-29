@@ -1,5 +1,8 @@
 package com.yju.toonovel.domain.novel.dto;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import com.yju.toonovel.domain.novel.entity.Genre;
 import com.yju.toonovel.domain.novel.entity.Novel;
 
@@ -20,17 +23,19 @@ public class NovelPaginationResponseDto {
 	@Schema(description = "장르")
 	private Genre genre;
 	@Schema(description = "소설 평점")
-	private Double grade;
+	private double grade;
 	@Schema(description = "리뷰 수")
 	private Long reviewCount;
 	@Schema(description = "좋아요 수")
 	private Long likeCount;
+	@Schema(description = "소설 추가 일자")
+	private String createdDate;
 	@Schema(description = "소설 표지")
 	private String image;
 
 	@Builder
 	public NovelPaginationResponseDto(Long novelId, String title, String author, Genre genre, Double grade,
-		Long reviewCount, Long likeCount, String image) {
+		Long reviewCount, Long likeCount, LocalDateTime createdDate, String image) {
 		this.novelId = novelId;
 		this.title = title;
 		this.author = author;
@@ -38,6 +43,7 @@ public class NovelPaginationResponseDto {
 		this.grade = grade;
 		this.reviewCount = reviewCount;
 		this.likeCount = likeCount;
+		this.createdDate = createdDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		this.image = image;
 	}
 
@@ -50,6 +56,7 @@ public class NovelPaginationResponseDto {
 			novel.getGrade(),
 			novel.getReviewCount(),
 			novel.getLikeCount(),
+			novel.getCreatedDate(),
 			novel.getImage()
 		);
 	}
