@@ -51,7 +51,7 @@ public class Novel extends BaseEntity {
 	private long likeCount;
 
 	@Basic(fetch = FetchType.LAZY)
-	@Formula("(SELECT FORMAT(AVG(r.review_grade), 1) FROM review r WHERE r.novel_id = novel_id)")
+	@Formula("(SELECT COALESCE(FORMAT(AVG(r.review_grade), 1), 0) FROM review r WHERE r.novel_id = novel_id)")
 	private Double grade;
 
 	@Basic(fetch = FetchType.LAZY)
