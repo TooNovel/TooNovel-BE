@@ -58,7 +58,7 @@ public class NovelCustomRepositoryImpl implements NovelCustomRepository {
 			return null;
 		}
 
-		LocalDateTime parsedDate = LocalDateTime.parse(createdDate + "T00:00:00");
+		LocalDateTime parsedDate = LocalDateTime.parse(createdDate + "T00:00:00").plusDays(1);
 		return novel.createdDate.eq(parsedDate)
 			.and(novel.novelId.lt(novelId))
 			.or(novel.createdDate.lt(parsedDate));
