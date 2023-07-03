@@ -18,15 +18,27 @@ public class NovelPaginationRequestDto {
 	private String author;
 	@Schema(description = "장르")
 	private Genre genre;
-	@Schema(description = "정렬 기준", defaultValue = "CREATED_DATE_DESC")
+	@Schema(description = "좋아요 수")
+	private Long likeCount;
+	@Schema(description = "리뷰 수")
+	private Long reviewCount;
+	@Schema(description = "소설 평점")
+	private Double grade;
+	@Schema(description = "소설 추가 일자")
+	private String createdDate;
+	@Schema(description = "정렬 기준")
 	private Sort sort;
 
-	public NovelPaginationRequestDto(Long novelId, String title, String author, Genre genre, Sort sort) {
+	public NovelPaginationRequestDto(Long novelId, String title, String author, Genre genre, Long likeCount,
+		Long reviewCount, Double grade, String createdDate, Sort sort) {
 		this.novelId = novelId;
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
+		this.likeCount = likeCount;
+		this.reviewCount = reviewCount;
+		this.grade = grade;
+		this.createdDate = createdDate;
 		this.sort = sort == null ? Sort.CREATED_DATE_DESC : sort;
 	}
-
 }

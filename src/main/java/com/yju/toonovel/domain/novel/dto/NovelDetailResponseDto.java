@@ -30,7 +30,7 @@ public class NovelDetailResponseDto {
 	@Schema(description = "리뷰 수")
 	private long reviewCount;
 	@Schema(description = "소설 평점")
-	private Double grade;
+	private double grade;
 	@Schema(description = "서비스 중인 플랫폼 리스트")
 	private List<PlatformResponseDto> platforms = new ArrayList<>();
 	@Schema(description = "소설 표지")
