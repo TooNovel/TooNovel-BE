@@ -8,5 +8,5 @@ import com.yju.toonovel.domain.admin.dto.EnrollListResponseDto;
 
 public interface AdminRepositoryCustom {
 
-	Page<EnrollListResponseDto> enrollList(EnrollListPaginationRequestDto dto, Pageable pageable);
+	Page<EnrollListResponseDto> findAllEnrollList(EnrollListPaginationRequestDto dto, Pageable pageable);
 }
