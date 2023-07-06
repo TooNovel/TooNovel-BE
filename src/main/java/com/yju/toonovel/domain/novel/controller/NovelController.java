@@ -37,7 +37,7 @@ public class NovelController {
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
 	public List<NovelPaginationResponseDto> getAllNovel(@ModelAttribute NovelPaginationRequestDto requestDto) {
-		return novelService.findAll(requestDto);
+		return novelService.findAllNovel(requestDto);
 	}
 
 	@Operation(summary = "소설 상세 조회")
@@ -46,7 +46,7 @@ public class NovelController {
 	@GetMapping("/{novelId}")
 	@ResponseStatus(HttpStatus.OK)
 	public NovelDetailResponseDto getSelectNovel(@PathVariable Long novelId) {
-		return novelService.findById(novelId);
+		return novelService.findNovelDetailById(novelId);
 	}
 
 	@Operation(summary = "소설 좋아요 요청, 좋아요 취소 요청")
@@ -77,6 +77,6 @@ public class NovelController {
 	@GetMapping("/author")
 	public List<NovelPaginationResponseDto> getNovelByAuthor(@ModelAttribute NovelPaginationRequestDto requestDto,
 		@AuthenticationPrincipal JwtAuthentication user) {
-		return novelService.getNovelByAuthor(requestDto, user.userId);
+		return novelService.findNovelByAuthor(requestDto, user.userId);
 	}
 }

@@ -40,7 +40,7 @@ public class NovelService {
 	private final PlatformRepository platformRepository;
 
 	@Transactional
-	public List<NovelPaginationResponseDto> findAll(NovelPaginationRequestDto requestDto) {
+	public List<NovelPaginationResponseDto> findAllNovel(NovelPaginationRequestDto requestDto) {
 		return novelRepository
 			.findAllNovel(requestDto)
 			.stream()
@@ -48,7 +48,7 @@ public class NovelService {
 			.collect(Collectors.toList());
 	}
 
-	public List<NovelPaginationResponseDto> getNovelByAuthor(NovelPaginationRequestDto requestDto, Long userId) {
+	public List<NovelPaginationResponseDto> findNovelByAuthor(NovelPaginationRequestDto requestDto, Long userId) {
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new UserNotFoundException());
 
@@ -64,7 +64,7 @@ public class NovelService {
 	}
 
 	@Transactional
-	public NovelDetailResponseDto findById(Long novelId) {
+	public NovelDetailResponseDto findNovelDetailById(Long novelId) {
 		Novel novel = novelRepository.findById(novelId)
 			.orElseThrow(() -> new NovelNotFoundException());
 
@@ -73,10 +73,9 @@ public class NovelService {
 		List<PlatformResponseDto> platforms = novelPlatforms.stream().map(novelPlatform -> {
 			Platform platform = platformRepository.findById(novelPlatform.getPlatform().getPlatformId())
 				.orElseThrow(() -> new PlatformNotFoundException());
-			return new PlatformResponseDto(platform, novelPlatform.getUrl());
+			return PlatformResponseDto.from(platform, novelPlatform.getUrl());
 		}).collect(Collectors.toList());
-
-		return new NovelDetailResponseDto(novel, platforms);
+		return NovelDetailResponseDto.from(novel, platforms);
 	}
 
 	@Transactional
@@ -102,10 +101,7 @@ public class NovelService {
 	}
 
 	@Transactional
-	public UserLikeCheckResponseDto isUserLikes(
-		long userId,
-		long novelId
-	) {
+	public UserLikeCheckResponseDto isUserLikes(long userId, long novelId) {
 
 		novelRepository
 			.findById(novelId)
