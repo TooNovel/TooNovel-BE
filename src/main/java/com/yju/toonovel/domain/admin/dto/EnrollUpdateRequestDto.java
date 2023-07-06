@@ -16,17 +16,9 @@ public class EnrollUpdateRequestDto {
 	private final Long enrollId;
 
 	@Builder
-	private EnrollUpdateRequestDto(Long userId, String nickname, Long enrollId) {
+	public EnrollUpdateRequestDto(Long userId, String nickname, Long enrollId) {
 		this.userId = userId;
 		this.nickname = nickname;
 		this.enrollId = enrollId;
-	}
-
-	public static EnrollUpdateRequestDto from(EnrollUpdateRequestDto dto) {
-		return EnrollUpdateRequestDto.builder()
-			.userId(dto.getUserId())
-			.nickname(dto.getNickname())
-			.enrollId(dto.getEnrollId())
-			.build();
 	}
 }

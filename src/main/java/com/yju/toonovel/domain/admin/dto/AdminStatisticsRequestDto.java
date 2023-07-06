@@ -17,16 +17,9 @@ public class AdminStatisticsRequestDto {
 	private final String endDate;
 
 	@Builder
-	private AdminStatisticsRequestDto(String startDate, String endDate) {
+	public AdminStatisticsRequestDto(String startDate, String endDate) {
 		this.startDate = startDate == null ? oneWeekAgoDate() : startDate;
 		this.endDate = endDate == null ? todayDate() : endDate;
-	}
-
-	public static AdminStatisticsRequestDto from(AdminStatisticsRequestDto dto) {
-		return AdminStatisticsRequestDto.builder()
-			.startDate(dto.getStartDate())
-			.endDate(dto.getEndDate())
-			.build();
 	}
 
 	private String todayDate() {

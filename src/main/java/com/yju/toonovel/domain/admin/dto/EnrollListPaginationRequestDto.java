@@ -25,19 +25,10 @@ public class EnrollListPaginationRequestDto {
 	private final Sort sort;
 
 	@Builder
-	private EnrollListPaginationRequestDto(Integer page, Integer limit, Boolean isApproval, Sort sort) {
+	public EnrollListPaginationRequestDto(Integer page, Integer limit, Boolean isApproval, Sort sort) {
 		this.page = page == null ? 0 : page;
 		this.isApproval = isApproval;
 		this.limit = limit == null ? 10 : limit;
 		this.sort = sort == null ? Sort.CREATED_DATE_DESC : sort;
-	}
-
-	public static EnrollListPaginationRequestDto from(EnrollListPaginationRequestDto dto) {
-		return EnrollListPaginationRequestDto.builder()
-			.page(dto.getPage())
-			.isApproval(dto.getIsApproval())
-			.limit(dto.getLimit())
-			.sort(dto.getSort())
-			.build();
 	}
 }
