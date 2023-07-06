@@ -15,20 +15,29 @@ public class EnrollListPaginationRequestDto {
 
 	@Schema(description = "page 번호")
 	@PositiveOrZero
-	private Integer page;
+	private final Integer page;
 	@Schema(description = "한 페이지안에 담길 작가 신청 리스트의 수")
 	@Positive
-	private Integer limit;
+	private final Integer limit;
 	@Schema(description = "신청 승인 여부")
-	private Boolean isApproval;
+	private final Boolean isApproval;
 	@Schema(description = "정렬 기준", defaultValue = "CREATED_DATE_DESC")
-	private Sort sort;
+	private final Sort sort;
 
 	@Builder
-	public EnrollListPaginationRequestDto(Integer page, Integer limit, Boolean isApproval, Sort sort) {
+	private EnrollListPaginationRequestDto(Integer page, Integer limit, Boolean isApproval, Sort sort) {
 		this.page = page == null ? 0 : page;
 		this.isApproval = isApproval;
 		this.limit = limit == null ? 10 : limit;
 		this.sort = sort == null ? Sort.CREATED_DATE_DESC : sort;
+	}
+
+	public static EnrollListPaginationRequestDto from(EnrollListPaginationRequestDto dto) {
+		return EnrollListPaginationRequestDto.builder()
+			.page(dto.getPage())
+			.isApproval(dto.getIsApproval())
+			.limit(dto.getLimit())
+			.sort(dto.getSort())
+			.build();
 	}
 }
