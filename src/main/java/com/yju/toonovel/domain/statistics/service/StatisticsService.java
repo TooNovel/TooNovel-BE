@@ -57,12 +57,12 @@ public class StatisticsService {
 		return statisticRepositoryImpl.getAgeStatistic(novel.getNovelId());
 	}
 
-	public List<AdminStatisticsResponseDto> getReviewStatistic(AdminStatisticsRequestDto dto) {
+	public List<AdminStatisticsResponseDto> findReviewStatistic(AdminStatisticsRequestDto dto) {
 
 		return statisticRepositoryImpl.getReviewStatistic(dto);
 	}
 
-	public List<AdminStatisticsResponseDto> getNovelStatistic(AdminStatisticsRequestDto dto) {
+	public List<AdminStatisticsResponseDto> findNovelStatistic(AdminStatisticsRequestDto dto) {
 
 		return statisticRepositoryImpl.getNovelStatistic(dto);
 	}
