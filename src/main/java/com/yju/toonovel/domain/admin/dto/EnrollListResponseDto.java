@@ -9,26 +9,28 @@ import org.hibernate.validator.constraints.Length;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Schema(description = "작가 신청 리스트 조회 응답 DTO")
 @Getter
+@NoArgsConstructor
 public class EnrollListResponseDto {
 
 	@Schema(description = "작가 신청한 유저")
-	private final Long userId;
+	private Long userId;
 	@Schema(description = "신청확인 테이블에 존재하는지 체크할 신청번호")
-	private final Long enrollId;
+	private Long enrollId;
 	@Schema(description = "유저가 신청한 작가 닉네임")
 	@Length(max = 15)
 	@NotBlank
-	private final String nickname;
+	private String nickname;
 	@Schema(description = "작가 승인 여부 정렬 기준")
-	private final Boolean isApproval;
+	private Boolean isApproval;
 	@Schema(description = "작가 신청 날짜")
-	private final LocalDateTime createdDate;
+	private LocalDateTime createdDate;
 
 	@Builder
-	private EnrollListResponseDto(Long userId, Long enrollId, String nickname,
+	public EnrollListResponseDto(Long userId, Long enrollId, String nickname,
 		LocalDateTime createdDate, Boolean isApproval) {
 		this.userId = userId;
 		this.enrollId = enrollId;
@@ -36,15 +38,4 @@ public class EnrollListResponseDto {
 		this.createdDate = createdDate;
 		this.isApproval = isApproval;
 	}
-
-	public static EnrollListResponseDto from(EnrollListResponseDto dto) {
-		return EnrollListResponseDto.builder()
-			.userId(dto.getUserId())
-			.enrollId(dto.getEnrollId())
-			.nickname(dto.getNickname())
-			.createdDate(dto.getCreatedDate())
-			.isApproval(dto.getIsApproval())
-			.build();
-	}
-
 }
