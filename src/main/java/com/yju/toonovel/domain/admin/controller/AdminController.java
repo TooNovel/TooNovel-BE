@@ -40,7 +40,7 @@ public class AdminController {
 	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
-	public Page<EnrollListResponseDto> findAllEnrollList(@ModelAttribute EnrollListPaginationRequestDto dto,
+	public Page<EnrollListResponseDto> getAllEnrollList(@ModelAttribute EnrollListPaginationRequestDto dto,
 		@AuthenticationPrincipal JwtAuthentication user) {
 		return adminService.findAllEnrollList(dto, user.userId);
 	}
@@ -58,7 +58,7 @@ public class AdminController {
 	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping("/review")
 	@ResponseStatus(HttpStatus.OK)
-	public List<AdminStatisticsResponseDto> findReviewStatistic(@ModelAttribute AdminStatisticsRequestDto dto) {
+	public List<AdminStatisticsResponseDto> getReviewStatistic(@ModelAttribute AdminStatisticsRequestDto dto) {
 		return statisticsService.findReviewStatistic(dto);
 	}
 
@@ -66,7 +66,7 @@ public class AdminController {
 	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping("/novel")
 	@ResponseStatus(HttpStatus.OK)
-	public List<AdminStatisticsResponseDto> findNovelStatistic(@ModelAttribute AdminStatisticsRequestDto dto) {
+	public List<AdminStatisticsResponseDto> getNovelStatistic(@ModelAttribute AdminStatisticsRequestDto dto) {
 		return statisticsService.findNovelStatistic(dto);
 	}
 }
