@@ -1,6 +1,5 @@
 package com.yju.toonovel.domain.novel.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.yju.toonovel.domain.novel.entity.Genre;
@@ -8,35 +7,33 @@ import com.yju.toonovel.domain.novel.entity.Novel;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Schema(description = "소설 상세 정보 조회 응답 DTO")
 @Getter
-@NoArgsConstructor
 public class NovelDetailResponseDto {
 
 	@Schema(description = "소설 ID")
-	private Long novelId;
+	private final Long novelId;
 	@Schema(description = "소설 제목")
-	private String title;
+	private final String title;
 	@Schema(description = "소설 설명")
-	private String description;
+	private final String description;
 	@Schema(description = "작가 이름")
-	private String author;
+	private final String author;
 	@Schema(description = "장르")
-	private Genre genre;
+	private final Genre genre;
 	@Schema(description = "좋아요 수")
-	private long likeCount;
+	private final long likeCount;
 	@Schema(description = "리뷰 수")
-	private long reviewCount;
+	private final long reviewCount;
 	@Schema(description = "소설 평점")
-	private double grade;
+	private final double grade;
 	@Schema(description = "서비스 중인 플랫폼 리스트")
-	private List<PlatformResponseDto> platforms = new ArrayList<>();
+	private final List<PlatformResponseDto> platforms;
 	@Schema(description = "소설 표지")
-	private String image;
+	private final String image;
 
-	public NovelDetailResponseDto(Novel novel, List<PlatformResponseDto> platform) {
+	private NovelDetailResponseDto(Novel novel, List<PlatformResponseDto> platform) {
 		this.novelId = novel.getNovelId();
 		this.title = novel.getTitle();
 		this.description = novel.getDescription();
@@ -49,4 +46,7 @@ public class NovelDetailResponseDto {
 		this.image = novel.getImage();
 	}
 
+	public static NovelDetailResponseDto from(Novel novel, List<PlatformResponseDto> platform) {
+		return new NovelDetailResponseDto(novel, platform);
+	}
 }

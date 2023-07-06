@@ -11,23 +11,23 @@ import lombok.Getter;
 public class NovelPaginationRequestDto {
 
 	@Schema(description = "이전에 받은 마지막 소설 ID")
-	private Long novelId;
+	private final Long novelId;
 	@Schema(description = "소설 제목")
-	private String title;
+	private final String title;
 	@Schema(description = "작가 이름")
-	private String author;
+	private final String author;
 	@Schema(description = "장르")
-	private Genre genre;
+	private final Genre genre;
 	@Schema(description = "좋아요 수")
-	private Long likeCount;
+	private final Long likeCount;
 	@Schema(description = "리뷰 수")
-	private Long reviewCount;
+	private final Long reviewCount;
 	@Schema(description = "소설 평점")
-	private Double grade;
+	private final Double grade;
 	@Schema(description = "소설 추가 일자")
-	private String createdDate;
+	private final String createdDate;
 	@Schema(description = "정렬 기준")
-	private Sort sort;
+	private final Sort sort;
 
 	public NovelPaginationRequestDto(Long novelId, String title, String author, Genre genre, Long likeCount,
 		Long reviewCount, Double grade, String createdDate, Sort sort) {

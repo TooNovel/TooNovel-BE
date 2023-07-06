@@ -12,26 +12,26 @@ import lombok.Getter;
 public class LikeNovelPaginationResponseDto {
 
 	@Schema(description = "좋아요 목록 ID")
-	private Long likeNovelId;
+	private final Long likeNovelId;
 	@Schema(description = "소설 ID")
-	private Long novelId;
+	private final Long novelId;
 	@Schema(description = "소설 제목")
-	private String title;
+	private final String title;
 	@Schema(description = "작가 이름")
-	private String author;
+	private final String author;
 	@Schema(description = "장르")
-	private Genre genre;
+	private final Genre genre;
 	@Schema(description = "소설 평점")
-	private Double grade;
+	private final Double grade;
 	@Schema(description = "리뷰 수")
-	private Long reviewCount;
+	private final Long reviewCount;
 	@Schema(description = "좋아요 수")
-	private Long likeCount;
+	private final Long likeCount;
 	@Schema(description = "소설 표지")
-	private String image;
+	private final String image;
 
 	@Builder
-	public LikeNovelPaginationResponseDto(Long likeNovelId, Long novelId, String title, String author, Genre genre,
+	private LikeNovelPaginationResponseDto(Long likeNovelId, Long novelId, String title, String author, Genre genre,
 		Double grade, String image, Long reviewCount, Long likeCount) {
 		this.likeNovelId = likeNovelId;
 		this.novelId = novelId;
@@ -44,17 +44,17 @@ public class LikeNovelPaginationResponseDto {
 		this.likeCount = likeCount;
 	}
 
-	public static LikeNovelPaginationResponseDto from(LikeNovel novel) {
+	public static LikeNovelPaginationResponseDto from(LikeNovel likeNovel) {
 		return new LikeNovelPaginationResponseDto(
-			novel.getLikeNovelId(),
-			novel.getNovel().getNovelId(),
-			novel.getNovel().getTitle(),
-			novel.getNovel().getAuthor(),
-			novel.getNovel().getGenre(),
-			novel.getNovel().getGrade(),
-			novel.getNovel().getImage(),
-			novel.getNovel().getReviewCount(),
-			novel.getNovel().getLikeCount()
+			likeNovel.getLikeNovelId(),
+			likeNovel.getNovel().getNovelId(),
+			likeNovel.getNovel().getTitle(),
+			likeNovel.getNovel().getAuthor(),
+			likeNovel.getNovel().getGenre(),
+			likeNovel.getNovel().getGrade(),
+			likeNovel.getNovel().getImage(),
+			likeNovel.getNovel().getReviewCount(),
+			likeNovel.getNovel().getLikeCount()
 		);
 	}
 }
