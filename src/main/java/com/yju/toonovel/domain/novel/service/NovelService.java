@@ -90,21 +90,16 @@ public class NovelService {
 
 	@Transactional
 	public List<NovelPaginationResponseDto> findNovelByRecommendation(Long userId) {
+		List<Long> recommendList = getNovelRecommendation(userId);
 
-		List<Integer> recommendList = getNovelRecommendation(userId);
-
-		List<Long> novelIdList = recommendList.stream()
-			.map(novelId -> Long.valueOf(novelId))
-			.collect(Collectors.toList());
-
-		return novelRepository.findNovelsByNovelIdList(novelIdList)
+		return novelRepository.findNovelsByNovelIdList(recommendList)
 			.stream()
 			.map(novel -> NovelPaginationResponseDto.from(novel))
 			.collect(Collectors.toList());
 
 	}
 
-	private List<Integer> getNovelRecommendation(Long userId) {
+	private List<Long> getNovelRecommendation(Long userId) {
 		try {
 			URI uri = UriComponentsBuilder
 				.fromUriString(machineLearningServer)
@@ -113,7 +108,7 @@ public class NovelService {
 				.build()
 				.toUri();
 
-			return List.of(restTemplate.getForObject(uri, Integer[].class));
+			return List.of(restTemplate.getForObject(uri, Long[].class));
 
 		} catch (HttpServerErrorException ex) {
 			throw new NovelRecommendationNotExistException();
