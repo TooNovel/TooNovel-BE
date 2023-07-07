@@ -79,4 +79,12 @@ public class NovelController {
 		@AuthenticationPrincipal JwtAuthentication user) {
 		return novelService.findNovelByAuthor(requestDto, user.userId);
 	}
+
+	@Operation(summary = "추천 작품 조회 요청")
+	@ApiResponse(responseCode = "200", description = "요청 성공")
+	@GetMapping("/recommend")
+	@ResponseStatus(HttpStatus.OK)
+	public List<NovelPaginationResponseDto> getNovelRecommend(@AuthenticationPrincipal JwtAuthentication user) {
+		return novelService.findNovelByRecommendation(user.userId);
+	}
 }
