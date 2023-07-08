@@ -37,6 +37,7 @@ public class ReviewService {
 	private final ReviewCustomRepositoryImpl reviewRepositoryImpl;
 
 	//리뷰 등록
+	@Transactional
 	public void reviewRegister(ReviewRegisterRequestDto dto, Long userId) {
 		User user = userRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException());
@@ -55,6 +56,7 @@ public class ReviewService {
 	}
 
 	//전체 리뷰 조회
+	@Transactional(readOnly = true)
 	public Page<ReviewByUserResponseDto> findAllReview(ReviewPaginationRequestDto requestDto) {
 		Pageable pageable = PageRequest.of(requestDto.getPage(), requestDto.getLimit());
 		return reviewRepositoryImpl.findAllReview(pageable, requestDto);
@@ -82,6 +84,7 @@ public class ReviewService {
 	}
 
 	//한작품에 있는 리뷰 전체조회
+	@Transactional(readOnly = true)
 	public Page<ReviewByNovelResponseDto> findAllReviewByNovel(Long nid, ReviewPaginationRequestDto requestDto) {
 
 		Pageable pageable = PageRequest.of(requestDto.getPage(), requestDto.getLimit());
@@ -90,6 +93,7 @@ public class ReviewService {
 	}
 
 	//유저가 작성한 리뷰 조회
+	@Transactional(readOnly = true)
 	public Page<ReviewByUserResponseDto> findAllReviewByUser(Long uid, ReviewPaginationRequestDto requestDto) {
 		userRepository.findByUserId(uid)
 			.orElseThrow(() -> new UserNotFoundException());

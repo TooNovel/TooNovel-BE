@@ -47,6 +47,7 @@ public class LikeReviewService {
 	}
 
 	//이미 좋아요가 되어있는지 체크
+	@Transactional
 	public LikeReview checkUserLikeReview(User user, Review review) {
 		return likeReviewRepository.findByUserIdAndReviewId(user, review)
 			.orElseGet(() -> likeReviewRepository.save(LikeReview.of(user, review)));
