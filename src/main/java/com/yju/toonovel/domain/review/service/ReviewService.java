@@ -17,8 +17,8 @@ import com.yju.toonovel.domain.review.entity.Review;
 import com.yju.toonovel.domain.review.exception.DuplicateReviewException;
 import com.yju.toonovel.domain.review.exception.ReviewNotFoundException;
 import com.yju.toonovel.domain.review.exception.ReviewNotMatchUserException;
+import com.yju.toonovel.domain.review.repository.ReviewCustomRepositoryImpl;
 import com.yju.toonovel.domain.review.repository.ReviewRepository;
-import com.yju.toonovel.domain.review.repository.ReviewRepositoryImpl;
 import com.yju.toonovel.domain.user.entity.User;
 import com.yju.toonovel.domain.user.exception.UserNotFoundException;
 import com.yju.toonovel.domain.user.repository.UserRepository;
@@ -34,7 +34,7 @@ public class ReviewService {
 	private final ReviewRepository reviewRepository;
 	private final UserRepository userRepository;
 	private final NovelRepository novelRepository;
-	private final ReviewRepositoryImpl reviewRepositoryImpl;
+	private final ReviewCustomRepositoryImpl reviewRepositoryImpl;
 
 	//리뷰 등록
 	public void reviewRegister(ReviewRegisterRequestDto dto, Long userId) {
@@ -50,14 +50,14 @@ public class ReviewService {
 					throw new DuplicateReviewException();
 				},
 				() -> {
-					reviewRepository.save(dto.dtoToEntity(user, novel));
+					reviewRepository.save(Review.of(dto, user, novel));
 				});
 	}
 
 	//전체 리뷰 조회
-	public Page<ReviewByUserResponseDto> getAllReview(ReviewPaginationRequestDto requestDto) {
+	public Page<ReviewByUserResponseDto> findAllReview(ReviewPaginationRequestDto requestDto) {
 		Pageable pageable = PageRequest.of(requestDto.getPage(), requestDto.getLimit());
-		return reviewRepositoryImpl.getAllReview(pageable, requestDto);
+		return reviewRepositoryImpl.findAllReview(pageable, requestDto);
 	}
 
 	//리뷰 삭제
@@ -65,16 +65,15 @@ public class ReviewService {
 	public void reviewDelete(Long reviewId, Long userId) {
 		reviewRepository.findByReviewId(reviewId)
 			.ifPresentOrElse(
-				review -> validateDelete(review, userId),
+				review -> validateReviewDelete(review, userId),
 				() -> {
 					throw new ReviewNotFoundException();
 				}
 			);
 	}
 
-	// 이미 추천했다라는것 - 진입했을때 알필요 x
 	@Transactional
-	public void validateDelete(Review review, Long userId) {
+	public void validateReviewDelete(Review review, Long userId) {
 		if (userId.equals(review.getWriter().getUserId())) {
 			reviewRepository.deleteByReviewId(review.getReviewId());
 		} else {
@@ -83,15 +82,15 @@ public class ReviewService {
 	}
 
 	//한작품에 있는 리뷰 전체조회
-	public Page<ReviewByNovelResponseDto> getAllReviewWithLike(Long nid, ReviewPaginationRequestDto requestDto) {
+	public Page<ReviewByNovelResponseDto> findAllReviewByNovel(Long nid, ReviewPaginationRequestDto requestDto) {
 
 		Pageable pageable = PageRequest.of(requestDto.getPage(), requestDto.getLimit());
 
-		return reviewRepositoryImpl.getReviewByNovel(nid, pageable, requestDto);
+		return reviewRepositoryImpl.findAllReviewByNovel(nid, pageable, requestDto);
 	}
 
 	//유저가 작성한 리뷰 조회
-	public Page<ReviewByUserResponseDto> getAllReviewByUser(Long uid, ReviewPaginationRequestDto requestDto) {
+	public Page<ReviewByUserResponseDto> findAllReviewByUser(Long uid, ReviewPaginationRequestDto requestDto) {
 		userRepository.findByUserId(uid)
 			.orElseThrow(() -> new UserNotFoundException());
 

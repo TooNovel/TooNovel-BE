@@ -7,17 +7,17 @@ import com.yju.toonovel.domain.review.dto.ReviewByNovelResponseDto;
 import com.yju.toonovel.domain.review.dto.ReviewByUserResponseDto;
 import com.yju.toonovel.domain.review.dto.ReviewPaginationRequestDto;
 
-public interface ReviewRepositoryCustom {
+public interface ReviewCustomRepository {
 
 	//유저가 작성한 리뷰조회
 	Page<ReviewByUserResponseDto> findAllReviewByUser(Long uid, Pageable pageable,
 		ReviewPaginationRequestDto requestDto);
 
 	//전체리뷰조회
-	Page<ReviewByUserResponseDto> getAllReview(Pageable pageable, ReviewPaginationRequestDto requestDto);
+	Page<ReviewByUserResponseDto> findAllReview(Pageable pageable, ReviewPaginationRequestDto requestDto);
 
 	//한 작품안의 리뷰 전체 조회
-	Page<ReviewByNovelResponseDto> getReviewByNovel(Long nid, Pageable pageable,
+	Page<ReviewByNovelResponseDto> findAllReviewByNovel(Long nid, Pageable pageable,
 		ReviewPaginationRequestDto requestDto);
 }
 
