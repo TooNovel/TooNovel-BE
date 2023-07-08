@@ -12,7 +12,7 @@ import com.yju.toonovel.domain.admin.dto.EnrollUpdateRequestDto;
 import com.yju.toonovel.domain.admin.entity.EnrollHistory;
 import com.yju.toonovel.domain.admin.exception.EnrollNotFoundException;
 import com.yju.toonovel.domain.admin.exception.EnrollNotMatchUserException;
-import com.yju.toonovel.domain.admin.repository.AdminRepositoryImpl;
+import com.yju.toonovel.domain.admin.repository.AdminCustomRepositoryImpl;
 import com.yju.toonovel.domain.admin.repository.EnrollRepository;
 import com.yju.toonovel.domain.novel.exception.AuthorNotFoundException;
 import com.yju.toonovel.domain.novel.repository.NovelRepository;
@@ -30,7 +30,7 @@ public class AdminService {
 
 	private final EnrollRepository enrollRepository;
 	private final UserRepository userRepository;
-	private final AdminRepositoryImpl adminRepositoryImpl;
+	private final AdminCustomRepositoryImpl adminRepositoryImpl;
 	private final NovelRepository novelRepository;
 
 	public Page<EnrollListResponseDto> findAllEnrollList(EnrollListPaginationRequestDto dto,
