@@ -12,7 +12,7 @@ import com.yju.toonovel.domain.novel.exception.NovelNotMatchAuthorException;
 import com.yju.toonovel.domain.novel.repository.NovelRepository;
 import com.yju.toonovel.domain.statistics.dto.AdminStatisticsResponseDto;
 import com.yju.toonovel.domain.statistics.dto.StatisticsResultResponseDto;
-import com.yju.toonovel.domain.statistics.repository.StatisticRepositoryImpl;
+import com.yju.toonovel.domain.statistics.repository.StatisticCustomRepositoryImpl;
 import com.yju.toonovel.domain.statistics.repository.StatisticsRepository;
 import com.yju.toonovel.domain.user.entity.User;
 import com.yju.toonovel.domain.user.exception.UserNotFoundException;
@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class StatisticsService {
 
 	private final NovelRepository novelRepository;
-	private final StatisticRepositoryImpl statisticRepositoryImpl;
+	private final StatisticCustomRepositoryImpl statisticRepositoryImpl;
 	private final UserRepository userRepository;
 	private final StatisticsRepository statisticsRepository;
 
@@ -57,12 +57,12 @@ public class StatisticsService {
 		return statisticRepositoryImpl.getAgeStatistic(novel.getNovelId());
 	}
 
-	public List<AdminStatisticsResponseDto> findReviewStatistic(AdminStatisticsRequestDto dto) {
+	public List<AdminStatisticsResponseDto> getReviewStatistic(AdminStatisticsRequestDto dto) {
 
 		return statisticRepositoryImpl.getReviewStatistic(dto);
 	}
 
-	public List<AdminStatisticsResponseDto> findNovelStatistic(AdminStatisticsRequestDto dto) {
+	public List<AdminStatisticsResponseDto> getNovelStatistic(AdminStatisticsRequestDto dto) {
 
 		return statisticRepositoryImpl.getNovelStatistic(dto);
 	}
