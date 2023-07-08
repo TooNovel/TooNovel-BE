@@ -16,14 +16,14 @@ public class ReviewPaginationRequestDto {
 
 	@Schema(description = "page 번호")
 	@PositiveOrZero
-	private Integer page;
+	private final Integer page;
 	@Schema(description = "한 페이지안에 담길 리뷰의 수")
 	@Positive
-	private Integer limit;
+	private final Integer limit;
 	@Schema(description = "장르")
-	private Genre genre;
+	private final Genre genre;
 	@Schema(description = "정렬 기준", defaultValue = "CREATED_DATE_DESC")
-	private Sort sort;
+	private final Sort sort;
 
 	@Builder
 	public ReviewPaginationRequestDto(Integer page, Integer limit, Genre genre, Sort sort) {
