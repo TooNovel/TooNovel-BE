@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
-public class AdminRepositoryImpl implements AdminRepositoryCustom {
+public class AdminCustomRepositoryImpl implements AdminCustomRepository {
 
 	private final JPAQueryFactory queryFactory;
 
@@ -40,7 +40,7 @@ public class AdminRepositoryImpl implements AdminRepositoryCustom {
 	}
 
 	@Override
-	public Page<EnrollListResponseDto> enrollList(EnrollListPaginationRequestDto dto, Pageable pageable) {
+	public Page<EnrollListResponseDto> findAllEnrollList(EnrollListPaginationRequestDto dto, Pageable pageable) {
 
 		JPAQuery<EnrollListResponseDto> results = queryFactory
 			.select(

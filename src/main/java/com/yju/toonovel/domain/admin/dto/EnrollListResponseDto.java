@@ -11,7 +11,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 @Schema(description = "작가 신청 리스트 조회 응답 DTO")
 @Getter
 @NoArgsConstructor
@@ -39,5 +38,4 @@ public class EnrollListResponseDto {
 		this.createdDate = createdDate;
 		this.isApproval = isApproval;
 	}
-
 }

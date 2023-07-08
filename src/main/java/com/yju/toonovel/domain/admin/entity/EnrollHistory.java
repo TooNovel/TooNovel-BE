@@ -34,7 +34,7 @@ public class EnrollHistory extends BaseEntity {
 
 
 	@Builder
-	public EnrollHistory(String nickname, User user, boolean isApproval) {
+	private EnrollHistory(String nickname, User user, boolean isApproval) {
 		this.nickname = nickname;
 		this.user = user;
 		this.isApproval = isApproval;

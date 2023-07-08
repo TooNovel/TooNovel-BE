@@ -40,9 +40,9 @@ public class AdminController {
 	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
-	public Page<EnrollListResponseDto> getEnrollList(@ModelAttribute EnrollListPaginationRequestDto dto,
+	public Page<EnrollListResponseDto> getAllEnrollList(@ModelAttribute EnrollListPaginationRequestDto dto,
 		@AuthenticationPrincipal JwtAuthentication user) {
-		return adminService.getEnrollList(dto, user.userId);
+		return adminService.findAllEnrollList(dto, user.userId);
 	}
 
 	@Operation(summary = "작가 승인 요청")
@@ -58,15 +58,15 @@ public class AdminController {
 	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping("/review")
 	@ResponseStatus(HttpStatus.OK)
-	public List<AdminStatisticsResponseDto> reviewStatistics(@ModelAttribute AdminStatisticsRequestDto dto) {
-		return statisticsService.getReviewStatistic(dto);
+	public List<AdminStatisticsResponseDto> getReviewStatistic(@ModelAttribute AdminStatisticsRequestDto dto) {
+		return statisticsService.findReviewStatistic(dto);
 	}
 
 	@Operation(summary = "일별 작품 개수 조회 요청")
 	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping("/novel")
 	@ResponseStatus(HttpStatus.OK)
-	public List<AdminStatisticsResponseDto> novelStatistics(@ModelAttribute AdminStatisticsRequestDto dto) {
-		return statisticsService.getNovelStatistic(dto);
+	public List<AdminStatisticsResponseDto> getNovelStatistic(@ModelAttribute AdminStatisticsRequestDto dto) {
+		return statisticsService.findNovelStatistic(dto);
 	}
 }

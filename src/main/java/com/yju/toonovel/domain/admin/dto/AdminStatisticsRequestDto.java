@@ -3,16 +3,18 @@ package com.yju.toonovel.domain.admin.dto;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
+@Schema(description = "관리자 통계 데이터 날짜 요청 DTO")
 @Getter
-@Setter
 public class AdminStatisticsRequestDto {
 
-	private String startDate;
-	private String endDate;
+	@Schema(description = "조회하고 싶은 날짜의 시작날짜")
+	private final String startDate;
+	@Schema(description = "조회하고 싶은 날짜의 끝날짜")
+	private final String endDate;
 
 	@Builder
 	public AdminStatisticsRequestDto(String startDate, String endDate) {
@@ -20,12 +22,12 @@ public class AdminStatisticsRequestDto {
 		this.endDate = endDate == null ? todayDate() : endDate;
 	}
 
-	public String todayDate() {
+	private String todayDate() {
 		LocalDateTime today = LocalDateTime.now();
 		return today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 	}
 
-	public String oneWeekAgoDate() {
+	private String oneWeekAgoDate() {
 		LocalDateTime today = LocalDateTime.now().minusWeeks(1);
 		return today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 	}

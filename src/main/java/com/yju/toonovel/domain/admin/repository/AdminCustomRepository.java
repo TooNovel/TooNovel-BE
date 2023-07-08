@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import com.yju.toonovel.domain.admin.dto.EnrollListPaginationRequestDto;
 import com.yju.toonovel.domain.admin.dto.EnrollListResponseDto;
 
-public interface AdminRepositoryCustom {
+public interface AdminCustomRepository {
 
-	Page<EnrollListResponseDto> enrollList(EnrollListPaginationRequestDto dto, Pageable pageable);
+	Page<EnrollListResponseDto> findAllEnrollList(EnrollListPaginationRequestDto dto, Pageable pageable);
 }
