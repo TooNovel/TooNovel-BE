@@ -40,12 +40,12 @@ public class LikeReview {
 	private boolean isActived;
 
 	@Builder
-	public LikeReview(Review review, User user, boolean isActived) {
+	private LikeReview(Review review, User user, boolean isActived) {
 		this.review = review;
 		this.user = user;
 	}
 
-	public static LikeReview likeReview(User user, Review review) {
+	public static LikeReview of(User user, Review review) {
 		return LikeReview
 			.builder()
 			.user(user)
