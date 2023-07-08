@@ -34,6 +34,7 @@ public enum ErrorCode {
 	NOVEL_GENRE_NOT_FOUND(HttpStatus.NOT_FOUND, "N003", "존재하지 않는 장르입니다."),
 	AUTHOR_NOT_FOUND(HttpStatus.NOT_FOUND, "N004", "존재하지 않는 작가입니다."),
 	NOVEL_NOT_MATCH_AUTHOR(HttpStatus.FORBIDDEN, "N005", "로그인한 작가가 연재한 작품이 아닙니다."),
+	NOVEL_RECOMMENDATION_NOT_EXIST(HttpStatus.NOT_FOUND, "N006", "추천 목록이 존재하지 않습니다."),
 
 	//Review
 	REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "R001", "존재하지 않는 리뷰입니다."),
