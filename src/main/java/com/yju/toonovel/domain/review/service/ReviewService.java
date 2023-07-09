@@ -74,8 +74,7 @@ public class ReviewService {
 			);
 	}
 
-	@Transactional
-	public void validateReviewDelete(Review review, Long userId) {
+	private void validateReviewDelete(Review review, Long userId) {
 		if (userId.equals(review.getWriter().getUserId())) {
 			reviewRepository.deleteByReviewId(review.getReviewId());
 		} else {
