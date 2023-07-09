@@ -45,30 +45,28 @@ public class UserService {
 	private final EnrollCustomRepository enrollCustomRepository;
 	private final ChatRoomCustomRepository chatRoomCustomRepository;
 
-	@Transactional
-	public UserProfileResponseDto getUserProfile(Long id) {
-		User user = userRepository.findById(id)
+	public UserProfileResponseDto findUserProfile(Long userId) {
+		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new UserNotFoundException());
-		return new UserProfileResponseDto(user);
+		return UserProfileResponseDto.from(user);
+	}
+
+	public UserMyProfileResponseDto findMyProfile(Long userId) {
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new UserNotFoundException());
+		return UserMyProfileResponseDto.from(user);
 	}
 
 	@Transactional
-	public UserMyProfileResponseDto getMyProfile(Long id) {
-		User user = userRepository.findById(id)
-			.orElseThrow(() -> new UserNotFoundException());
-		return new UserMyProfileResponseDto(user);
-	}
-
-	@Transactional
-	public void registerUser(Long id, UserRegisterRequestDto requestDto) {
-		User user = userRepository.findByUserId(id)
+	public void registerUser(Long userId, UserRegisterRequestDto requestDto) {
+		User user = userRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException());
 		user.register(requestDto.getNickname(), requestDto.getGender(), requestDto.getBirth());
 	}
 
 	@Transactional
-	public void updateProfile(Long id, UserProfileUpdateRequestDto requestDto) {
-		User user = userRepository.findByUserId(id)
+	public void updateUserProfile(Long userId, UserProfileUpdateRequestDto requestDto) {
+		User user = userRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException());
 		user.updateProfile(requestDto.getNickname(), requestDto.getImageUrl());
 	}
@@ -87,7 +85,6 @@ public class UserService {
 			);
 	}
 
-	@Transactional
 	public List<LikeNovelPaginationResponseDto> findAllUserLike(Long novelId, Long userId) {
 		return likeNovelRepository
 			.findAllUserLikeNovel(userId, novelId)
@@ -113,9 +110,7 @@ public class UserService {
 
 		novelRepository.findByAuthor(dto.getNickname())
 			.ifPresentOrElse(
-				isAuthor -> {
-					enrollRepository.save(EnrollHistory.of(dto.getNickname(), user));
-				},
+				isAuthor -> enrollRepository.save(EnrollHistory.of(dto.getNickname(), user)),
 				() -> {
 					throw new AuthorNotFoundException();
 				}
@@ -129,11 +124,9 @@ public class UserService {
 	public List<AuthorListResponseDto> findPopularChatRoomAuthor() {
 		List<ChatRoom> chatRoomList = chatRoomCustomRepository.findByChatRoomMemberCount();
 
-		List<AuthorListResponseDto> result =
-			chatRoomList.stream().map(chatRoom -> {
-				User author = chatRoom.getUser();
-				return new AuthorListResponseDto(author.getUserId(), author.getNickname(), author.getImageUrl(), null);
-			}).collect(Collectors.toList());
-		return result;
+		return chatRoomList.stream().map(chatRoom -> {
+			User author = chatRoom.getUser();
+			return new AuthorListResponseDto(author.getUserId(), author.getNickname(), author.getImageUrl(), null);
+		}).collect(Collectors.toList());
 	}
 }
