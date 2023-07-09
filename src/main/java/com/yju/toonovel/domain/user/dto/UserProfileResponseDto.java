@@ -10,16 +10,24 @@ import lombok.Getter;
 public class UserProfileResponseDto {
 
 	@Schema(description = "유저 ID")
-	private Long userId;
+	private final Long userId;
 	@Schema(description = "유저 닉네임")
-	private String nickname;
+	private final String nickname;
 	@Schema(description = "유저 프로필 사진")
-	private String imageUrl;
+	private final String imageUrl;
 
-	public UserProfileResponseDto(User user) {
-		this.userId = user.getUserId();
-		this.nickname = user.getNickname();
-		this.imageUrl = user.getImageUrl();
+	private UserProfileResponseDto(Long userId, String nickname, String imageUrl) {
+		this.userId = userId;
+		this.nickname = nickname;
+		this.imageUrl = imageUrl;
+	}
+
+	public static UserProfileResponseDto from(User user) {
+		return new UserProfileResponseDto(
+			user.getUserId(),
+			user.getNickname(),
+			user.getImageUrl()
+		);
 
 	}
 
