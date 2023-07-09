@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
+public class ReviewCustomRepositoryImpl implements ReviewCustomRepository {
 	private final JPAQueryFactory queryFactory;
 
 	//리뷰 조회 카운트 쿼리 메서드
@@ -113,7 +113,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
 	//전체리뷰조회
 	@Override
-	public Page<ReviewByUserResponseDto> getAllReview(Pageable pageable, ReviewPaginationRequestDto requestDto) {
+	public Page<ReviewByUserResponseDto> findAllReview(Pageable pageable, ReviewPaginationRequestDto requestDto) {
 		QReview review = QReview.review;
 
 		JPQLQuery<ReviewByUserResponseDto> results = queryFactory
@@ -131,7 +131,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
 	//한 작품에 대한 리뷰 전체 조회
 	@Override
-	public Page<ReviewByNovelResponseDto> getReviewByNovel(Long nid, Pageable pageable,
+	public Page<ReviewByNovelResponseDto> findAllReviewByNovel(Long nid, Pageable pageable,
 		ReviewPaginationRequestDto requestDto) {
 		QReview review = QReview.review;
 

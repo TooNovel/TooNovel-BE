@@ -61,8 +61,8 @@ public class ReviewController {
 	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping()
 	@ResponseStatus(HttpStatus.OK)
-	public Page<ReviewByUserResponseDto> getAllReviewPaging(@ModelAttribute ReviewPaginationRequestDto requestDto) {
-		return reviewService.getAllReview(requestDto);
+	public Page<ReviewByUserResponseDto> getAllReview(@ModelAttribute ReviewPaginationRequestDto requestDto) {
+		return reviewService.findAllReview(requestDto);
 	}
 
 	@Operation(summary = "리뷰 좋아요 요청")
@@ -81,10 +81,10 @@ public class ReviewController {
 	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping("/{nid}/novel")
 	@ResponseStatus(HttpStatus.OK)
-	public Page<ReviewByNovelResponseDto> reviewAllListWithLike(@PathVariable("nid") Long nid,
+	public Page<ReviewByNovelResponseDto> getAllReviewByNovel(@PathVariable("nid") Long nid,
 		@ModelAttribute ReviewPaginationRequestDto requestDto) {
 
-		return reviewService.getAllReviewWithLike(nid, requestDto);
+		return reviewService.findAllReviewByNovel(nid, requestDto);
 	}
 
 	@Operation(summary = "유저가 작성한 조회 요청")
@@ -95,6 +95,6 @@ public class ReviewController {
 	public Page<ReviewByUserResponseDto> getAllReviewByUser(@AuthenticationPrincipal JwtAuthentication user,
 		@ModelAttribute ReviewPaginationRequestDto requestDto) {
 
-		return reviewService.getAllReviewByUser(user.userId, requestDto);
+		return reviewService.findAllReviewByUser(user.userId, requestDto);
 	}
 }

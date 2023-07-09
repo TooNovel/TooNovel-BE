@@ -3,7 +3,6 @@ package com.yju.toonovel.domain.review.dto;
 import java.time.LocalDateTime;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,17 +27,4 @@ public class ReviewByNovelResponseDto {
 	private Integer reviewLike;
 	@Schema(description = "리뷰 본문")
 	private String reviewContent;
-
-	@Builder
-	public ReviewByNovelResponseDto(String nickname, String imageUrl, LocalDateTime createdDate,
-		Integer reviewGrade, Integer reviewLike, String reviewContent, Long userId, Long reviewId) {
-		this.nickname = nickname;
-		this.imageUrl = imageUrl;
-		this.createdDate = createdDate;
-		this.reviewGrade = reviewGrade;
-		this.reviewLike = reviewLike;
-		this.reviewContent = reviewContent;
-		this.userId = userId;
-		this.reviewId = reviewId;
-	}
 }

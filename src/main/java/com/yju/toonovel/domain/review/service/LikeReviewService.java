@@ -35,7 +35,7 @@ public class LikeReviewService {
 		Review review = reviewRepository.findByReviewId(rid)
 			.orElseThrow(() -> new ReviewNotFoundException());
 
-		LikeReview likeReview = findUserLikeReview(user, review);
+		LikeReview likeReview = checkUserLikeReview(user, review);
 
 		if (likeReview.isActived()) {
 			throw new ReviewAlreadyLikedException();
@@ -47,8 +47,8 @@ public class LikeReviewService {
 	}
 
 	//이미 좋아요가 되어있는지 체크
-	public LikeReview findUserLikeReview(User user, Review review) {
+	private LikeReview checkUserLikeReview(User user, Review review) {
 		return likeReviewRepository.findByUserIdAndReviewId(user, review)
-			.orElseGet(() -> likeReviewRepository.save(LikeReview.likeReview(user, review)));
+			.orElseGet(() -> likeReviewRepository.save(LikeReview.of(user, review)));
 	}
 }

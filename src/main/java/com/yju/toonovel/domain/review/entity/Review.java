@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.ColumnDefault;
 
 import com.yju.toonovel.domain.novel.entity.Novel;
+import com.yju.toonovel.domain.review.dto.ReviewRegisterRequestDto;
 import com.yju.toonovel.domain.user.entity.User;
 import com.yju.toonovel.global.common.entity.BaseEntity;
 
@@ -46,7 +47,7 @@ public class Review extends BaseEntity {
 	private Novel novel;
 
 	@Builder
-	public Review(String reviewContent,
+	private Review(String reviewContent,
 		int reviewLike, int reviewGrade, User writer, Novel novel) {
 		this.reviewContent = reviewContent;
 		this.reviewLike = reviewLike;
@@ -54,12 +55,16 @@ public class Review extends BaseEntity {
 		this.writer = writer;
 		this.novel = novel;
 	}
+	public static Review of(ReviewRegisterRequestDto dto, User user, Novel novel) {
+		return Review.builder()
+			.reviewContent(dto.getReviewContent())
+			.reviewGrade(dto.getReviewGrade())
+			.writer(user)
+			.novel(novel)
+			.build();
+	}
 
 	public void clickReviewLike() {
 		reviewLike += 1;
-	}
-
-	public void unClickReviewLike() {
-		reviewLike -= 1;
 	}
 }
