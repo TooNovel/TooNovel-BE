@@ -1,14 +1,14 @@
 package com.yju.toonovel.domain.user.dto;
 
+import com.yju.toonovel.domain.user.entity.User;
+
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Schema(description = "최신 작가 요청 DTO")
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class AuthorListResponseDto {
 	@Schema(description = "작가 ID")
 	private Long userId;
@@ -21,4 +21,21 @@ public class AuthorListResponseDto {
 
 	@Schema(description = "페이징용 신청 ID")
 	private Long enrollId;
+
+	private AuthorListResponseDto(Long userId, String nickname, String imageUrl, Long enrollId) {
+		this.userId = userId;
+		this.nickname = nickname;
+		this.imageUrl = imageUrl;
+		this.enrollId = enrollId;
+	}
+
+	public static AuthorListResponseDto of(User user, Long enrollId) {
+		return new AuthorListResponseDto(
+			user.getUserId(),
+			user.getNickname(),
+			user.getImageUrl(),
+			enrollId
+		);
+	}
+
 }

@@ -5,7 +5,6 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,8 +18,4 @@ public class AuthorRegisterRequestDto {
 	@NotBlank
 	private String nickname;
 
-	@Builder
-	public AuthorRegisterRequestDto(String nickname) {
-		this.nickname = nickname;
-	}
 }

@@ -47,7 +47,7 @@ public class UserController {
 	@GetMapping("/{userId}")
 	@ResponseStatus(HttpStatus.OK)
 	public UserProfileResponseDto getUserProfile(@PathVariable Long userId) {
-		return userService.getUserProfile(userId);
+		return userService.findUserProfile(userId);
 	}
 
 	@Operation(summary = "유저(본인) 조회 요청")
@@ -56,7 +56,7 @@ public class UserController {
 	@GetMapping("/me")
 	@ResponseStatus(HttpStatus.OK)
 	public UserMyProfileResponseDto getMyProfile(@AuthenticationPrincipal JwtAuthentication user) {
-		return userService.getMyProfile(user.userId);
+		return userService.findMyProfile(user.userId);
 	}
 
 	@Operation(summary = "유저 기본 정보 입력 요청")
@@ -85,7 +85,7 @@ public class UserController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public void updateUserProfile(@RequestBody @Valid UserProfileUpdateRequestDto requestDto,
 		@AuthenticationPrincipal JwtAuthentication user) {
-		userService.updateProfile(user.userId, requestDto);
+		userService.updateUserProfile(user.userId, requestDto);
 	}
 
 	@Operation(summary = "좋아요한 소설 조회 요청")
