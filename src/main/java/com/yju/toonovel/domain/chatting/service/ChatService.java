@@ -89,7 +89,7 @@ public class ChatService {
 		dto.setCreatedDate(chat.getCreatedDate());
 	}
 
-	public FilterChatResponseDto filterChat(String message) {
+	private FilterChatResponseDto filterChat(String message) {
 		RestTemplate restTemplate = new RestTemplate();
 
 		URI uri = UriComponentsBuilder

@@ -131,7 +131,7 @@ public class ChatRoomService {
 		chatRoomRepository.save(chatRoom);
 	}
 
-	public List<ChatRoomResponseDto> getAllChatRoom(Long userId) {
+	public List<ChatRoomResponseDto> findAllChatRoom(Long userId) {
 		User user = userRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException());
 
@@ -139,7 +139,7 @@ public class ChatRoomService {
 	}
 
 	@Transactional
-	public List<ChatDto> getChatList(Long userId, Long rid, LocalDate date) {
+	public List<ChatDto> findChatList(Long userId, Long rid, LocalDate date) {
 		User user = userRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException());
 
@@ -152,12 +152,12 @@ public class ChatRoomService {
 		}
 
 		return (Objects.equals(chatRoom.getUser().getUserId(), user.getUserId()))
-			? getChatListToAuthor(chatRoom, date)
-			: getChatListToUser(chatRoom, user, date);
+			? findChatListToAuthor(chatRoom, date)
+			: findChatListToUser(chatRoom, user, date);
 	}
 
 	@Transactional
-	public List<ReplyDto> getReplyList(Long userId, Long rid, LocalDate date) {
+	public List<ReplyDto> findReplyList(Long userId, Long rid, LocalDate date) {
 		User user = userRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException());
 
@@ -173,7 +173,7 @@ public class ChatRoomService {
 	}
 
 	// 요청한 사람이 채팅방의 주인인 경우
-	private List<ChatDto> getChatListToAuthor(ChatRoom chatRoom, LocalDate date) {
+	private List<ChatDto> findChatListToAuthor(ChatRoom chatRoom, LocalDate date) {
 		if (date == null) {
 			return chatCustomRepository.findAllByChatRoomToAuthor(chatRoom)
 				.stream().map(chat -> {
@@ -198,7 +198,7 @@ public class ChatRoomService {
 	}
 
 	// 요청한 사람이 채팅방의 주인이 아닌 경우
-	private List<ChatDto> getChatListToUser(ChatRoom chatRoom, User user, LocalDate date) {
+	private List<ChatDto> findChatListToUser(ChatRoom chatRoom, User user, LocalDate date) {
 		if (date == null) {
 			return chatCustomRepository
 				.findAllByChatRoomToUser(chatRoom, user.getUserId(), chatRoom.getUser())
