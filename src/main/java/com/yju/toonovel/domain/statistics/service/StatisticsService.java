@@ -57,11 +57,13 @@ public class StatisticsService {
 		return statisticRepositoryImpl.getAgeStatistic(novel.getNovelId());
 	}
 
+	@Transactional(readOnly = true)
 	public List<AdminStatisticsResponseDto> getReviewStatistic(AdminStatisticsRequestDto dto) {
 
 		return statisticRepositoryImpl.getReviewStatistic(dto);
 	}
 
+	@Transactional(readOnly = true)
 	public List<AdminStatisticsResponseDto> getNovelStatistic(AdminStatisticsRequestDto dto) {
 
 		return statisticRepositoryImpl.getNovelStatistic(dto);
