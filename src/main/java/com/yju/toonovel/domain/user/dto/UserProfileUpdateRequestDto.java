@@ -5,7 +5,6 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,11 +19,5 @@ public class UserProfileUpdateRequestDto {
 	private String nickname;
 	@Schema(description = "유저 프로필 사진")
 	private String imageUrl;
-
-	@Builder
-	public UserProfileUpdateRequestDto(String nickname, String imageUrl) {
-		this.nickname = nickname;
-		this.imageUrl = imageUrl;
-	}
 
 }
