@@ -126,7 +126,7 @@ public class UserService {
 
 		return chatRoomList.stream().map(chatRoom -> {
 			User author = chatRoom.getUser();
-			return new AuthorListResponseDto(author.getUserId(), author.getNickname(), author.getImageUrl(), null);
+			return AuthorListResponseDto.of(author, null);
 		}).collect(Collectors.toList());
 	}
 }
