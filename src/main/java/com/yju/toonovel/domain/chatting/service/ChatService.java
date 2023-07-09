@@ -44,6 +44,7 @@ public class ChatService {
 	private final ChatRoomRepository chatRoomRepository;
 	private final ReplyRepository replyRepository;
 	private final long chatLimit = 3;
+	private final RestTemplate restTemplate;
 
 	@Value("${server.machineLearning}")
 	private String machineLearningServer;
@@ -90,8 +91,6 @@ public class ChatService {
 	}
 
 	private FilterChatResponseDto filterChat(String message) {
-		RestTemplate restTemplate = new RestTemplate();
-
 		URI uri = UriComponentsBuilder
 			.fromUriString(machineLearningServer)
 			.path("/filter")
