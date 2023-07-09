@@ -3,13 +3,13 @@ package com.yju.toonovel.domain.chatting.dto;
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -17,27 +17,27 @@ import lombok.ToString;
 @Getter
 @ToString
 @Setter
-@NoArgsConstructor
 public class ChatDto {
 	@Schema(description = "채팅 ID")
 	private Long chatId;
 	@Schema(description = "채팅 작성자 이름")
 	private String senderName;
 	@Schema(description = "채팅 작성자 userId")
-	private Long senderId;
+	@NotNull
+	private final Long senderId;
 	@Schema(description = "채팅 작성자가 채팅방의 주인인지")
 	private boolean isCreator;
 	@NotBlank
 	@Length(max = 300)
 	@Schema(description = "채팅 내용")
-	private String message;
+	private final String message;
 	@Schema(description = "메시지 필터링 결과 'ok' or 'bad'")
 	private String filterResult;
 	@Schema(description = "채팅을 보낸 시간")
 	private LocalDateTime createdDate;
 
 	@Builder
-	public ChatDto(
+	private ChatDto(
 		Long chatId,
 		String senderName,
 		Long senderId,

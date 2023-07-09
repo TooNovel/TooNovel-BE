@@ -44,6 +44,7 @@ public class ChatService {
 	private final ChatRoomRepository chatRoomRepository;
 	private final ReplyRepository replyRepository;
 	private final long chatLimit = 3;
+	private final RestTemplate restTemplate;
 
 	@Value("${server.machineLearning}")
 	private String machineLearningServer;
@@ -89,9 +90,7 @@ public class ChatService {
 		dto.setCreatedDate(chat.getCreatedDate());
 	}
 
-	public FilterChatResponseDto filterChat(String message) {
-		RestTemplate restTemplate = new RestTemplate();
-
+	private FilterChatResponseDto filterChat(String message) {
 		URI uri = UriComponentsBuilder
 			.fromUriString(machineLearningServer)
 			.path("/filter")
@@ -100,10 +99,7 @@ public class ChatService {
 			.expand(message)
 			.toUri();
 
-		FilterChatRequestDto request = FilterChatRequestDto
-			.builder()
-			.message(message)
-			.build();
+		FilterChatRequestDto request = FilterChatRequestDto.of(message);
 		ResponseEntity<FilterChatResponseDto> response =
 			restTemplate.postForEntity(uri, request, FilterChatResponseDto.class);
 

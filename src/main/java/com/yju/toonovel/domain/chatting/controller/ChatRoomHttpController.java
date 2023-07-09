@@ -87,7 +87,7 @@ public class ChatRoomHttpController {
 	@GetMapping()
 	@ResponseStatus(HttpStatus.OK)
 	public List<ChatRoomResponseDto> getAllChatRoom(@AuthenticationPrincipal JwtAuthentication user) {
-		return chatRoomService.getAllChatRoom(user.userId);
+		return chatRoomService.findAllChatRoom(user.userId);
 	}
 
 	@Operation(summary = "채팅 목록 조회 (요청 날짜 형식 yyyy-MM-dd)")
@@ -100,7 +100,7 @@ public class ChatRoomHttpController {
 		@AuthenticationPrincipal JwtAuthentication user,
 		@PathVariable("rid") Long rid,
 		@RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-		return chatRoomService.getChatList(user.userId, rid, date);
+		return chatRoomService.findChatList(user.userId, rid, date);
 	}
 
 	@Operation(summary = "답장 목록 조회 (요청 날짜 형식 yyyy-MM-dd)")
@@ -113,6 +113,6 @@ public class ChatRoomHttpController {
 		@AuthenticationPrincipal JwtAuthentication user,
 		@PathVariable("rid") Long rid,
 		@RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-		return chatRoomService.getReplyList(user.userId, rid, date);
+		return chatRoomService.findReplyList(user.userId, rid, date);
 	}
 }
