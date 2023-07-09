@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,11 +28,4 @@ public class ReviewRegisterRequestDto {
 	@Max(value = 5)
 	@Min(value = 0)
 	private int reviewGrade;
-
-	@Builder
-	private ReviewRegisterRequestDto(Long novelId, String reviewContent, int reviewGrade) {
-		this.novelId = novelId;
-		this.reviewContent = reviewContent;
-		this.reviewGrade = reviewGrade;
-	}
 }

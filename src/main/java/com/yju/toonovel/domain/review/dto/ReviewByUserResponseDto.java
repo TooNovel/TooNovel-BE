@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import com.yju.toonovel.domain.novel.entity.Genre;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -40,23 +39,5 @@ public class ReviewByUserResponseDto {
 	private int reviewLike;
 	@Schema(description = "리뷰 작성일")
 	private LocalDateTime createdDate;
-
-	@Builder
-	public ReviewByUserResponseDto(String image, Genre genre, String author, String description, String title,
-		Long novelId, String reviewContent, int reviewGrade, LocalDateTime createdDate, int reviewLike,
-		String nickname, String imageUrl) {
-		this.image = image;
-		this.genre = genre;
-		this.author = author;
-		this.description = description;
-		this.title = title;
-		this.novelId = novelId;
-		this.reviewContent = reviewContent;
-		this.reviewGrade = reviewGrade;
-		this.createdDate = createdDate;
-		this.reviewLike = reviewLike;
-		this.nickname = nickname;
-		this.imageUrl = imageUrl;
-	}
 
 }
