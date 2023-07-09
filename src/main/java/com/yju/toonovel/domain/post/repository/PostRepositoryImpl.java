@@ -40,7 +40,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 			.fetchOne();
 	}
 
-	public QBean<PostAllResponseDto> selectPost(QPost post, QUser user) {
+	public QBean<PostAllResponseDto> postSelect(QPost post, QUser user) {
 		return Projections.fields(
 			PostAllResponseDto.class,
 			post.postId, post.category, post.title, post.createdDate,
@@ -66,12 +66,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 	}
 
 	@Override
-	public Page<PostAllResponseDto> getAllPost(
+	public Page<PostAllResponseDto> findAllPost(
 		Pageable pageable, PostPaginationRequestDto requestDto
 	) {
 
 		JPQLQuery<PostAllResponseDto> results = jpaQueryFactory
-			.select(selectPost(post, post.user))
+			.select(postSelect(post, post.user))
 			.from(post)
 			.where(eqCategory(requestDto.getCategory()))
 			.orderBy(getOrderSpecifiers(requestDto.getSort()))

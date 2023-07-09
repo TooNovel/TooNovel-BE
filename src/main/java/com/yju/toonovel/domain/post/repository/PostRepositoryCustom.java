@@ -8,7 +8,7 @@ import com.yju.toonovel.domain.post.dto.PostPaginationRequestDto;
 
 public interface PostRepositoryCustom {
 
-	Page<PostAllResponseDto> getAllPost(
+	Page<PostAllResponseDto> findAllPost(
 		Pageable pageable, PostPaginationRequestDto requestDto
 	);
 }
