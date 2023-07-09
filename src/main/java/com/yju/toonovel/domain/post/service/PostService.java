@@ -41,7 +41,7 @@ public class PostService {
 
 	// 게시글 부분 조회
 	@Transactional
-	public PostResponseDto getPost(Long pid) {
+	public PostResponseDto findPostDetailById(Long pid) {
 		Post post = postRepository.findByPostId(pid)
 			.orElseThrow(() -> new PostNotFoundException());
 		post.increaseViewCount(post.getViewCount());
@@ -50,9 +50,9 @@ public class PostService {
 
 	// 게시글 전체 조회
 	@Transactional
-	public Page<PostAllResponseDto> getAllPost(PostPaginationRequestDto requestDto) {
+	public Page<PostAllResponseDto> findAllPost(PostPaginationRequestDto requestDto) {
 		Pageable pageable = PageRequest.of(requestDto.getPage(), requestDto.getLimit());
-		return postRepositoryImpl.getAllPost(pageable, requestDto);
+		return postRepositoryImpl.findAllPost(pageable, requestDto);
 	}
 
 	// 게시글 수정
