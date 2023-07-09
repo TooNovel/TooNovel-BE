@@ -100,10 +100,7 @@ public class ChatService {
 			.expand(message)
 			.toUri();
 
-		FilterChatRequestDto request = FilterChatRequestDto
-			.builder()
-			.message(message)
-			.build();
+		FilterChatRequestDto request = FilterChatRequestDto.of(message);
 		ResponseEntity<FilterChatResponseDto> response =
 			restTemplate.postForEntity(uri, request, FilterChatResponseDto.class);
 

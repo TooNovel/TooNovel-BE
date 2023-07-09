@@ -5,7 +5,6 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -21,9 +20,4 @@ public class ChatRoomCreateRequestDto {
 	private String chatRoomName;
 	@Schema(description = "채팅방을 생성한 유저의 userId")
 	private Long userId;
-
-	@Builder
-	public ChatRoomCreateRequestDto(String chatRoomName) {
-		this.chatRoomName = chatRoomName;
-	}
 }
