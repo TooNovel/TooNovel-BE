@@ -30,7 +30,7 @@ public class StatisticsController {
 	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping("/{nid}/gender")
 	@ResponseStatus(HttpStatus.OK)
-	public List<StatisticsResultResponseDto> genderStatistics(
+	public List<StatisticsResultResponseDto> getGenderStatistics(
 		@PathVariable("nid") Long nid, @AuthenticationPrincipal JwtAuthentication user) {
 		return statisticsService.getGenderStatistics(nid, user.userId);
 	}
@@ -40,7 +40,7 @@ public class StatisticsController {
 	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping("/{nid}/age")
 	@ResponseStatus(HttpStatus.OK)
-	public List<StatisticsResultResponseDto> ageStatistics(
+	public List<StatisticsResultResponseDto> getAgeStatistics(
 		@PathVariable("nid") Long nid, @AuthenticationPrincipal JwtAuthentication user) {
 		return statisticsService.getAgeStatistics(nid, user.userId);
 	}

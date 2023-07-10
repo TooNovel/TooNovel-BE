@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class StatisticRepositoryImpl implements StatisticRepositoryCustom {
+public class StatisticCustomRepositoryImpl implements StatisticCustomRepository {
 	private final JPQLQueryFactory queryFactory;
 
 	//작가 - 성별통계제공

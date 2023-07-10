@@ -6,7 +6,7 @@ import com.yju.toonovel.domain.admin.dto.AdminStatisticsRequestDto;
 import com.yju.toonovel.domain.statistics.dto.AdminStatisticsResponseDto;
 import com.yju.toonovel.domain.statistics.dto.StatisticsResultResponseDto;
 
-public interface StatisticRepositoryCustom {
+public interface StatisticCustomRepository {
 
 	List<StatisticsResultResponseDto> getGenderStatistic(Long nid);
 
