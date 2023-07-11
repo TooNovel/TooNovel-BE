@@ -27,7 +27,7 @@ public class LikePostService {
 	private final PostRepository postRepository;
 
 	@Transactional
-	public void postLikeRegister(Long uid, Long pid) {
+	public void togglePostLike(Long uid, Long pid) {
 		User user = userRepository.findByUserId(uid)
 			.orElseThrow(() -> new UserNotFoundException());
 

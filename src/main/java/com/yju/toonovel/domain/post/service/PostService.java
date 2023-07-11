@@ -14,8 +14,8 @@ import com.yju.toonovel.domain.post.dto.PostUpdateRequestDto;
 import com.yju.toonovel.domain.post.entity.Post;
 import com.yju.toonovel.domain.post.exception.PostNotFoundException;
 import com.yju.toonovel.domain.post.exception.PostNotMatchUserException;
+import com.yju.toonovel.domain.post.repository.PostCustomRepositoryImpl;
 import com.yju.toonovel.domain.post.repository.PostRepository;
-import com.yju.toonovel.domain.post.repository.PostRepositoryImpl;
 import com.yju.toonovel.domain.user.entity.User;
 import com.yju.toonovel.domain.user.exception.UserNotFoundException;
 import com.yju.toonovel.domain.user.repository.UserRepository;
@@ -27,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class PostService {
 
 	private final PostRepository postRepository;
-	private final PostRepositoryImpl postRepositoryImpl;
+	private final PostCustomRepositoryImpl postCustomRepositoryImpl;
 	private final UserRepository userRepository;
 
 	// 게시글 등록
@@ -41,18 +41,18 @@ public class PostService {
 
 	// 게시글 부분 조회
 	@Transactional
-	public PostResponseDto getPost(Long pid) {
+	public PostResponseDto findPostDetailById(Long pid) {
 		Post post = postRepository.findByPostId(pid)
 			.orElseThrow(() -> new PostNotFoundException());
 		post.increaseViewCount(post.getViewCount());
-		return new PostResponseDto(post);
+		return PostResponseDto.from(post);
 	}
 
 	// 게시글 전체 조회
 	@Transactional
-	public Page<PostAllResponseDto> getAllPost(PostPaginationRequestDto requestDto) {
+	public Page<PostAllResponseDto> findAllPost(PostPaginationRequestDto requestDto) {
 		Pageable pageable = PageRequest.of(requestDto.getPage(), requestDto.getLimit());
-		return postRepositoryImpl.getAllPost(pageable, requestDto);
+		return postCustomRepositoryImpl.findAllPost(pageable, requestDto);
 	}
 
 	// 게시글 수정

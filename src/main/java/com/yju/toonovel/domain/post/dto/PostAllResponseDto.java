@@ -3,7 +3,6 @@ package com.yju.toonovel.domain.post.dto;
 import java.time.LocalDateTime;
 
 import com.yju.toonovel.domain.post.entity.Category;
-import com.yju.toonovel.domain.post.entity.Post;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -34,7 +33,6 @@ public class PostAllResponseDto {
 	public PostAllResponseDto(Long postId, Category category,
 		String title, LocalDateTime createdDate,
 		Long viewCount, String nickname, long commentCount) {
-
 		this.postId = postId;
 		this.category = category;
 		this.title = title;
@@ -42,17 +40,6 @@ public class PostAllResponseDto {
 		this.viewCount = viewCount;
 		this.nickname = nickname;
 		this.commentCount = commentCount;
-	}
-
-	public PostAllResponseDto(Post post) {
-
-		this.postId = post.getPostId();
-		this.category = post.getCategory();
-		this.title = post.getTitle();
-		this.createdDate = post.getCreatedDate();
-		this.viewCount = post.getViewCount();
-		this.nickname = post.getUser().getNickname();
-		this.commentCount = post.getCommentCount();
 	}
 
 }

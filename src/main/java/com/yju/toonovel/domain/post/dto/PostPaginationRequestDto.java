@@ -16,17 +16,17 @@ public class PostPaginationRequestDto {
 
 	@Schema(description = "page 번호")
 	@PositiveOrZero
-	private Integer page;
+	private final Integer page;
 	@Schema(description = "게시글 카테고리")
-	private Category category;
+	private final Category category;
 	@Schema(description = "한 페이지안에 담길 게시글의 수")
 	@Positive
-	private Integer limit;
+	private final Integer limit;
 	@Schema(description = "정렬 기준", defaultValue = "CREATED_DATE_DESC")
-	private Sort sort;
+	private final Sort sort;
 
 	@Builder
-	public PostPaginationRequestDto(Integer page, Category category, Integer limit, Sort sort) {
+	private PostPaginationRequestDto(Integer page, Category category, Integer limit, Sort sort) {
 		this.page = page == null ? 0 : page;
 		this.category = category;
 		this.limit = limit == null ? 10 : limit;

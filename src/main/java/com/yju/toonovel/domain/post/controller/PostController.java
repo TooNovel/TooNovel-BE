@@ -44,7 +44,7 @@ public class PostController {
 	@ApiResponse(responseCode = "404", description = "해당 유저가 없는 상태일 때")
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
-	public void postRegister(@RequestBody PostRegisterRequestDto dto,
+	public void registerPost(@RequestBody PostRegisterRequestDto dto,
 		@AuthenticationPrincipal JwtAuthentication user) {
 		postService.postRegister(dto, user.userId);
 	}
@@ -54,8 +54,8 @@ public class PostController {
 	@ApiResponse(responseCode = "404", description = "해당 게시글이 없는 상태일 때")
 	@GetMapping("/{pid}")
 	@ResponseStatus(HttpStatus.OK)
-	public PostResponseDto getPost(@PathVariable(value = "pid") Long pid) {
-		return postService.getPost(pid);
+	public PostResponseDto getSelectPost(@PathVariable(value = "pid") Long pid) {
+		return postService.findPostDetailById(pid);
 	}
 
 	@Operation(summary = "게시글 수정 요청")
@@ -63,7 +63,7 @@ public class PostController {
 	@ApiResponse(responseCode = "404", description = "해당 유저나 게시글이 없는 상태일 때")
 	@PatchMapping("/{pid}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void postUpdate(@RequestBody PostUpdateRequestDto dto,
+	public void updatePost(@RequestBody PostUpdateRequestDto dto,
 		@AuthenticationPrincipal JwtAuthentication user, @PathVariable(value = "pid") Long pid) {
 		postService.updatePost(dto, user.userId, pid);
 	}
@@ -73,7 +73,7 @@ public class PostController {
 	@GetMapping()
 	@ResponseStatus(HttpStatus.OK)
 	public Page<PostAllResponseDto> getAllPost(@ModelAttribute PostPaginationRequestDto requestDto) {
-		return postService.getAllPost(requestDto);
+		return postService.findAllPost(requestDto);
 	}
 
 	@Operation(summary = "게시글 삭제 요청")
@@ -81,7 +81,7 @@ public class PostController {
 	@ApiResponse(responseCode = "404", description = "해당 유저나 게시글이 없는 상태일 때")
 	@DeleteMapping("/{pid}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void postDelete(@PathVariable(value = "pid") Long pid, @AuthenticationPrincipal JwtAuthentication user) {
+	public void deletePost(@PathVariable(value = "pid") Long pid, @AuthenticationPrincipal JwtAuthentication user) {
 		postService.deletePost(pid, user.userId);
 	}
 
@@ -91,9 +91,9 @@ public class PostController {
 	@ApiResponse(responseCode = "404", description = "해당 유저나 게시글이 없는 상태일 때")
 	@PutMapping("/{pid}/like")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void registerLikePost(@PathVariable("pid") Long pid,
+	public void toggleLike(@PathVariable("pid") Long pid,
 		@AuthenticationPrincipal JwtAuthentication user) {
-		likePostService.postLikeRegister(user.userId, pid);
+		likePostService.togglePostLike(user.userId, pid);
 	}
 
 	@Operation(summary = "게시글에 좋아요를 한 상태인지 체크 요청")

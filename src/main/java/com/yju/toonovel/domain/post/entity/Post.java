@@ -63,7 +63,7 @@ public class Post extends BaseEntity {
 	private long commentCount;
 
 	@Builder
-	public Post(User user, Category category, String title, String content) {
+	private Post(User user, Category category, String title, String content) {
 		this.user = user;
 		this.category = category;
 		this.title = title;

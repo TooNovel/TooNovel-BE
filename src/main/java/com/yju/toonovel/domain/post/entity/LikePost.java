@@ -38,7 +38,7 @@ public class LikePost {
 	private boolean isActived;
 
 	@Builder
-	public LikePost(User user, Post post) {
+	private LikePost(User user, Post post) {
 		this.user = user;
 		this.post = post;
 	}

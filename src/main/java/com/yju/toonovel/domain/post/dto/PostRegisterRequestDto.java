@@ -7,7 +7,6 @@ import org.hibernate.validator.constraints.Length;
 import com.yju.toonovel.domain.post.entity.Category;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,10 +26,4 @@ public class PostRegisterRequestDto {
 	@NotBlank
 	private Category category;
 
-	@Builder
-	public PostRegisterRequestDto(String title, String content, Category category) {
-		this.title = title;
-		this.content = content;
-		this.category = category;
-	}
 }
