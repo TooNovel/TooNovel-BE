@@ -32,7 +32,7 @@ public class PostResponseDto {
 	@Schema(description = "댓글 수")
 	private final long commentCount;
 
-	public PostResponseDto(Post post) {
+	private PostResponseDto(Post post) {
 		this.postId = post.getPostId();
 		this.category = post.getCategory();
 		this.title = post.getTitle();
@@ -43,5 +43,8 @@ public class PostResponseDto {
 		this.viewCount = post.getViewCount();
 		this.nickname = post.getUser().getNickname();
 		this.commentCount = post.getCommentCount();
+	}
+	public static PostResponseDto from(Post post) {
+		return new PostResponseDto(post);
 	}
 }
