@@ -58,15 +58,15 @@ public class AdminController {
 	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping("/review")
 	@ResponseStatus(HttpStatus.OK)
-	public List<AdminStatisticsResponseDto> getReviewStatistic(@ModelAttribute AdminStatisticsRequestDto dto) {
-		return statisticsService.findReviewStatistic(dto);
+	public List<AdminStatisticsResponseDto> reviewStatistic(@ModelAttribute AdminStatisticsRequestDto dto) {
+		return statisticsService.getReviewStatistic(dto);
 	}
 
 	@Operation(summary = "일별 작품 개수 조회 요청")
 	@ApiResponse(responseCode = "200", description = "요청 성공")
 	@GetMapping("/novel")
 	@ResponseStatus(HttpStatus.OK)
-	public List<AdminStatisticsResponseDto> getNovelStatistic(@ModelAttribute AdminStatisticsRequestDto dto) {
-		return statisticsService.findNovelStatistic(dto);
+	public List<AdminStatisticsResponseDto> novelStatistic(@ModelAttribute AdminStatisticsRequestDto dto) {
+		return statisticsService.getNovelStatistic(dto);
 	}
 }
