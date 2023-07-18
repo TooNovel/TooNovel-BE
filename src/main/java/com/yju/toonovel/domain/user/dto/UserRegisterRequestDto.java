@@ -27,11 +27,4 @@ public class UserRegisterRequestDto {
 	@Pattern(regexp = "(19|20)\\d{2}\\-(0[1-9]|1[012])\\-(0[1-9]|[12][0-9]|3[01])")
 	private String birth;
 
-	@Builder
-	public UserRegisterRequestDto(String nickname, String gender, String birth) {
-		this.nickname = nickname;
-		this.gender = gender;
-		this.birth = birth;
-	}
-
 }
