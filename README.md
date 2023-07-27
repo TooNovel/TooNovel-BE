@@ -51,7 +51,7 @@
 
 ### 프로젝트 기간
 
-23.03.30 ~ (진행중)
+23.03.30 ~ 23.06.27
 
 ### 프로젝트 기획 배경
 
@@ -205,6 +205,7 @@
 ![deploy drawio (1)](https://github.com/TooNovel/TooNovel-BE/assets/83005178/0c4d755c-d148-43a1-9fa9-5ba20be4e1eb)
 
 ## ERD
+![entityManagerFactory(EntityManagerFactoryBuilder)](https://github.com/TooNovel/TooNovel-BE/assets/83005178/637da57d-699e-4a6c-a83e-b3320a9f9a84)
 
 ## API 
 
